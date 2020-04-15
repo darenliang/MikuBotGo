@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// Info command
 func Info(ctx *exrouter.Context) {
 	client, _ := ctx.Ses.Application("@me")
 	currTime := time.Since(configs.StartTime)

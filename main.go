@@ -9,15 +9,11 @@ import (
 	"os"
 )
 
-// Session is declared in the global space so it can be easily used
-// throughout this program.
-// In this use case, there is no error that would be returned.
+// Create session
 var Session, _ = discordgo.New()
 
-// Read in all configuration options from both environment variables and
-// command line arguments.
+// Read in all configuration options from both environment variables and command line arguments.
 func init() {
-
 	// Discord Authentication Token
 	Session.Token = "Bot " + os.Getenv("DISCORD_TOKEN")
 	if Session.Token == "" {

@@ -2,6 +2,8 @@ package configs
 
 import "time"
 
+// Includes config variables for bot
+
 const BotInfo = "MikuBotGo v0.0.0-alpha"
 const EmbedColor = 0x2e98a6
 const Prefix = "?"

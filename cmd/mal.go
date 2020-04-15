@@ -20,6 +20,7 @@ var emojis = []string{
 	"\x35\xef\xb8\x8f\xe2\x83\xa3",
 }
 
+// Anime command
 func Anime(ctx *exrouter.Context) {
 	var (
 		lock     sync.RWMutex

@@ -32,6 +32,7 @@ func init() {
 		_, _ = ctx.Reply("```\n" + text + "```\n")
 	}).Desc("prints this help menu")
 
+	// Handle incoming messages
 	Session.AddHandler(func(_ *discordgo.Session, m *discordgo.MessageCreate) {
 		_ = Router.FindAndExecute(Session, configs.Prefix, Session.State.User.ID, m.Message)
 	})
