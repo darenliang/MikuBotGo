@@ -76,8 +76,7 @@ func Info(ctx *exrouter.Context) {
 				Inline: true,
 			},
 		},
-		Timestamp: time.Now().Format(time.RFC3339),
-		Title:     config.BotInfo,
+		Title: config.BotInfo,
 	}
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

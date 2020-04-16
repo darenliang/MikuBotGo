@@ -6,7 +6,6 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
-	"time"
 )
 
 // Leaderboard command
@@ -38,7 +37,6 @@ func Leaderboard(ctx *exrouter.Context) {
 		Author:      &discordgo.MessageEmbedAuthor{},
 		Color:       config.EmbedColor,
 		Description: leaderboard,
-		Timestamp:   time.Now().Format(time.RFC3339),
 		Title:       "Music Quiz Leaderboard",
 	}
 

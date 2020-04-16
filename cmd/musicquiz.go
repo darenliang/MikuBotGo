@@ -3,11 +3,11 @@ package cmd
 import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
-	"github.com/bwmarrin/discordgo"
+	"github.com/animenotifier/kitsu"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
-	"github.com/darenliang/jikan-go"
 	"math/rand"
+	"net/url"
 	"os"
 	"os/exec"
 	"strings"
@@ -21,8 +21,7 @@ func init() {
 
 // MusicQuiz command
 func MusicQuiz(ctx *exrouter.Context) {
-	guess := ctx.Args.After(1)
-	guess = strings.TrimSpace(guess)
+	guess := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(guess) != 0 {
 		if config.OpeningsMap[ctx.Msg.ChannelID].Source == "" {
@@ -32,67 +31,6 @@ func MusicQuiz(ctx *exrouter.Context) {
 			if guess == "giveup" {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
 				config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{}
-				return
-			} else if guess == "hint" {
-				anime, _ := jikan.Anime{ID: config.OpeningsMap[ctx.Msg.ChannelID].Id}.Get()
-
-				var premiered string
-				if anime["premiered"] == nil {
-					premiered = "Not available"
-				} else {
-					premiered = anime["premiered"].(string)
-				}
-
-				genres := ""
-				if len(anime["genres"].([]interface{})) != 0 {
-					end := len(anime["genres"].([]interface{}))
-					for idx, genre := range anime["genres"].([]interface{}) {
-						genres += genre.(map[string]interface{})["name"].(string)
-						if idx != end-1 {
-							genres += ", "
-						}
-					}
-				} else {
-					genres = "Not available"
-				}
-
-				studios := ""
-				if len(anime["studios"].([]interface{})) != 0 {
-					end := len(anime["studios"].([]interface{}))
-					for idx, studio := range anime["studios"].([]interface{}) {
-						studios += studio.(map[string]interface{})["name"].(string)
-						if idx != end-1 {
-							studios += ", "
-						}
-					}
-				} else {
-					studios = "Not available"
-				}
-
-				embed := &discordgo.MessageEmbed{
-					Author: &discordgo.MessageEmbedAuthor{},
-					Color:  config.EmbedColor,
-					Fields: []*discordgo.MessageEmbedField{
-						{
-							Name:   "Premiered",
-							Value:  premiered,
-							Inline: false,
-						},
-						{
-							Name:   "Genres",
-							Value:  genres,
-							Inline: false,
-						},
-						{
-							Name:   "Studios",
-							Value:  studios,
-							Inline: false,
-						},
-					},
-					Timestamp: time.Now().Format(time.RFC3339),
-					Title:     "Hints for musicquiz",
-				}
-				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 				return
 			} else if framework.GetStringValidation(config.OpeningsMap[ctx.Msg.ChannelID].Answers, guess) {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct! The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
@@ -119,15 +57,14 @@ func MusicQuiz(ctx *exrouter.Context) {
 	idx := rand.Int() % len(config.Openings)
 	fileName := fmt.Sprintf("%s.webm", config.Openings[idx].File)
 
-	response, _ := jikan.Search{Type: "anime", Q: config.Openings[idx].Source}.Get()
+	response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(config.Openings[idx].Source) + `&page[limit]=3`)
 
-	answers := make([]string, 3)
-	for i := 0; i < 3; i++ {
-		answers = append(answers, response["results"].([]interface{})[i].(map[string]interface{})["title"].(string))
+	answers := make([]string, 0)
+	for _, val := range response.Data {
+		answers = append(answers, val.Attributes.CanonicalTitle)
 	}
 
 	config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{
-		Id:      int(response["results"].([]interface{})[0].(map[string]interface{})["mal_id"].(float64)),
 		Answers: answers,
 		Source:  config.Openings[idx].Source,
 	}
@@ -150,7 +87,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"`%smusicquiz answer` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix, config.Prefix))
+			"`%smusicquiz answer` to guess anime or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
 		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
 		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 		_ = f.Close()
