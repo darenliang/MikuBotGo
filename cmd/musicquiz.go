@@ -51,7 +51,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
 
 	idx := rand.Int() % len(config.Openings)
-	fileName := fmt.Sprintf("%s.mp4", config.Openings[idx].File)
+	fileName := fmt.Sprintf("%s.webm", config.Openings[idx].File)
 
 	response, _ := jikan.Search{Type: "anime", Q: config.Openings[idx].Source}.Get()
 
@@ -65,13 +65,11 @@ func MusicQuiz(ctx *exrouter.Context) {
 		Source:  config.Openings[idx].Source,
 	}
 
-	fileNameOut := fmt.Sprintf("%s.mp3", framework.RandomString(16))
+	fileNameOut := framework.RandomString(16)
 
-	_ = framework.DownloadFile(fmt.Sprintf("./cache/%s", fileName),
-		fmt.Sprintf("https://openings.moe/video/%s", fileName))
-
-	cmd := exec.Command("ffmpeg", "-i", "./cache/"+fileName,
-		"-vn", "-ab", "128k", "-ar", "44100", "-y", "./cache/"+fileNameOut)
+	cmd := exec.Command("youtube-dl", "--extract-audio", "--audio-format", "mp3", "--output",
+		"./cache/"+fileNameOut+".webm",
+		"https://openings.moe/video/"+fileName)
 
 	ch := make(chan error)
 	go func() {
@@ -80,7 +78,6 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	select {
 	case err := <-ch:
-		_ = os.Remove("./cache/" + fileName)
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to convert media file.")
 			_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
@@ -88,10 +85,10 @@ func MusicQuiz(ctx *exrouter.Context) {
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
 			"`%smusicquiz answer` to guess anime or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
-		f, _ := os.Open("./cache/" + fileNameOut)
-		_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut, f)
+		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
+		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 		_ = f.Close()
-		_ = os.Remove("./cache/" + fileNameOut)
+		_ = os.Remove("./cache/" + fileNameOut + ".mp3")
 	case <-time.After(config.Timeout * time.Second):
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "This command timeout.")
 	}
