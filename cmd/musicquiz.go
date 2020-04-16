@@ -147,7 +147,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"`%smusicquiz answer` to guess anime, %smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix, config.Prefix))
+			"`%smusicquiz answer` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix, config.Prefix))
 		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
 		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 		_ = f.Close()
