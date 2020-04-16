@@ -32,7 +32,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
 				for _, val := range config.OpeningsMap[ctx.Msg.ChannelID].Guessed {
 					score, attempts := framework.GetDatabaseValue(val)
-					if score == 0 {
+					if score == 0 || attempts == 0 {
 						framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 0, 1)
 					} else {
 						framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score, attempts+1)
@@ -43,7 +43,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 			} else if framework.GetStringValidation(config.OpeningsMap[ctx.Msg.ChannelID].Answers, guess) {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct! The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
 				score, attempts := framework.GetDatabaseValue(ctx.Msg.Author.ID)
-				if score == 0 {
+				if score == 0 || attempts == 0 {
 					framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 1, 1)
 				} else {
 					framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score+1, attempts+1)
