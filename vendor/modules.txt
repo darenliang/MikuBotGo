@@ -2,6 +2,14 @@
 ## explicit
 github.com/Necroforger/dgrouter
 github.com/Necroforger/dgrouter/exrouter
+# github.com/aerogo/http v1.0.9
+github.com/aerogo/http/ciphers
+github.com/aerogo/http/client
+# github.com/akyoto/stringutils v0.2.3
+github.com/akyoto/stringutils/convert
+# github.com/animenotifier/kitsu v0.2.4
+## explicit
+github.com/animenotifier/kitsu
 # github.com/aws/aws-sdk-go v1.30.7
 ## explicit
 github.com/aws/aws-sdk-go/aws
@@ -47,13 +55,16 @@ github.com/aws/aws-sdk-go/service/sts/stsiface
 # github.com/bwmarrin/discordgo v0.20.0
 ## explicit
 github.com/bwmarrin/discordgo
-# github.com/darenliang/jikan-go v0.0.0-20200403003234-7bfcaed35bbe
-## explicit
-github.com/darenliang/jikan-go
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
 # github.com/jmespath/go-jmespath v0.3.0
 github.com/jmespath/go-jmespath
+# github.com/json-iterator/go v1.1.7
+github.com/json-iterator/go
+# github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v1.0.1
+github.com/modern-go/reflect2
 # github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
 ## explicit
 github.com/paul-mannino/go-fuzzywuzzy
