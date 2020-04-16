@@ -1,5 +1,9 @@
 module github.com/darenliang/MikuBotGo
 
+// +heroku goVersion go1.14
+
+go 1.14
+
 require (
 	github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
 	github.com/bwmarrin/discordgo v0.20.0
