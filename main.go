@@ -12,13 +12,21 @@ import (
 // Create session
 var Session, _ = discordgo.New()
 
+// Initialize flag token
+var FlagToken = flag.String("t", "", "Discord Authentication Token")
+
 // Read in all configuration options from both environment variables and command line arguments.
 func init() {
 	// Discord Authentication Token
-	Session.Token = "Bot " + os.Getenv("DISCORD_TOKEN")
-	if Session.Token == "" {
-		flag.StringVar(&Session.Token, "t", "", "Discord Authentication Token")
+	EnvToken := os.Getenv("DISCORD_TOKEN")
+	if EnvToken != "" {
+		Session.Token = EnvToken
+	} else {
+		// Parse command line arguments
+		flag.Parse()
+		Session.Token = *FlagToken
 	}
+	Session.Token = "Bot " + Session.Token
 }
 
 func main() {
@@ -27,9 +35,6 @@ func main() {
 
 	// Print bot info
 	fmt.Println(config.BotInfo)
-
-	// Parse command line arguments
-	flag.Parse()
 
 	// Open a websocket connection to Discord
 	err = Session.Open()
