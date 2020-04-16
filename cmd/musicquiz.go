@@ -89,7 +89,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
 			"`%smusicquiz answer` to guess anime or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
 		f, _ := os.Open("./cache/" + fileNameOut)
-		_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, "op.mp3", f)
+		_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut, f)
 		_ = f.Close()
 		_ = os.Remove("./cache/" + fileNameOut)
 	case <-time.After(config.Timeout * time.Second):
