@@ -54,6 +54,8 @@ func MusicQuiz(ctx *exrouter.Context) {
 		return
 	}
 
+	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
+
 	idx := rand.Int() % len(config.Openings)
 	fileName := fmt.Sprintf("%s.webm", config.Openings[idx].File)
 
@@ -84,6 +86,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 	case err := <-ch:
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to convert media file.")
+			_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
@@ -96,4 +99,6 @@ func MusicQuiz(ctx *exrouter.Context) {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "This command timed out.")
 		config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{}
 	}
+
+	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
 }
