@@ -1,0 +1,20 @@
+# github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
+## explicit
+github.com/Necroforger/dgrouter
+github.com/Necroforger/dgrouter/exrouter
+# github.com/bwmarrin/discordgo v0.20.0
+## explicit
+github.com/bwmarrin/discordgo
+# github.com/darenliang/jikan-go v0.0.0-20200403003234-7bfcaed35bbe
+## explicit
+github.com/darenliang/jikan-go
+# github.com/gorilla/websocket v1.4.0
+github.com/gorilla/websocket
+# github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
+## explicit
+github.com/paul-mannino/go-fuzzywuzzy
+# golang.org/x/crypto v0.0.0-20181030102418-4d3f4d9ffa16
+golang.org/x/crypto/internal/subtle
+golang.org/x/crypto/nacl/secretbox
+golang.org/x/crypto/poly1305
+golang.org/x/crypto/salsa20/salsa
