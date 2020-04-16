@@ -1,6 +1,6 @@
 module github.com/darenliang/MikuBotGo
 
-go 1.14
+go 1.13
 
 require (
 	github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
