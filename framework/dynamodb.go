@@ -1,5 +1,7 @@
 package framework
 
+// This code is really messy, major restructuring is needed
+
 import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
