@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
-	"github.com/darenliang/MikuBotGo/configs"
+	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/jikan-go"
 	"strconv"
@@ -35,7 +35,7 @@ func Anime(ctx *exrouter.Context) {
 
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
-		Color:  configs.EmbedColor,
+		Color:  config.EmbedColor,
 		Description: fmt.Sprintf(
 			":one: %s\n"+
 				":two: %s\n"+
@@ -62,6 +62,9 @@ func Anime(ctx *exrouter.Context) {
 		defer lock.RUnlock()
 
 		idx = framework.Index(reaction.Emoji.Name, emojis)
+
+		// TODO: Use for debug
+		// fmt.Println(hex.EncodeToString([]byte(reaction.Emoji.Name)))
 
 		if reaction.MessageID == embedMsg.ID && reaction.UserID != ctx.Ses.State.User.ID && idx != -1 {
 			close(callback)
@@ -123,7 +126,7 @@ func Anime(ctx *exrouter.Context) {
 
 		embed := &discordgo.MessageEmbed{
 			Author:      &discordgo.MessageEmbedAuthor{},
-			Color:       configs.EmbedColor,
+			Color:       config.EmbedColor,
 			Description: anime["synopsis"].(string),
 			Fields: []*discordgo.MessageEmbedField{
 				{
@@ -190,8 +193,8 @@ func Anime(ctx *exrouter.Context) {
 			},
 		}
 		_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
-	case <-time.After(configs.Timeout * time.Second):
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, configs.TimeoutMsg)
+	case <-time.After(config.Timeout * time.Second):
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, config.TimeoutMsg)
 	}
 	_ = ctx.Ses.ChannelMessageDelete(ctx.Msg.ChannelID, embedMsg.ID)
 }

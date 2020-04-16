@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
-	"github.com/darenliang/MikuBotGo/configs"
+	"github.com/darenliang/MikuBotGo/config"
 	"strconv"
 	"time"
 )
@@ -12,7 +12,7 @@ import (
 // Info command
 func Info(ctx *exrouter.Context) {
 	client, _ := ctx.Ses.Application("@me")
-	currTime := time.Since(configs.StartTime)
+	currTime := time.Since(config.StartTime)
 
 	userCount := 0
 	for _, guild := range ctx.Ses.State.Guilds {
@@ -21,7 +21,7 @@ func Info(ctx *exrouter.Context) {
 
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
-		Color:  configs.EmbedColor,
+		Color:  config.EmbedColor,
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name: "Links",
@@ -35,7 +35,7 @@ func Info(ctx *exrouter.Context) {
 			},
 			{
 				Name:   "Server Prefix",
-				Value:  configs.Prefix,
+				Value:  config.Prefix,
 				Inline: true,
 			},
 			{
@@ -79,7 +79,7 @@ func Info(ctx *exrouter.Context) {
 			},
 		},
 		Timestamp: time.Now().Format(time.RFC3339),
-		Title:     configs.BotInfo,
+		Title:     config.BotInfo,
 	}
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/cmd"
-	"github.com/darenliang/MikuBotGo/configs"
+	"github.com/darenliang/MikuBotGo/config"
 	"strings"
 )
 
@@ -22,6 +22,9 @@ func init() {
 	// Anime
 	Router.On("anime", cmd.Anime).Desc("get anime info")
 
+	// Quiz
+	Router.On("musicquiz", cmd.MusicQuiz).Desc("get an anime music quiz")
+
 	// Help
 	Router.Default = Router.On("help", func(ctx *exrouter.Context) {
 		var text = ""
@@ -34,6 +37,6 @@ func init() {
 
 	// Handle incoming messages
 	Session.AddHandler(func(_ *discordgo.Session, m *discordgo.MessageCreate) {
-		_ = Router.FindAndExecute(Session, configs.Prefix, Session.State.User.ID, m.Message)
+		_ = Router.FindAndExecute(Session, config.Prefix, Session.State.User.ID, m.Message)
 	})
 }

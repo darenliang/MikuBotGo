@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
-	"github.com/darenliang/MikuBotGo/configs"
+	"github.com/darenliang/MikuBotGo/config"
 	"log"
 	"os"
 )
@@ -26,7 +26,7 @@ func main() {
 	var err error
 
 	// Print bot info
-	fmt.Println(configs.BotInfo)
+	fmt.Println(config.BotInfo)
 
 	// Parse command line arguments
 	flag.Parse()
