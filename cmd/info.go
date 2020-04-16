@@ -28,9 +28,7 @@ func Info(ctx *exrouter.Context) {
 				Value: fmt.Sprintf(
 					"[Invite Bot](https://discordapp.com/oauth2/authorize?client_id=%s&scope=bot)\n"+
 						"[Support Server](https://discord.gg/Tpa3cJB)\n"+
-						"[Github Repo](https://github.com/darenliang/MikuBot)\n"+
-						"[Build Status](https://travis-ci.org/darenliang/MikuBot)\n"+
-						"[Service Status](https://mikubot.statuspal.io)", client.ID),
+						"[Github Repo](https://github.com/darenliang/MikuBotGo)", client.ID),
 				Inline: true,
 			},
 			{
