@@ -25,11 +25,14 @@ func init() {
 	// Quiz
 	Router.On("musicquiz", cmd.MusicQuiz).Desc("get an anime music quiz")
 
+	// Leaderboard
+	Router.On("leaderboard", cmd.Leaderboard).Desc("get anime music leaderboard")
+
 	// Help
 	Router.Default = Router.On("help", func(ctx *exrouter.Context) {
 		var text = ""
 		for _, v := range Router.Routes {
-			length := 10 - len(v.Name)
+			length := 16 - len(v.Name)
 			text += v.Name + strings.Repeat(" ", length) + "# " + v.Description + "\n"
 		}
 		_, _ = ctx.Reply("```\n" + text + "```\n")

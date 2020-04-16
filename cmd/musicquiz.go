@@ -97,6 +97,12 @@ func MusicQuiz(ctx *exrouter.Context) {
 			} else if framework.GetStringValidation(config.OpeningsMap[ctx.Msg.ChannelID].Answers, guess) {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct! The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
 				config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{}
+				score := framework.GetDatabaseValue(ctx.Msg.Author.ID)
+				if score == 0 {
+					framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 1)
+				} else {
+					framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score+1)
+				}
 				return
 			} else {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are incorrect. Please try again.")
