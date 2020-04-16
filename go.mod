@@ -1,7 +1,5 @@
 module github.com/darenliang/MikuBotGo
 
-go 1.13
-
 require (
 	github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
 	github.com/bwmarrin/discordgo v0.20.0
