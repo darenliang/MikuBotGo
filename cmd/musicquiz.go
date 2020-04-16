@@ -137,8 +137,8 @@ func MusicQuiz(ctx *exrouter.Context) {
 	fileNameOut := framework.RandomString(16)
 
 	cmd := exec.Command("youtube-dl", "--extract-audio", "--audio-format", "mp3", "--output",
-		"./cache/"+fileNameOut+".webm",
-		"https://openings.moe/video/"+fileName)
+		"./cache/"+fileNameOut+".webm", "--external-downloader", "aria2c", "--external-downloader-args",
+		`-x 5 -s 5 -k 1M`, "https://openings.moe/video/"+fileName)
 
 	ch := make(chan error)
 	go func() {
