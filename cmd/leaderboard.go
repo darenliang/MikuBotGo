@@ -28,7 +28,7 @@ func Leaderboard(ctx *exrouter.Context) {
 		} else {
 			leaderboard += "   "
 		}
-		leaderboard += fmt.Sprintf(" `%3d` ", val.MusicScore)
+		leaderboard += fmt.Sprintf(" `%3d /%3d` ", val.MusicScore, val.TotalAttempts)
 		user, _ := ctx.Ses.User(val.UserId)
 		leaderboard += fmt.Sprintf("%s#%s\n", user.Username, user.Discriminator)
 	}
@@ -38,6 +38,9 @@ func Leaderboard(ctx *exrouter.Context) {
 		Color:       config.EmbedColor,
 		Description: leaderboard,
 		Title:       "Music Quiz Leaderboard",
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: "Correct Guesses / Total Attempts",
+		},
 	}
 
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)

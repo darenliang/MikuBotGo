@@ -14,8 +14,9 @@ import (
 )
 
 type DatabaseEntry struct {
-	UserId     string
-	MusicScore int
+	UserId        string
+	MusicScore    int
+	TotalAttempts int
 }
 
 var AwsSession *session.Session
@@ -29,7 +30,7 @@ func init() {
 	DynamoDBInstance = dynamodb.New(AwsSession)
 }
 
-func GetDatabaseValue(id string) int {
+func GetDatabaseValue(id string) (int, int) {
 	result, _ := DynamoDBInstance.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String("music_quiz"),
 		Key: map[string]*dynamodb.AttributeValue{
@@ -43,17 +44,20 @@ func GetDatabaseValue(id string) int {
 	_ = dynamodbattribute.UnmarshalMap(result.Item, &item)
 
 	if item.UserId == "" {
-		return 0
+		return 0, 0
 	}
 
-	return item.MusicScore
+	return item.MusicScore, item.TotalAttempts
 }
 
-func UpdateDatabaseValue(id string, score int) {
+func UpdateDatabaseValue(id string, score int, attempts int) {
 	input := &dynamodb.UpdateItemInput{
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
-			":r": {
+			":s": {
 				N: aws.String(strconv.Itoa(score)),
+			},
+			":t": {
+				N: aws.String(strconv.Itoa(attempts)),
 			},
 		},
 		TableName: aws.String("music_quiz"),
@@ -63,17 +67,18 @@ func UpdateDatabaseValue(id string, score int) {
 			},
 		},
 		ReturnValues:     aws.String("UPDATED_NEW"),
-		UpdateExpression: aws.String("set MusicScore = :r"),
+		UpdateExpression: aws.String("set MusicScore = :s, TotalAttempts = :t"),
 	}
 
 	_, _ = DynamoDBInstance.UpdateItem(input)
 	return
 }
 
-func CreateDatabaseEntry(id string, score int) {
+func CreateDatabaseEntry(id string, score int, attempts int) {
 	item := DatabaseEntry{
-		UserId:     id,
-		MusicScore: score,
+		UserId:        id,
+		MusicScore:    score,
+		TotalAttempts: attempts,
 	}
 
 	val, _ := dynamodbattribute.MarshalMap(item)
@@ -92,7 +97,9 @@ func CreateDatabaseEntry(id string, score int) {
 
 func GetHighscores() []DatabaseEntry {
 	filt := expression.Name("MusicScore").GreaterThan(expression.Value(0))
-	proj := expression.NamesList(expression.Name("UserId"), expression.Name("MusicScore"))
+	proj := expression.NamesList(expression.Name("UserId"),
+		expression.Name("MusicScore"),
+		expression.Name("TotalAttempts"))
 	expr, _ := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
 	params := &dynamodb.ScanInput{
 		ExpressionAttributeNames:  expr.Names(),
