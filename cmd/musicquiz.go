@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
+	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/jikan-go"
@@ -31,6 +32,67 @@ func MusicQuiz(ctx *exrouter.Context) {
 			if guess == "giveup" {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
 				config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{}
+				return
+			} else if guess == "hint" {
+				anime, _ := jikan.Anime{ID: config.OpeningsMap[ctx.Msg.ChannelID].Id}.Get()
+
+				var premiered string
+				if anime["premiered"] == nil {
+					premiered = "Not available"
+				} else {
+					premiered = anime["premiered"].(string)
+				}
+
+				genres := ""
+				if len(anime["genres"].([]interface{})) != 0 {
+					end := len(anime["genres"].([]interface{}))
+					for idx, genre := range anime["genres"].([]interface{}) {
+						genres += genre.(map[string]interface{})["name"].(string)
+						if idx != end-1 {
+							genres += ", "
+						}
+					}
+				} else {
+					genres = "Not available"
+				}
+
+				studios := ""
+				if len(anime["studios"].([]interface{})) != 0 {
+					end := len(anime["studios"].([]interface{}))
+					for idx, studio := range anime["studios"].([]interface{}) {
+						studios += studio.(map[string]interface{})["name"].(string)
+						if idx != end-1 {
+							studios += ", "
+						}
+					}
+				} else {
+					studios = "Not available"
+				}
+
+				embed := &discordgo.MessageEmbed{
+					Author: &discordgo.MessageEmbedAuthor{},
+					Color:  config.EmbedColor,
+					Fields: []*discordgo.MessageEmbedField{
+						{
+							Name:   "Premiered",
+							Value:  premiered,
+							Inline: false,
+						},
+						{
+							Name:   "Genres",
+							Value:  genres,
+							Inline: false,
+						},
+						{
+							Name:   "Studios",
+							Value:  studios,
+							Inline: false,
+						},
+					},
+					Timestamp: time.Now().Format(time.RFC3339),
+					Title:     "Hints for musicquiz",
+				}
+				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 				return
 			} else if framework.GetStringValidation(config.OpeningsMap[ctx.Msg.ChannelID].Answers, guess) {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct! The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
@@ -61,6 +123,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 	}
 
 	config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{
+		Id:      int(response["results"].([]interface{})[0].(map[string]interface{})["mal_id"].(float64)),
 		Answers: answers,
 		Source:  config.Openings[idx].Source,
 	}
@@ -84,13 +147,14 @@ func MusicQuiz(ctx *exrouter.Context) {
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"`%smusicquiz answer` to guess anime or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
+			"`%smusicquiz answer` to guess anime, %smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix, config.Prefix))
 		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
 		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 		_ = f.Close()
 		_ = os.Remove("./cache/" + fileNameOut + ".mp3")
-	case <-time.After(config.Timeout * time.Second):
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "This command timeout.")
+	case <-time.After(config.Timeout * 3 * time.Second):
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "This command timed out.")
+		config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{}
 	}
 
 	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)

@@ -33,7 +33,8 @@ func GetOpenings() Openings {
 	result := GetJsonString("https://openings.moe/api/list.php")
 	tmp := Openings{}
 	_ = json.Unmarshal([]byte(result), &tmp)
-	return Filter(tmp, IsOpening)
+	return tmp
+	// return Filter(tmp, IsOpening)
 }
 
 // GetStringValidation checks if string is correct

@@ -6,6 +6,7 @@ import (
 )
 
 type OpeningsEntry struct {
+	Id      int
 	Answers []string
 	Source  string
 }
