@@ -12,7 +12,7 @@ import (
 func Leaderboard(ctx *exrouter.Context) {
 	highScores := framework.GetHighscores()
 
-	leaderboard := "```\nRank | Score | Invokes | User\n"
+	leaderboard := "```\nRank | Score | User\n"
 
 	for idx, val := range highScores {
 		if idx == 10 {
@@ -20,7 +20,6 @@ func Leaderboard(ctx *exrouter.Context) {
 		}
 		leaderboard += fmt.Sprintf("%4d |", idx+1)
 		leaderboard += fmt.Sprintf(" %5d |", val.MusicScore*100)
-		leaderboard += fmt.Sprintf(" %7d |", val.TotalAttempts)
 		user, _ := ctx.Ses.User(val.UserId)
 		leaderboard += fmt.Sprintf(" %s#%s\n", user.Username, user.Discriminator)
 	}
