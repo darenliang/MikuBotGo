@@ -88,7 +88,7 @@ func GetRandomYear() int {
 // GetStringValidation checks if string is correct
 func GetStringValidation(answers []string, guess string) bool {
 	for _, val := range answers {
-		if fuzzy.TokenSortRatio(val, guess) > 60 {
+		if fuzzy.TokenSortRatio(val, guess) > 70 {
 			return true
 		}
 	}

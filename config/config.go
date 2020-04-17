@@ -5,11 +5,6 @@ import (
 	"time"
 )
 
-type OpeningsEntry struct {
-	Answers []string
-	Source  string
-}
-
 // Includes config variables for bot
 const BotInfo = "MikuBotGo v0.1.0"
 const EmbedColor = 0x2e98a6
@@ -18,7 +13,7 @@ const Timeout = 60
 
 var StartTime time.Time
 var Openings framework.Openings3
-var OpeningsMap = make(map[string]OpeningsEntry)
+var OpeningsMap = make(map[string]string)
 
 func init() {
 	// Set start time
