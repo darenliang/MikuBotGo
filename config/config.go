@@ -6,7 +6,6 @@ import (
 )
 
 type OpeningsEntry struct {
-	Guessed []string
 	Answers []string
 	Source  string
 }

@@ -12,35 +12,26 @@ import (
 func Leaderboard(ctx *exrouter.Context) {
 	highScores := framework.GetHighscores()
 
-	leaderboard := ""
+	leaderboard := "```\nRank | Score | Count | User\n"
 
 	for idx, val := range highScores {
-		if idx == 10 {
+		if idx == 20 {
 			break
 		}
-		leaderboard += fmt.Sprintf("`%2d.` ", idx+1)
-		if idx == 0 {
-			leaderboard += ":first_place:"
-		} else if idx == 1 {
-			leaderboard += ":second_place:"
-		} else if idx == 2 {
-			leaderboard += ":third_place:"
-		} else {
-			leaderboard += "   "
-		}
-		leaderboard += fmt.Sprintf(" `%3d /%3d` ", val.MusicScore, val.TotalAttempts)
+		leaderboard += fmt.Sprintf("#%-4d|", idx+1)
+		leaderboard += fmt.Sprintf(" %-6d|", val.MusicScore)
+		leaderboard += fmt.Sprintf(" %-6d|", val.TotalAttempts)
 		user, _ := ctx.Ses.User(val.UserId)
-		leaderboard += fmt.Sprintf("%s#%s\n", user.Username, user.Discriminator)
+		leaderboard += fmt.Sprintf(" %s#%s\n", user.Username, user.Discriminator)
 	}
+
+	leaderboard += "\n```"
 
 	embed := &discordgo.MessageEmbed{
 		Author:      &discordgo.MessageEmbedAuthor{},
 		Color:       config.EmbedColor,
 		Description: leaderboard,
 		Title:       "Music Quiz Leaderboard",
-		Footer: &discordgo.MessageEmbedFooter{
-			Text: "Correct Guesses / Total Attempts",
-		},
 	}
 
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)

@@ -30,33 +30,20 @@ func MusicQuiz(ctx *exrouter.Context) {
 		} else {
 			if guess == "giveup" {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
-				for _, val := range config.OpeningsMap[ctx.Msg.ChannelID].Guessed {
-					score, attempts := framework.GetDatabaseValue(val)
-					if score == 0 || attempts == 0 {
-						framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 0, 1)
-					} else {
-						framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score, attempts+1)
-					}
-				}
 				config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{}
 				return
 			} else if framework.GetStringValidation(config.OpeningsMap[ctx.Msg.ChannelID].Answers, guess) {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct! The answer is "+config.OpeningsMap[ctx.Msg.ChannelID].Source)
 				score, attempts := framework.GetDatabaseValue(ctx.Msg.Author.ID)
-				if score == 0 || attempts == 0 {
-					framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 1, 1)
+				if score == 0 && attempts == 0 {
+					framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 1, 0)
 				} else {
-					framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score+1, attempts+1)
+					framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score+1, attempts)
 				}
 				config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{}
 				return
 			} else {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are incorrect. Please try again.")
-				config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{
-					Guessed: append(config.OpeningsMap[ctx.Msg.ChannelID].Guessed, ctx.Msg.Author.ID),
-					Answers: config.OpeningsMap[ctx.Msg.ChannelID].Answers,
-					Source:  config.OpeningsMap[ctx.Msg.ChannelID].Source,
-				}
 				return
 			}
 		}
@@ -65,6 +52,13 @@ func MusicQuiz(ctx *exrouter.Context) {
 	if config.OpeningsMap[ctx.Msg.ChannelID].Source != "" {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You haven't gave an answer to the previous quiz.")
 		return
+	}
+
+	score, attempts := framework.GetDatabaseValue(ctx.Msg.Author.ID)
+	if score == 0 && attempts == 0 {
+		framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 0, 1)
+	} else {
+		framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score, attempts+1)
 	}
 
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
@@ -80,7 +74,6 @@ func MusicQuiz(ctx *exrouter.Context) {
 	}
 
 	config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{
-		Guessed: make([]string, 0),
 		Answers: answers,
 		Source:  config.Openings[idx].Source,
 	}
