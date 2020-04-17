@@ -96,7 +96,7 @@ func CreateDatabaseEntry(id string, score int, attempts int) {
 }
 
 func GetHighscores() []DatabaseEntry {
-	filt := expression.Name("MusicScore").GreaterThanEqual(expression.Value(0))
+	filt := expression.Name("MusicScore").GreaterThan(expression.Value(0))
 	proj := expression.NamesList(expression.Name("UserId"),
 		expression.Name("MusicScore"),
 		expression.Name("TotalAttempts"))
