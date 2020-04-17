@@ -8,7 +8,6 @@ from jikanpy import Jikan
 
 class Aninx:
     Endpoint = "https://aninx.com"
-    Folder = ""
     Data = []
 
 
@@ -33,13 +32,15 @@ def get_top_500():
 
 
 if __name__ == "__main__":
-    # for i in range(2000, 2021):
+    folders = list(range(2000, 2021)) + ["60s", "70s", "80s", "90s", "misc"]
+    #
+    # for i in folders:
     #     r = requests.get(f"{Aninx.Endpoint}/{i}/success.txt")
-    #     with open(f"{Aninx.Folder}/{i}success.txt", 'wb') as f:
+    #     with open(f"{i}success.txt", 'wb') as f:
     #         f.write(r.content)
 
-    for i in range(2000, 2021):
-        with open(f"{Aninx.Folder}{i}success.txt", "r", encoding="utf8", errors="ignore") as f:
+    for i in folders:
+        with open(f"{i}success.txt", "r", encoding="utf8", errors="ignore") as f:
             line = f.readline()
             while line:
                 search = re.search("^.{7}─ (.+)\n$", line)
@@ -72,5 +73,5 @@ if __name__ == "__main__":
         if count % 200 == 0:
             print(count)
 
-    with open(f"{Aninx.Folder}dataset_filtered.json", "w") as f:
+    with open(f"dataset_filtered.json", "w") as f:
         json.dump(new_data, f)

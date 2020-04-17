@@ -1,0 +1,262 @@
+└─ 70s
+   └─ undefined
+      ├─ Ace wo Nerae!
+      │  ├─ Ace wo Nerae!
+      │  │  └─ 0: https://animethemes.moe/video/AceWoNerae-OP1.webm
+      │  └─ Shiroi Tennis Court de
+      │     └─ 0: https://animethemes.moe/video/AceWoNerae-ED1.webm
+      ├─ Ace wo Nerae! (1979)
+      │  ├─ Mabushii Kisetsu ni
+      │  │  └─ 0: https://animethemes.moe/video/AceWoNeraeMovie-OP1.webm
+      │  └─ Haruka na Yume
+      │     └─ 0: https://animethemes.moe/video/AceWoNeraeMovie-ED1.webm
+      ├─ Akage no Anne
+      │  ├─ Kikoeru Kashira (I Wonder if You hear)
+      │  │  └─ 0: https://animethemes.moe/video/AkageNoAnne-OP1.webm
+      │  └─ Samenai Yume
+      │     └─ 0: https://animethemes.moe/video/AkageNoAnne-ED1.webm
+      ├─ Alps no Shoujo Heidi
+      │  ├─ Oshiete
+      │  │  └─ 0: https://animethemes.moe/video/AlpsNoShoujoHeidi-OP1.webm
+      │  └─ Mattete Goran
+      │     └─ 0: https://animethemes.moe/video/AlpsNoShoujoHeidi-ED1.webm
+      ├─ Animentary: Ketsudan
+      │  ├─ Ketsudan
+      │  │  └─ 0: https://animethemes.moe/video/AnimentaryKetsudan-OP1.webm
+      │  └─ Otoko Bushi
+      │     └─ 0: https://animethemes.moe/video/AnimentaryKetsudan-ED1.webm
+      ├─ Ashita no Joe
+      │  ├─ Ashita no Joe
+      │  │  └─ 0: https://animethemes.moe/video/AshitaNoJoe-OP1v2.webm
+      │  ├─ Joe no Komoriuta
+      │  │  └─ 0: https://animethemes.moe/video/AshitaNoJoe-ED1.webm
+      │  └─ Rikiishi Toru no Theme
+      │     └─ 0: https://animethemes.moe/video/AshitaNoJoe-ED2.webm
+      ├─ Astroganger
+      │  ├─ Astroganger
+      │  │  └─ 0: https://animethemes.moe/video/Astroganger-OP1.webm
+      │  └─ Susume! Astroganger
+      │     └─ 0: https://animethemes.moe/video/Astroganger-ED1.webm
+      ├─ Candy Candy
+      │  └─ Candy Candy
+      │     └─ 0: https://animethemes.moe/video/CandyCandy-OP1.webm
+      ├─ Chogattai Majutsu Robot Ginguiser
+      │  └─ Chougattai Majutsu Robot Ginguiser
+      │     └─ 0: https://animethemes.moe/video/ChogattaiMajutsuRobotGinguiser-OP1.webm
+      ├─ Chou Denji Machine Voltes V
+      │  ├─ Voltes V no Uta
+      │  │  └─ 0: https://animethemes.moe/video/ChouDenjiMachineVoltesV-OP1.webm
+      │  └─ Chichi wo Motomete
+      │     └─ 0: https://animethemes.moe/video/ChouDenjiMachineVoltesV-ED1.webm
+      ├─ Chou Denji Robo Combattler V
+      │  └─ Combattler V no Theme
+      │     └─ 0: https://animethemes.moe/video/ChouDenjiRoboCombattlerV-OP1.webm
+      ├─ Cutey Honey
+      │  ├─ Cutey Honey
+      │  │  └─ 0: https://animethemes.moe/video/CuteyHoney-OP1.webm
+      │  └─ Yogiri no Honey
+      │     └─ 0: https://animethemes.moe/video/CuteyHoney-ED1.webm
+      ├─ Cyborg 009 (1979)
+      │  ├─ Dare ga Tame ni
+      │  │  └─ 0: https://animethemes.moe/video/Cyborg009TV2-OP1.webm
+      │  └─ Itsu no Hi ka
+      │     └─ 0: https://animethemes.moe/video/Cyborg009TV2-ED1.webm
+      ├─ Daikuu Maryuu Gaiking
+      │  ├─ Daikuu Maryuu Gaiking
+      │  │  └─ 0: https://animethemes.moe/video/DaikuuMaryuuGaiking-OP1.webm
+      │  └─ Hoshizora no Gaiking
+      │     └─ 0: https://animethemes.moe/video/DaikuuMaryuuGaiking-ED1.webm
+      ├─ Devilman
+      │  ├─ Devilman no Uta
+      │  │  └─ 0: https://animethemes.moe/video/Devilman-OP1-NCBD1080.webm
+      │  └─ Kyou mo Doko ka de Devilman
+      │     └─ 0: https://animethemes.moe/video/Devilman-ED1-NCBD1080.webm
+      ├─ Dororon Enma-kun
+      │  ├─ Dororon Enma-kun
+      │  │  └─ 0: https://animethemes.moe/video/DororonEnmaKun-OP1.webm
+      │  └─ Youkai ni Goyoujin
+      │     └─ 0: https://animethemes.moe/video/DororonEnmaKun-ED1.webm
+      ├─ Gegege no Kitarou
+      │  ├─ Gegege no Kitaro
+      │  │  └─ 0: https://animethemes.moe/video/GegegeNoKitarou1971-OP1.webm
+      │  └─ Karan Koron no Uta
+      │     └─ 0: https://animethemes.moe/video/GegegeNoKitarou1971-ED1.webm
+      ├─ Getter Robo
+      │  ├─ Getter Robo!
+      │  │  └─ 0: https://animethemes.moe/video/GetterRobo-OP1.webm
+      │  └─ Gattai! Getter Robo
+      │     └─ 0: https://animethemes.moe/video/GetterRobo-ED1.webm
+      ├─ Getter Robo G
+      │  ├─ Getter Robo!
+      │  │  └─ 0: https://animethemes.moe/video/GetterRoboG-OP1.webm
+      │  └─ Fumetsu no Machine Getter Robo
+      │     └─ 0: https://animethemes.moe/video/GetterRoboG-ED1.webm
+      ├─ Ginga Tetsudou 999
+      │  ├─ Ginga Tetsudou 999
+      │  │  └─ 0: https://animethemes.moe/video/GingaTetsudou999-OP1v3.webm
+      │  └─ Aoi Chikyuu
+      │     └─ 0: https://animethemes.moe/video/GingaTetsudou999-ED1v2.webm
+      ├─ Great Mazinger
+      │  └─ Ore wa Great Mazinger
+      │     └─ 0: https://animethemes.moe/video/GreatMazinger-OP1.webm
+      ├─ Groizer X
+      │  ├─ Tobe! Groizer X
+      │  │  └─ 0: https://animethemes.moe/video/GroizerX-OP1.webm
+      │  └─ Go Go Groizer X
+      │     └─ 0: https://animethemes.moe/video/GroizerX-ED1.webm
+      ├─ Hurricane Polymar
+      │  ├─ Tatakae! Polymar
+      │  │  └─ 0: https://animethemes.moe/video/HurricanePolymar-OP1.webm
+      │  └─ Tenshin Polymar
+      │     └─ 0: https://animethemes.moe/video/HurricanePolymar-ED1.webm
+      ├─ Jetter Mars
+      │  ├─ Mars 2015 Nen
+      │  │  └─ 0: https://animethemes.moe/video/JetterMars-OP1.webm
+      │  ├─ Shounen Mars
+      │  │  └─ 0: https://animethemes.moe/video/JetterMars-ED1.webm
+      │  └─ Oyasumi Mars
+      │     └─ 0: https://animethemes.moe/video/JetterMars-ED2.webm
+      ├─ Kagaku Ninja-tai Gatchaman
+      │  ├─ Taosozu! Galactor
+      │  │  └─ 0: https://animethemes.moe/video/KagakuNinjataiGatchaman-ED2.webm
+      │  └─ Gatchaman no Uta
+      │     └─ 0: https://animethemes.moe/video/KagakuNinjataiGatchaman-ED1.webm
+      ├─ Kagaku Ninja-tai Gatchaman F
+      │  ├─ Gatchaman Fighter
+      │  │  └─ 0: https://animethemes.moe/video/KagakuNinjataiGatchamanF-OP1.webm
+      │  └─ Bokura no Gatchaman
+      │     └─ 0: https://animethemes.moe/video/KagakuNinjataiGatchamanF-ED1.webm
+      ├─ Kagaku Ninja-tai Gatchaman II
+      │  ├─ Warera Gatchaman
+      │  │  └─ 0: https://animethemes.moe/video/KagakuNinjataiGatchamanS2-OP1v2.webm
+      │  └─ Ashita Yume Mite
+      │     └─ 0: https://animethemes.moe/video/KagakuNinjataiGatchamanS2-ED1v2.webm
+      ├─ Koutetsu Jeeg
+      │  ├─ Kotetsu Zieg no Uta
+      │  │  └─ 0: https://animethemes.moe/video/KoutetsuJeeg-OP1.webm
+      │  └─ Hiroshi no Theme
+      │     └─ 0: https://animethemes.moe/video/KoutetsuJeeg-ED1.webm
+      ├─ Lupin III
+      │  ├─ Lupin Sansei Sono 1
+      │  │  └─ 0: https://animethemes.moe/video/LupinIII-OP1.webm
+      │  ├─ AFRO LUPIN '68
+      │  │  └─ 0: https://animethemes.moe/video/LupinIII-OP2.webm
+      │  ├─ Lupin Sansei Sono 3
+      │  │  └─ 0: https://animethemes.moe/video/LupinIII-OP3.webm
+      │  └─ Lupin Sansei Sono 2
+      │     └─ 0: https://animethemes.moe/video/LupinIII-ED1.webm
+      ├─ Lupin III: Part II
+      │  ├─ Theme from Lupin III '77
+      │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartII-OP1.webm
+      │  ├─ Theme from Lupin III (Vocal Version)
+      │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartII-OP2.webm
+      │  ├─ Theme from Lupin III '79
+      │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartII-OP3.webm
+      │  ├─ Theme from Lupin III '80
+      │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartII-OP4.webm
+      │  ├─ Love Theme
+      │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartII-ED1.webm
+      │  ├─ Love Theme (Vocal Version)
+      │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartII-ED2.webm
+      │  ├─ Love Squall
+      │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartII-ED3.webm
+      │  └─ Love Is Everything
+      │     └─ 0: https://animethemes.moe/video/LupinIIIPartII-ED4.webm
+      ├─ Magnerobo Ga-Keen
+      │  └─ Tatakae! Gakeen
+      │     └─ 0: https://animethemes.moe/video/MagneroboGaKeen-OP1.webm
+      ├─ Mazinger Z
+      │  ├─ Mazinger Z
+      │  │  └─ 0: https://animethemes.moe/video/MazingerZ-OP1.webm
+      │  └─ Bokura no Mazinger Z
+      │     └─ 0: https://animethemes.moe/video/MazingerZ-ED1.webm
+      ├─ Mirai Robo Daltanias
+      │  └─ Daltanias no Uta
+      │     └─ 0: https://animethemes.moe/video/MiraiRoboDaltanias-OP1.webm
+      ├─ Mirai Shounen Conan
+      │  ├─ Ima Chikyu ga Mezameru
+      │  │  └─ 0: https://animethemes.moe/video/MiraiShounenConan-OP1.webm
+      │  └─ Shiawase no Yokan
+      │     └─ 0: https://animethemes.moe/video/MiraiShounenConan-ED1.webm
+      ├─ Mobile Suit Gundam
+      │  ├─ Tobe! Gundam (Fly! Gundam)
+      │  │  └─ 0: https://animethemes.moe/video/Gundam-OP1.webm
+      │  └─ Eien Ni Amuro (Forever Amuro)
+      │     └─ 0: https://animethemes.moe/video/Gundam-ED1.webm
+      ├─ Muteki Choujin Zanbot 3
+      │  ├─ Ike! Zambot 3
+      │  │  └─ 0: https://animethemes.moe/video/MutekiChoujinZanbot3-OP1.webm
+      │  └─ Uchuu no Hoshi yo Eien ni
+      │     └─ 0: https://animethemes.moe/video/MutekiChoujinZanbot3-ED1.webm
+      ├─ Rose of Versailles
+      │  ├─ Bara wa Utsukushiku Chiru
+      │  │  └─ 0: https://animethemes.moe/video/RoseOfVersailles-OP1.webm
+      │  └─ Ai no Hikari to Kage
+      │     └─ 0: https://animethemes.moe/video/RoseOfVersailles-ED1.webm
+      ├─ SF Saiyuuki Starzinger
+      │  ├─ Starzinger no Uta
+      │  │  └─ 0: https://animethemes.moe/video/SFSaiyuukiStarzinger-OP1.webm
+      │  ├─ Uchuu no Senshi Starzinger
+      │  │  └─ 0: https://animethemes.moe/video/SFSaiyuukiStarzinger-OP2.webm
+      │  ├─ Bokura no Starzinger
+      │  │  └─ 0: https://animethemes.moe/video/SFSaiyuukiStarzinger-OP3.webm
+      │  ├─ Hime no Tame nara
+      │  │  └─ 0: https://animethemes.moe/video/SFSaiyuukiStarzinger-ED1.webm
+      │  └─ Hoshi ni Negai wo
+      │     └─ 0: https://animethemes.moe/video/SFSaiyuukiStarzinger-ED2.webm
+      ├─ Shin Ace wo Nerae!
+      │  ├─ Seishun ni Kakero!
+      │  │  └─ 0: https://animethemes.moe/video/ShinAceWoNerae-OP1.webm
+      │  └─ Ashita ni Mukatte
+      │     └─ 0: https://animethemes.moe/video/ShinAceWoNerae-ED1.webm
+      ├─ Shinzou Ningen Casshern
+      │  ├─ Tatakae! Casshan
+      │  │  └─ 0: https://animethemes.moe/video/ShinzouNingenCasshern-OP1.webm
+      │  └─ Are wa Shinzo Ningen
+      │     └─ 0: https://animethemes.moe/video/ShinzouNingenCasshern-ED1.webm
+      ├─ Takarajima
+      │  ├─ Takarajima
+      │  │  └─ 0: https://animethemes.moe/video/Takarajima-OP1.webm
+      │  └─ Chiisana Funanori
+      │     └─ 0: https://animethemes.moe/video/Takarajima-ED1.webm
+      ├─ Toushou Daimos
+      │  └─ Tate! Toushou Daimos
+      │     └─ 0: https://animethemes.moe/video/ToushouDaimos-OP1.webm
+      ├─ Uchuu Kaizoku Captain Harlock
+      │  ├─ Captain Harlock
+      │  │  └─ 0: https://animethemes.moe/video/UchuuKaizokuCaptainHarlock-OP1v2.webm
+      │  └─ Warera no Tabidachi
+      │     └─ 0: https://animethemes.moe/video/UchuuKaizokuCaptainHarlock-ED1.webm
+      ├─ Uchuu Majin Daikengou
+      │  └─ Uchuu Majin Daikengo no Uta
+      │     └─ 0: https://animethemes.moe/video/UchuuMajinDaikengou-OP1.webm
+      ├─ Uchuu no Kishi Tekkaman
+      │  ├─ Tekkaman no Uta
+      │  │  └─ 0: https://animethemes.moe/video/UchuuNoKishiTekkaman-OP1.webm
+      │  └─ Space Knights no Uta
+      │     └─ 0: https://animethemes.moe/video/UchuuNoKishiTekkaman-ED1.webm
+      ├─ Uchuu Senkan Yamato
+      │  ├─ Uchuu Senkan Yamato
+      │  │  └─ 0: https://animethemes.moe/video/UchuuSenkanYamato-OP1v2.webm
+      │  └─ Makka na Scarf
+      │     └─ 0: https://animethemes.moe/video/UchuuSenkanYamato-ED1.webm
+      ├─ UFO Robo Grendizer
+      │  ├─ Tobe! Grendizer
+      │  │  └─ 0: https://animethemes.moe/video/UFORoboGrendizer-OP1v2.webm
+      │  └─ Uchuu no Ouja Grendizer
+      │     └─ 0: https://animethemes.moe/video/UFORoboGrendizer-ED1v2.webm
+      ├─ Umi no Triton
+      │  ├─ Umi no Triton
+      │  │  └─ 0: https://animethemes.moe/video/UmiNoTriton-ED2.webm
+      │  └─ Go! Go! Triton
+      │     └─ 0: https://animethemes.moe/video/UmiNoTriton-ED1.webm
+      ├─ Wakusei Robo Danguard Ace
+      │  ├─ Suki Da Danguard Ace
+      │  │  └─ 0: https://animethemes.moe/video/WakuseiRoboDanguardAce-OP1v2.webm
+      │  └─ Sono Na mo Takuma Uchuu Pilot
+      │     └─ 0: https://animethemes.moe/video/WakuseiRoboDanguardAce-ED1v2.webm
+      └─ Yuusha Raideen
+         ├─ Yuusha Raideen
+         │  └─ 0: https://animethemes.moe/video/YuushaRaideen-OP1.webm
+         └─ Ore wa Akira Da
+            └─ 0: https://animethemes.moe/video/YuushaRaideen-ED1.webm

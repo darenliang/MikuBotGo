@@ -1,0 +1,62 @@
+└─ 60s
+   └─ undefined
+      ├─ Attack No.1
+      │  ├─ Attack No. 1
+      │  │  └─ 0: https://animethemes.moe/video/AttackNo1-OP1.webm
+      │  └─ Bon Bo Bon
+      │     └─ 0: https://animethemes.moe/video/AttackNo1-ED1.webm
+      ├─ Big X
+      │  └─ Big X
+      │     └─ 0: https://animethemes.moe/video/BigX-OP1.webm
+      ├─ Cyborg 009 (TV)
+      │  ├─ Cyborg 009
+      │  │  └─ 0: https://animethemes.moe/video/Cyborg009TV-OP1.webm
+      │  └─ Tatakai Owatte
+      │     └─ 0: https://animethemes.moe/video/Cyborg009TV-ED1.webm
+      ├─ Dororo to Hyakkimaru
+      │  └─ Dororo no Uta
+      │     └─ 0: https://animethemes.moe/video/DororoToHyakkimaru-ED1.webm
+      ├─ Eightman
+      │  ├─ 8 Man
+      │  │  └─ 0: https://animethemes.moe/video/Eightman-OP1.webm
+      │  └─ Eight Man (instrumental only)
+      │     └─ 0: https://animethemes.moe/video/Eightman-ED1.webm
+      ├─ Gegege no Kitarou
+      │  ├─ Gegege no Kitarou
+      │  │  └─ 0: https://animethemes.moe/video/GegegeNoKitarou-OP1.webm
+      │  └─ Karan Koron no Uta
+      │     └─ 0: https://animethemes.moe/video/GegegeNoKitarou-ED1.webm
+      ├─ Himitsu no Akko-chan
+      │  └─ Himitsu no Akko-chan
+      │     └─ 0: https://animethemes.moe/video/HimitsuNoAkkoChan-OP1.webm
+      ├─ Mach GoGoGo
+      │  └─ Mach GoGoGo
+      │     └─ 0: https://animethemes.moe/video/MachGoGoGo-OP1.webm
+      ├─ Mahoutsukai Sally
+      │  ├─ Mahoutsukai Sally no Uta
+      │  │  └─ 0: https://animethemes.moe/video/MahoutsukaiSally-OP1v2.webm
+      │  ├─ Mahou no Mambo
+      │  │  └─ 0: https://animethemes.moe/video/MahoutsukaiSally-ED1.webm
+      │  └─ Itazura no Uta
+      │     └─ 0: https://animethemes.moe/video/MahoutsukaiSally-ED2.webm
+      ├─ Ninpuu Kamui Gaiden
+      │  ├─ Shinobi no Theme (Instrumental)
+      │  │  └─ 0: https://animethemes.moe/video/NinpuuKamuiGaiden-OP1.webm
+      │  └─ Shinobi no Theme
+      │     └─ 0: https://animethemes.moe/video/NinpuuKamuiGaiden-ED1.webm
+      ├─ Ribbon no Kishi
+      │  ├─ Ribbon No Kishi
+      │  │  └─ 0: https://animethemes.moe/video/RibbonNoKishi-OP1.webm
+      │  └─ Ribbon No March
+      │     └─ 0: https://animethemes.moe/video/RibbonNoKishi-ED1.webm
+      ├─ Tetsujin 28-gou
+      │  └─ Tetsujin 28-gou
+      │     └─ 0: https://animethemes.moe/video/Tetsujin28gou-OP1.webm
+      ├─ Tetsuwan Atom
+      │  └─ Tetsuwan Atom
+      │     └─ 0: https://animethemes.moe/video/TetsuwanAtom-ED1.webm
+      └─ Tiger Mask
+         ├─ Ike! Tiger Mask
+         │  └─ 0: https://animethemes.moe/video/TigerMask-OP1.webm
+         └─ Minashigo no Ballad
+            └─ 0: https://animethemes.moe/video/TigerMask-ED1.webm

@@ -1,0 +1,126 @@
+└─ misc
+   └─ undefined
+      ├─ 9 -Nine- Kokonotsu Kokonoka Kokonoiro
+      │  └─ ReAliZe
+      │     └─ 0: https://animethemes.moe/video/9Nine-OP1.webm
+      ├─ Aiyoku no Eustia
+      │  └─ Asphodelus
+      │     └─ 0: https://animethemes.moe/video/AiyokuNoEustia-OP1.webm
+      ├─ BlazBlue: Calamity Trigger
+      │  └─ Ao-iconclast
+      │     └─ 0: https://animethemes.moe/video/BlazBlueCalamityTrigger-OP1.webm
+      ├─ BlazBlue: Centralfiction
+      │  └─ TRUE-BLUE
+      │     └─ 0: https://animethemes.moe/video/BlazBlueCentralfiction-OP1.webm
+      ├─ BlazBlue: Chronophantasma
+      │  └─ Blue sanction
+      │     └─ 0: https://animethemes.moe/video/BlazBlueChronophantasma-OP1.webm
+      ├─ BlazBlue: Chronophantasma Extend
+      │  └─ BLUE desire
+      │     └─ 0: https://animethemes.moe/video/BlazBlueChronophantasmaExtend-OP1.webm
+      ├─ BlazBlue: Continuum Shift​
+      │  └─ Hekira no Sora e Izanaedo
+      │     └─ 0: https://animethemes.moe/video/BlazBlueContinuumShift-OP1.webm
+      ├─ BlazBlue: Continuum Shift​ II
+      │  └─ Shinsou
+      │     └─ 0: https://animethemes.moe/video/BlazBlueContinuumShiftII-OP1.webm
+      ├─ BlazBlue: Continuum Shift Extend
+      │  └─ Soukyuu no Hikari
+      │     └─ 0: https://animethemes.moe/video/BlazBlueContinuumShiftExtend-OP1.webm
+      ├─ Chaos;Head
+      │  └─ Find the blue
+      │     └─ 0: https://animethemes.moe/video/ChaosHeadVN-OP1.webm
+      ├─ Fate/Grand Order
+      │  └─ Shikisai
+      │     └─ 0: https://animethemes.moe/video/FateGO-OP1.webm
+      ├─ Fate/hollow ataraxia (PS Vita version)
+      │  ├─ broKen NIGHT
+      │  │  └─ 0: https://animethemes.moe/video/FateHollowAtaraxia-OP1.webm
+      │  └─ holLow wORlD
+      │     └─ 0: https://animethemes.moe/video/FateHollowAtaraxia-OP2.webm
+      ├─ Golden Hour
+      │  └─ Change The World
+      │     └─ 0: https://animethemes.moe/video/GoldenHour-OP1.webm
+      ├─ Grisaia no Kajitsu
+      │  ├─ Shuumatsu no Fractal
+      │  │  └─ 0: https://animethemes.moe/video/GrisaiaNoKajitsuVN-OP1.webm
+      │  ├─ art 1 "SKIP
+      │  │  └─ 0: https://animethemes.moe/video/GrisaiaNoKajitsuVN-ED1a.webm
+      │  ├─ art 2 "SKIP
+      │  │  └─ 0: https://animethemes.moe/video/GrisaiaNoKajitsuVN-ED1b.webm
+      │  ├─ Holographic
+      │  │  └─ 0: https://animethemes.moe/video/GrisaiaNoKajitsuVN-ED2.webm
+      │  ├─ Kono Hi no Mama de
+      │  │  └─ 0: https://animethemes.moe/video/GrisaiaNoKajitsuVN-ED3.webm
+      │  └─ HOME
+      │     └─ 0: https://animethemes.moe/video/GrisaiaNoKajitsuVN-ED4.webm
+      ├─ Grisaia: Phantom Trigger
+      │  └─ Edge of My World
+      │     └─ 0: https://animethemes.moe/video/GrisaiaPhantomTriggerVN-OP1.webm
+      ├─ Hyperdimension Neptunia Re;Birth1
+      │  └─ Miracle！Portable☆Mission
+      │     └─ 0: https://animethemes.moe/video/HyperdimensionNeptuniaReBirth1-OP1.webm
+      ├─ Hyperdimension Neptunia Re;Birth2: Sisters Generation
+      │  └─ Kirihirake Role-Play☆Star Girl
+      │     └─ 0: https://animethemes.moe/video/HyperdimensionNeptuniaReBirth2-OP1.webm
+      ├─ Hyperdimension Neptunia Re;Birth3 V Generation
+      │  └─ Rave:tech(^_^)New;world
+      │     └─ 0: https://animethemes.moe/video/HyperdimensionNeptuniaReBirth3-OP1.webm
+      ├─ Kotonoha Amrilato
+      │  └─ Kimi e Tsuzuku Michi
+      │     └─ 0: https://animethemes.moe/video/KotonohaAmrilato-OP1.webm
+      ├─ Naruto Shippuden: Ultimate Ninja Storm 4
+      │  └─ Spiral
+      │     └─ 0: https://animethemes.moe/video/NarutoShippudenUltimateNinjaStorm4-OP1.webm
+      ├─ Nora to Oujo to Noraneko Heart
+      │  └─ Noraneko Heart
+      │     └─ 0: https://animethemes.moe/video/NoratotoVN-OP1.webm
+      ├─ Okujou no Yurirei-san
+      │  └─ Girl's Spirit -Otome no Kimochi-
+      │     └─ 0: https://animethemes.moe/video/OkujouNoYurireiSan-OP1.webm
+      ├─ Otome＊Domain
+      │  └─ Loving Trip
+      │     └─ 0: https://animethemes.moe/video/OtomeDomain-OP1.webm
+      ├─ Princess Evangile
+      │  └─ Magic of Courage
+      │     └─ 0: https://animethemes.moe/video/PrincessEvangile-OP1.webm
+      ├─ Princess Evangile W Happiness
+      │  └─ Future's Outset
+      │     └─ 0: https://animethemes.moe/video/PrincessEvangileWHappiness-OP1.webm
+      ├─ Root Double -Before Crime * After Days- Xtend Edition
+      │  ├─ Double Bible
+      │  │  └─ 0: https://animethemes.moe/video/RootW-OP1.webm
+      │  └─ ROUTE EXIT
+      │     └─ 0: https://animethemes.moe/video/RootW-OP2.webm
+      ├─ Steins;Gate
+      │  └─ Skyclad no Kansokusha
+      │     └─ 0: https://animethemes.moe/video/SteinsGateVN-OP1.webm
+      ├─ Steins;Gate 0
+      │  └─ Amadeus
+      │     └─ 0: https://animethemes.moe/video/SteinsGateZeroVN-OP1.webm
+      ├─ Tales of Symphonia
+      │  ├─ Starry Heavens
+      │  │  └─ 0: https://animethemes.moe/video/TalesOfSymphoniaGame-OP1.webm
+      │  └─ Soshite Boku ni Dekiru Koto
+      │     └─ 0: https://animethemes.moe/video/TalesOfSymphoniaGame-OP2.webm
+      ├─ Tales of Zestiria
+      │  └─ White Light
+      │     └─ 0: https://animethemes.moe/video/TalesOfZestiriaGame-OP1.webm
+      ├─ Tokyo School Life
+      │  └─ MOE to Love Yooou!
+      │     └─ 0: https://animethemes.moe/video/TokyoSchoolLife-OP1.webm
+      ├─ Utawarerumono: Futari no Hakuoro
+      │  └─ Hoshiakari (Hikari)
+      │     └─ 0: https://animethemes.moe/video/UtawarerumonoFutariNoHakuoro-OP1.webm
+      ├─ Utawarerumono: Itsuwari no Kamen
+      │  └─ Nuedori
+      │     └─ 0: https://animethemes.moe/video/UtawarerumonoItsuwariNoKamenVN-OP1.webm
+      ├─ XBlaze Code: Embryo
+      │  └─ Be Oneself!
+      │     └─ 0: https://animethemes.moe/video/XBlazeCodeEmbryo-OP1.webm
+      ├─ XBlaze Lost: Memories
+      │  └─ END GAZER
+      │     └─ 0: https://animethemes.moe/video/XBlazeLostMemories-OP1.webm
+      └─ Yami to Hikari no Sanctuary
+         └─ Unmei no Toki
+            └─ 0: https://animethemes.moe/video/YamiToHikariNoSanctuary-OP1.webm
