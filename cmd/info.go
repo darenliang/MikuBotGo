@@ -60,9 +60,9 @@ func Info(ctx *exrouter.Context) {
 				Name: "Uptime",
 				Value: fmt.Sprintf("%dd, %dh, %dm, %ds",
 					int(currTime.Hours())/24,
-					int(currTime.Hours()),
-					int(currTime.Minutes()),
-					int(currTime.Seconds())),
+					int(currTime.Hours())%24,
+					int(currTime.Minutes())%60,
+					int(currTime.Seconds())%60),
 				Inline: true,
 			},
 			{
