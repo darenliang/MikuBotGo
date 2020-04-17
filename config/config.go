@@ -11,7 +11,7 @@ type OpeningsEntry struct {
 }
 
 // Includes config variables for bot
-const BotInfo = "MikuBotGo v0.0.0-alpha"
+const BotInfo = "MikuBotGo v0.1.0"
 const EmbedColor = 0x2e98a6
 const Prefix = ";"
 const Timeout = 60
