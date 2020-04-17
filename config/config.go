@@ -17,7 +17,7 @@ const Prefix = ";"
 const Timeout = 60
 
 var StartTime time.Time
-var Openings framework.Openings
+var Openings framework.Openings2
 var OpeningsMap = make(map[string]OpeningsEntry)
 
 func init() {
@@ -25,5 +25,5 @@ func init() {
 	StartTime = time.Now()
 
 	// Setup openings
-	Openings = framework.GetOpenings()
+	Openings = framework.GetOpenings2()
 }

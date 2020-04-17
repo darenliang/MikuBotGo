@@ -63,10 +63,20 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
 
-	idx := rand.Int() % len(config.Openings)
-	fileName := fmt.Sprintf("%s.webm", config.Openings[idx].File)
+	var animeName string
+	var fileName string
+	year := framework.GetRandomYear()
 
-	response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(config.Openings[idx].Source) + `&page[limit]=3`)
+	for _, val := range config.Openings {
+		if val.Year == year {
+			choice := rand.Int() % len(val.Animes)
+			animeName = val.Animes[choice].Name
+			fileName = val.Animes[choice].Songs[rand.Int()%len(val.Animes[choice].Songs)]
+			break
+		}
+	}
+
+	response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(animeName) + `&page[limit]=3`)
 
 	answers := make([]string, 0)
 	for _, val := range response.Data {
@@ -75,14 +85,14 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningsEntry{
 		Answers: answers,
-		Source:  config.Openings[idx].Source,
+		Source:  animeName,
 	}
 
 	fileNameOut := framework.RandomString(16)
 
 	cmd := exec.Command("youtube-dl", "--extract-audio", "--audio-format", "mp3", "--output",
 		"./cache/"+fileNameOut+".webm", "--external-downloader", "aria2c", "--external-downloader-args",
-		`-x 5 -s 5 -k 1M`, "https://openings.moe/video/"+fileName)
+		`-x 5 -s 5 -k 1M`, fileName)
 
 	ch := make(chan error)
 	go func() {
@@ -97,7 +107,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"`%smusicquiz answer` to guess anime or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
+			"`%smusicquiz <guess>` to guess anime or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
 		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
 		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 		_ = f.Close()
