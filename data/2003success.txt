@@ -1,0 +1,224 @@
+└─ 2003
+   ├─ Fall
+   │  ├─ Ai Yori Aoshi: Enishi
+   │  │  ├─ Takaramono
+   │  │  │  └─ 0: https://animethemes.moe/video/AiYoriAoshiEnishi-OP1.webm
+   │  │  ├─ I Do!
+   │  │  │  └─ 0: https://animethemes.moe/video/AiYoriAoshiEnishi-ED1.webm
+   │  │  └─ Presence
+   │  │     └─ 0: https://animethemes.moe/video/AiYoriAoshiEnishi-ED2.webm
+   │  ├─ Bobobo-bo Bo-bobo
+   │  │  ├─ Wild Challenger
+   │  │  │  └─ 0: https://animethemes.moe/video/BoboboboBobobo-OP1.webm
+   │  │  └─ H.P.S.J.
+   │  │     └─ 0: https://animethemes.moe/video/BoboboboBobobo-ED3.webm
+   │  ├─ Fullmetal Alchemist
+   │  │  ├─ Melissa
+   │  │  │  └─ 0: https://animethemes.moe/video/FullmetalAlchemist-OP1.webm
+   │  │  ├─ READY STEADY GO
+   │  │  │  └─ 0: https://animethemes.moe/video/FullmetalAlchemist-OP2.webm
+   │  │  ├─ UNDO
+   │  │  │  └─ 0: https://animethemes.moe/video/FullmetalAlchemist-OP3.webm
+   │  │  ├─ Rewrite
+   │  │  │  └─ 0: https://animethemes.moe/video/FullmetalAlchemist-OP4.webm
+   │  │  ├─ Kesenai Tsumi
+   │  │  │  └─ 0: https://animethemes.moe/video/FullmetalAlchemist-ED1v2.webm
+   │  │  ├─ Tobira no Mukou e
+   │  │  │  └─ 0: https://animethemes.moe/video/FullmetalAlchemist-ED2.webm
+   │  │  ├─ Motherland
+   │  │  │  └─ 0: https://animethemes.moe/video/FullmetalAlchemist-ED3.webm
+   │  │  └─ I Will
+   │  │     └─ 0: https://animethemes.moe/video/FullmetalAlchemist-ED4.webm
+   │  ├─ Futatsu no Spica
+   │  │  ├─ Venus Say
+   │  │  │  └─ 0: https://animethemes.moe/video/FutatsuNoSpica-OP1.webm
+   │  │  └─ Miagete Goran Yoru no Hoshi wo
+   │  │     └─ 0: https://animethemes.moe/video/FutatsuNoSpica-ED1.webm
+   │  ├─ Gungrave
+   │  │  ├─ Family
+   │  │  │  └─ 0: https://animethemes.moe/video/Gungrave-OP1.webm
+   │  │  └─ Akaneiro ga Moerutoki
+   │  │     └─ 0: https://animethemes.moe/video/Gungrave-ED1.webm
+   │  ├─ Gunslinger Girl
+   │  │  ├─ The Light Before We Land
+   │  │  │  └─ 0: https://animethemes.moe/video/GunslingerGirl-OP1-NCBD1080.webm
+   │  │  └─ Dopo il Sogno ~Yume no Ato ni~
+   │  │     └─ 0: https://animethemes.moe/video/GunslingerGirl-ED1-NCBD1080.webm
+   │  ├─ Jungle wa Itsumo Hare nochi Guu Final
+   │  │  ├─ Love Tropicana Final
+   │  │  │  └─ 0: https://animethemes.moe/video/HareGuuFinal-OP1.webm
+   │  │  └─ Teruteru Bouzu
+   │  │     └─ 0: https://animethemes.moe/video/HareGuuFinal-ED1.webm
+   │  ├─ Kimi ga Nozomu Eien
+   │  │  ├─ Precious Memories
+   │  │  │  └─ 0: https://animethemes.moe/video/KimiNozo-OP1v2.webm
+   │  │  ├─ Rumbing Hearts
+   │  │  │  └─ 0: https://animethemes.moe/video/KimiNozo-ED1.webm
+   │  │  ├─ Hoshizora no Waltz
+   │  │  │  └─ 0: https://animethemes.moe/video/KimiNozo-ED2.webm
+   │  │  └─ Kimi ga Nozomu Eien
+   │  │     └─ 0: https://animethemes.moe/video/KimiNozo-ED3.webm
+   │  ├─ Maburaho
+   │  │  └─ Koi no Mahou
+   │  │     └─ 0: https://animethemes.moe/video/Maburaho-OP1.webm
+   │  ├─ Mermaid Forest
+   │  │  ├─ Like an angel
+   │  │  │  └─ 0: https://animethemes.moe/video/MermaidForest-OP1.webm
+   │  │  └─ Mizutamari
+   │  │     └─ 0: https://animethemes.moe/video/MermaidForest-ED1.webm
+   │  ├─ Planetes
+   │  │  ├─ Dive in the Sky
+   │  │  │  └─ 0: https://animethemes.moe/video/Planetes-OP1.webm
+   │  │  └─ Wonderful Life
+   │  │     └─ 0: https://animethemes.moe/video/Planetes-ED1.webm
+   │  ├─ R.O.D the TV
+   │  │  ├─ R.O.D.
+   │  │  │  └─ 0: https://animethemes.moe/video/ReadOrDieTV-OP1.webm
+   │  │  ├─ Moments in the Sun
+   │  │  │  └─ 0: https://animethemes.moe/video/ReadOrDieTV-ED1.webm
+   │  │  └─ Confidence
+   │  │     └─ 0: https://animethemes.moe/video/ReadOrDieTV-ED2.webm
+   │  ├─ Rockman.EXE Axess
+   │  │  ├─ Futatsu no Mirai
+   │  │  │  └─ 0: https://animethemes.moe/video/RockmanAxess-OP1.webm
+   │  │  └─ Hikari Todoku Basho
+   │  │     └─ 0: https://animethemes.moe/video/RockmanAxess-ED1.webm
+   │  ├─ Sakigake!! Cromartie Koukou
+   │  │  ├─ Jun
+   │  │  │  └─ 0: https://animethemes.moe/video/SakigakeCromartieKoukou-OP1-NCBD.webm
+   │  │  └─ Trust Me
+   │  │     └─ 0: https://animethemes.moe/video/SakigakeCromartieKoukou-ED1.webm
+   │  ├─ Shingetsutan Tsukihime
+   │  │  ├─ The Sacred Moon
+   │  │  │  └─ 0: https://animethemes.moe/video/Tsukihime-OP1.webm
+   │  │  └─ Rinne No Hate Ni...
+   │  │     └─ 0: https://animethemes.moe/video/Tsukihime-ED1.webm
+   │  └─ Tokyo Godfathers
+   │     └─ No. 9
+   │        └─ 0: https://animethemes.moe/video/TokyoGodfathers-ED1.webm
+   ├─ Summer
+   │  ├─ D.C.: Da Capo
+   │  │  ├─ Sakura Saku Mirai Koi Yume
+   │  │  │  └─ 0: https://animethemes.moe/video/DaCapo-OP1.webm
+   │  │  ├─ Mirai he no Melody
+   │  │  │  └─ 0: https://animethemes.moe/video/DaCapo-ED1.webm
+   │  │  ├─ Utamaru Ekaki Uta
+   │  │  │  └─ 0: https://animethemes.moe/video/DaCapo-ED2.webm
+   │  │  └─ Sonzai
+   │  │     └─ 0: https://animethemes.moe/video/DaCapo-ED3.webm
+   │  ├─ Full Metal Panic? Fumoffu
+   │  │  ├─ Sore ga, Ai Deshou
+   │  │  │  └─ 0: https://animethemes.moe/video/FullMetalPanicFumoffu-OP1.webm
+   │  │  └─ Kimi ni Fuku Kaze
+   │  │     └─ 0: https://animethemes.moe/video/FullMetalPanicFumoffu-ED1v2.webm
+   │  ├─ Green Green
+   │  │  ├─ Guri Guri
+   │  │  │  └─ 0: https://animethemes.moe/video/GreenGreen-OP1.webm
+   │  │  └─ Aozora
+   │  │     └─ 0: https://animethemes.moe/video/GreenGreen-ED1.webm
+   │  ├─ Ikkitousen
+   │  │  ├─ Drivin' Through The Night
+   │  │  │  └─ 0: https://animethemes.moe/video/Ikkitousen-OP1.webm
+   │  │  └─ Let me be with you
+   │  │     └─ 0: https://animethemes.moe/video/Ikkitousen-ED1.webm
+   │  ├─ Mahoromatic Summer Special
+   │  │  ├─ Soreiyu - Soleil
+   │  │  │  └─ 0: https://animethemes.moe/video/MahoromaticSummerSpecial-OP1.webm
+   │  │  └─ Hiryu Musume Ha! Date Ondo
+   │  │     └─ 0: https://animethemes.moe/video/MahoromaticSummerSpecial-ED1.webm
+   │  ├─ Narutaru: Mukuro Naru Hoshi Tama Taru Ko
+   │  │  ├─ Nichiyoubi no Taiyou
+   │  │  │  └─ 0: https://animethemes.moe/video/Narutaru-OP1.webm
+   │  │  └─ Kairo
+   │  │     └─ 0: https://animethemes.moe/video/Narutaru-ED1.webm
+   │  └─ Onegai☆Twins
+   │     ├─ Second Flight
+   │     │  └─ 0: https://animethemes.moe/video/OnegaiTwins-OP1.webm
+   │     └─ Asu e no Namida
+   │        └─ 0: https://animethemes.moe/video/OnegaiTwins-ED1.webm
+   ├─ Spring
+   │  ├─ D.N.Angel
+   │  │  ├─ Byakuya ~ True Light
+   │  │  │  └─ 0: https://animethemes.moe/video/DNAngel-OP1-NCDVD480.webm
+   │  │  ├─ Yasashii gogo
+   │  │  │  └─ 0: https://animethemes.moe/video/DNAngel-ED1.webm
+   │  │  ├─ Hajimari no hi
+   │  │  │  └─ 0: https://animethemes.moe/video/DNAngel-ED2.webm
+   │  │  ├─ Caged Bird
+   │  │  │  └─ 0: https://animethemes.moe/video/DNAngel-ED3.webm
+   │  │  └─ Michishirube
+   │  │     └─ 0: https://animethemes.moe/video/DNAngel-ED4.webm
+   │  ├─ Juubee Ninpuuchou: Ryuuhougyoku-hen
+   │  │  ├─ Jubei's Theme
+   │  │  │  └─ 0: https://animethemes.moe/video/JuubeeNinpuuchouTV-OP1.webm
+   │  │  └─ Shigure's Theme
+   │  │     └─ 0: https://animethemes.moe/video/JuubeeNinpuuchouTV-ED1.webm
+   │  ├─ Kino no Tabi: The Beautiful World
+   │  │  ├─ All the Way
+   │  │  │  └─ 0: https://animethemes.moe/video/KinoNoTabi-OP1-Lyrics.webm
+   │  │  └─ The Beautiful World
+   │  │     └─ 0: https://animethemes.moe/video/KinoNoTabi-ED1-Lyrics.webm
+   │  ├─ Last Exile
+   │  │  ├─ Cloud Age Symphony
+   │  │  │  └─ 0: https://animethemes.moe/video/LastExile-OP1v2.webm
+   │  │  └─ Over The Sky
+   │  │     └─ 0: https://animethemes.moe/video/LastExile-ED1.webm
+   │  ├─ Matantei Loki Ragnarok
+   │  │  ├─ Rakuen no Tobira
+   │  │  │  └─ 0: https://animethemes.moe/video/MatenteiLokiRagnarok-OP1.webm
+   │  │  └─ Believe in Heaven
+   │  │     └─ 0: https://animethemes.moe/video/MatenteiLokiRagnarok-ED1.webm
+   │  ├─ Scrapped Princess
+   │  │  ├─ Little Wing
+   │  │  │  └─ 0: https://animethemes.moe/video/ScrappedPrincess-OP1.webm
+   │  │  └─ Daichi no la-li-la
+   │  │     └─ 0: https://animethemes.moe/video/ScrappedPrincess-ED1.webm
+   │  ├─ Sonic X
+   │  │  ├─ Sonic Drive
+   │  │  │  └─ 0: https://animethemes.moe/video/SonicX-OP1v2.webm
+   │  │  ├─ Mi-Ra-I
+   │  │  │  └─ 0: https://animethemes.moe/video/SonicX-ED1.webm
+   │  │  ├─ Hikaru Michi
+   │  │  │  └─ 0: https://animethemes.moe/video/SonicX-ED2.webm
+   │  │  └─ T.O.P
+   │  │     └─ 0: https://animethemes.moe/video/SonicX-ED3.webm
+   │  ├─ Texhnolyze
+   │  │  ├─ Guardian Angel (Xavier's Edit)
+   │  │  │  └─ 0: https://animethemes.moe/video/Texhnolyze-OP1.webm
+   │  │  ├─ Tsuki no Uta (Song of the Moon)
+   │  │  │  └─ 0: https://animethemes.moe/video/Texhnolyze-ED1.webm
+   │  │  └─ Walking Through the Empty Age
+   │  │     └─ 0: https://animethemes.moe/video/Texhnolyze-ED2.webm
+   │  ├─ Uchuu no Stellvia
+   │  │  ├─ Kirei na Yozora
+   │  │  │  └─ 0: https://animethemes.moe/video/UchuuNoStellvia-ED1.webm
+   │  │  ├─ The end of the world
+   │  │  │  └─ 0: https://animethemes.moe/video/UchuuNoStellvia-ED2.webm
+   │  │  └─ Dear my best friend
+   │  │     └─ 0: https://animethemes.moe/video/UchuuNoStellvia-ED3.webm
+   │  └─ Ultra Maniac
+   │     ├─ Kagami no Naka
+   │     │  └─ 0: https://animethemes.moe/video/UltraManiac-OP1.webm
+   │     └─ Hitotsu=Unmei Kyoudoutai
+   │        └─ 0: https://animethemes.moe/video/UltraManiac-ED1.webm
+   └─ Winter
+      ├─ .hack//Tasogare no Udewa Densetsu
+      │  ├─ New World
+      │  │  └─ 0: https://animethemes.moe/video/DotHackTasogare-OP1.webm
+      │  └─ Emerald Green
+      │     └─ 0: https://animethemes.moe/video/DotHackTasogare-ED1.webm
+      ├─ Hunter x Hunter: Greed Island
+      │  ├─ Pray
+      │  │  └─ 0: https://animethemes.moe/video/HunterHunterGreedIsland-OP1.webm
+      │  └─ Popcorn
+      │     └─ 0: https://animethemes.moe/video/HunterHunterGreedIsland-ED1.webm
+      ├─ Pokemon Housoukyoku
+      │  └─ Pokémon Chronicles theme
+      │     └─ 0: https://animethemes.moe/video/PokemonHousoukyokuDub-OP1.webm
+      └─ Wolf's Rain
+         ├─ Stray
+         │  └─ 0: https://animethemes.moe/video/WolfsRain-OP1.webm
+         ├─ Gravity
+         │  └─ 0: https://animethemes.moe/video/WolfsRain-ED1.webm
+         └─ Tell Me What the Rain Knows
+            └─ 0: https://animethemes.moe/video/WolfsRain-ED2.webm

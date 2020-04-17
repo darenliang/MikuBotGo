@@ -1,0 +1,359 @@
+└─ 2005
+   ├─ Fall
+   │  ├─ Black Cat
+   │  │  ├─ Daia no Hana
+   │  │  │  └─ 0: https://animethemes.moe/video/BlackCat-OP1v2.webm
+   │  │  ├─ Namidaboshi
+   │  │  │  └─ 0: https://animethemes.moe/video/BlackCat-ED1.webm
+   │  │  └─ Kutsuzure
+   │  │     └─ 0: https://animethemes.moe/video/BlackCat-ED2.webm
+   │  ├─ Blood+
+   │  │  ├─ Aozora no Namida
+   │  │  │  └─ 0: https://animethemes.moe/video/BloodPlus-OP1.webm
+   │  │  ├─ SEASON’S CALL
+   │  │  │  └─ 0: https://animethemes.moe/video/BloodPlus-OP2.webm
+   │  │  ├─ Colors of the Heart
+   │  │  │  └─ 0: https://animethemes.moe/video/BloodPlus-OP3.webm
+   │  │  ├─ Raion
+   │  │  │  └─ 0: https://animethemes.moe/video/BloodPlus-OP4.webm
+   │  │  ├─ Kataritsugu koto
+   │  │  │  └─ 0: https://animethemes.moe/video/BloodPlus-ED1.webm
+   │  │  ├─ CRY NO MORE
+   │  │  │  └─ 0: https://animethemes.moe/video/BloodPlus-ED2.webm
+   │  │  ├─ This Love
+   │  │  │  └─ 0: https://animethemes.moe/video/BloodPlus-ED3.webm
+   │  │  └─ Brand New Map
+   │  │     └─ 0: https://animethemes.moe/video/BloodPlus-ED4.webm
+   │  ├─ Canvas 2: Niji-iro no Sketch
+   │  │  ├─ Plastic Smile
+   │  │  │  └─ 0: https://animethemes.moe/video/Canvas2-OP1.webm
+   │  │  └─ NA NA IRO
+   │  │     └─ 0: https://animethemes.moe/video/Canvas2-ED1.webm
+   │  ├─ Futari wa Precure: Max Heart Movie 2 - Yukizora no Tomodachi
+   │  │  ├─ DANZEN! Futari wa Precure (Max Heart Version)
+   │  │  │  └─ 0: https://animethemes.moe/video/FutariWaPrecureMaxHeart-OP1.webm
+   │  │  └─ Gag 100kaibun Aishitekudasai
+   │  │     └─ 0: https://animethemes.moe/video/FutariWaPrecureMaxHeartMovie2-ED1.webm
+   │  ├─ Jigoku Shoujo
+   │  │  ├─ Sakasama no Chou
+   │  │  │  └─ 0: https://animethemes.moe/video/JigokuShoujo-OP1.webm
+   │  │  └─ Karinui
+   │  │     └─ 0: https://animethemes.moe/video/JigokuShoujo-ED1.webm
+   │  ├─ Karin
+   │  │  ├─ scarlet
+   │  │  │  └─ 0: https://animethemes.moe/video/Karin-OP1.webm
+   │  │  └─ Mou Hitotsu no Birthday
+   │  │     └─ 0: https://animethemes.moe/video/Karin-ED1.webm
+   │  ├─ Mahou Shoujo Lyrical Nanoha A's
+   │  │  ├─ ETERNAL BLAZE
+   │  │  │  └─ 0: https://animethemes.moe/video/NanohaAs-OP1.webm
+   │  │  └─ Spiritual Garden
+   │  │     └─ 0: https://animethemes.moe/video/NanohaAs-ED1-Lyrics.webm
+   │  ├─ Mai-Otome
+   │  │  ├─ Dream Wing
+   │  │  │  └─ 0: https://animethemes.moe/video/MaiOtome-OP1.webm
+   │  │  ├─ Crystal Energy
+   │  │  │  └─ 0: https://animethemes.moe/video/MaiOtome-OP2.webm
+   │  │  └─ Otome wa DO MY BEST deshou?
+   │  │     └─ 0: https://animethemes.moe/video/MaiOtome-ED1.webm
+   │  ├─ Mushishi
+   │  │  └─ The Sore Feet Song
+   │  │     └─ 0: https://animethemes.moe/video/Mushishi-OP1.webm
+   │  ├─ Paradise Kiss
+   │  │  ├─ ♥Lonely in Gorgeous♥
+   │  │  │  └─ 0: https://animethemes.moe/video/ParadiseKiss-OP1.webm
+   │  │  └─ Do You Want To
+   │  │     └─ 0: https://animethemes.moe/video/ParadiseKiss-ED1.webm
+   │  ├─ Rockman.EXE Beast
+   │  │  ├─ Shouri no Uta
+   │  │  │  └─ 0: https://animethemes.moe/video/RockmanBeast-OP1.webm
+   │  │  └─ Ashiato
+   │  │     └─ 0: https://animethemes.moe/video/RockmanBeast-ED1.webm
+   │  ├─ Rozen Maiden: Träumend
+   │  │  ├─ Seishoujo Ryouiki
+   │  │  │  └─ 0: https://animethemes.moe/video/RozenMaidenTraumend-OP1.webm
+   │  │  └─ Hikari no Rasenritsu
+   │  │     └─ 0: https://animethemes.moe/video/RozenMaidenTraumend-ED1.webm
+   │  ├─ Saint Seiya: Meiou Hades Meikai-hen
+   │  │  ├─ Megami no Senshi ~Pegasus Forever~
+   │  │  │  └─ 0: https://animethemes.moe/video/SaintSeiyaHadesMeikaiHen-OP1v2.webm
+   │  │  └─ Takusu mono e ~My Dear~
+   │  │     └─ 0: https://animethemes.moe/video/SaintSeiyaHadesMeikaiHen-ED1.webm
+   │  ├─ Shakugan no Shana
+   │  │  ├─ Hishoku no Sora
+   │  │  │  └─ 0: https://animethemes.moe/video/ShakuganNoShana-OP1.webm
+   │  │  ├─ being
+   │  │  │  └─ 0: https://animethemes.moe/video/ShakuganNoShana-OP2.webm
+   │  │  ├─ Yoake Umare Kuru Shoujo
+   │  │  │  └─ 0: https://animethemes.moe/video/ShakuganNoShana-ED1.webm
+   │  │  └─ Aka no Seijaku
+   │  │     └─ 0: https://animethemes.moe/video/ShakuganNoShana-ED2.webm
+   │  └─ Touhai Densetsu Akagi: Yami ni Maiorita Tensai
+   │     ├─ Nantoka Nare
+   │     │  └─ 0: https://animethemes.moe/video/Akagi-OP1.webm
+   │     ├─ Akagi
+   │     │  └─ 0: https://animethemes.moe/video/Akagi-ED1.webm
+   │     └─ S.T.S.
+   │        └─ 0: https://animethemes.moe/video/Akagi-ED2.webm
+   ├─ Summer
+   │  ├─ Amaenaide yo!!
+   │  │  ├─ Afurete Yuku no wa Kono Kimochi
+   │  │  │  └─ 0: https://animethemes.moe/video/Amaenaideyo-OP1v6.webm
+   │  │  └─ Happy days
+   │  │     └─ 0: https://animethemes.moe/video/Amaenaideyo-ED1.webm
+   │  ├─ D.C.S.S: Da Capo Second Season
+   │  │  ├─ Sakurairo no Kisetsu
+   │  │  │  └─ 0: https://animethemes.moe/video/DaCapoS2-OP1.webm
+   │  │  ├─ Akatsuki ni Saku Uta
+   │  │  │  └─ 0: https://animethemes.moe/video/DaCapoS2-ED1v2.webm
+   │  │  └─ Kioku Love Letter
+   │  │     └─ 0: https://animethemes.moe/video/DaCapoS2-ED2.webm
+   │  ├─ Full Metal Panic! The Second Raid
+   │  │  ├─ Minami Kaze
+   │  │  │  └─ 0: https://animethemes.moe/video/FullMetalPanicTheSecondRaid-OP1.webm
+   │  │  └─ Mouichido Kimi ni Aitai
+   │  │     └─ 0: https://animethemes.moe/video/FullMetalPanicTheSecondRaid-ED1.webm
+   │  ├─ Ichigo Mashimaro
+   │  │  ├─ Ichigo Complete
+   │  │  │  └─ 0: https://animethemes.moe/video/IchigoMashimaro-OP1.webm
+   │  │  └─ Classmate
+   │  │     └─ 0: https://animethemes.moe/video/IchigoMashimaro-ED1.webm
+   │  ├─ Kamichu!
+   │  │  ├─ Hare Nochi Hare!
+   │  │  │  └─ 0: https://animethemes.moe/video/Kamichu-OP1.webm
+   │  │  └─ Ice Candy
+   │  │     └─ 0: https://animethemes.moe/video/Kamichu-ED1.webm
+   │  ├─ Okusama wa Joshikousei
+   │  │  ├─ Love Love! Chu Chu!
+   │  │  │  └─ 0: https://animethemes.moe/video/OkusamaWaJoshikousei-OP1.webm
+   │  │  └─ Ai no Koneko
+   │  │     └─ 0: https://animethemes.moe/video/OkusamaWaJoshikousei-ED1.webm
+   │  ├─ Paniponi Dash!
+   │  │  ├─ Kiiroi Vacances
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-ED6.webm
+   │  │  ├─ Roulette Roulette
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-OP2.webm
+   │  │  ├─ Shoujo Q
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-OP3.webm
+   │  │  ├─ Girlppi
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-ED1v11.webm
+   │  │  ├─ 4"Girlppi
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-ED1v4.webm
+   │  │  ├─ Healing Type Magical Girl Behoimi
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-ED2.webm
+   │  │  ├─ Haruka na Yume
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-ED3v2.webm
+   │  │  ├─ Moonlight Love
+   │  │  │  └─ 0: https://animethemes.moe/video/PaniponiDash-ED4v10.webm
+   │  │  └─ Setsugekka
+   │  │     └─ 0: https://animethemes.moe/video/PaniponiDash-ED5.webm
+   │  ├─ Shuffle!
+   │  │  ├─ You
+   │  │  │  └─ 0: https://animethemes.moe/video/Shuffle-OP1.webm
+   │  │  └─ Innocence
+   │  │     └─ 0: https://animethemes.moe/video/Shuffle-ED1.webm
+   │  ├─ Sugar Sugar Rune
+   │  │  ├─ Chocolate ni Muchuu
+   │  │  │  └─ 0: https://animethemes.moe/video/SugarSugarRune-OP1.webm
+   │  │  ├─ Tsuki no Mukou no Sekai
+   │  │  │  └─ 0: https://animethemes.moe/video/SugarSugarRune-ED1.webm
+   │  │  └─ DATE☆DATE
+   │  │     └─ 0: https://animethemes.moe/video/SugarSugarRune-ED2.webm
+   │  ├─ Suzuka
+   │  │  ├─ Start Line
+   │  │  │  └─ 0: https://animethemes.moe/video/Suzuka-OP1.webm
+   │  │  ├─ Aoi FIELD
+   │  │  │  └─ 0: https://animethemes.moe/video/Suzuka-ED1.webm
+   │  │  └─ Kimi no Koto
+   │  │     └─ 0: https://animethemes.moe/video/Suzuka-ED2.webm
+   │  └─ xxxHOLiC Movie: Manatsu no Yoru no Yume
+   │     └─ Sanagi ~theme from xxxHOLiC the movie~
+   │        └─ 0: https://animethemes.moe/video/xxxHOLiCMovie-ED1.webm
+   ├─ Spring
+   │  ├─ Basilisk: Kouga Ninpou Chou
+   │  │  ├─ Kouga Ninpouchou
+   │  │  │  └─ 0: https://animethemes.moe/video/Basilisk-OP1.webm
+   │  │  ├─ Hime Murasaki
+   │  │  │  └─ 0: https://animethemes.moe/video/Basilisk-ED1.webm
+   │  │  └─ Wild Eyes
+   │  │     └─ 0: https://animethemes.moe/video/Basilisk-ED2.webm
+   │  ├─ Eikoku Koi Monogatari Emma
+   │  │  ├─ Silhouette of a Breeze
+   │  │  │  └─ 0: https://animethemes.moe/video/Emma-OP1.webm
+   │  │  └─ Menuet for EMMA
+   │  │     └─ 0: https://animethemes.moe/video/Emma-ED1.webm
+   │  ├─ Erementar Gerad
+   │  │  ├─ Forever...
+   │  │  │  └─ 0: https://animethemes.moe/video/ErementarGerad-OP1v3.webm
+   │  │  └─ Yakusoku
+   │  │     └─ 0: https://animethemes.moe/video/ErementarGerad-ED1.webm
+   │  ├─ Eureka Seven
+   │  │  ├─ DAYS
+   │  │  │  └─ 0: https://animethemes.moe/video/EurekaSeven-OP1.webm
+   │  │  ├─ Shounen Heart
+   │  │  │  └─ 0: https://animethemes.moe/video/EurekaSeven-OP2.webm
+   │  │  ├─ Taiyou no Mannaka he
+   │  │  │  └─ 0: https://animethemes.moe/video/EurekaSeven-OP3.webm
+   │  │  ├─ Sakura
+   │  │  │  └─ 0: https://animethemes.moe/video/EurekaSeven-OP4.webm
+   │  │  ├─ Himitsu Kichi
+   │  │  │  └─ 0: https://animethemes.moe/video/EurekaSeven-ED1.webm
+   │  │  ├─ Fly Away
+   │  │  │  └─ 0: https://animethemes.moe/video/EurekaSeven-ED2.webm
+   │  │  ├─ Tip Taps Tip
+   │  │  │  └─ 0: https://animethemes.moe/video/EurekaSeven-ED3.webm
+   │  │  └─ Canvas
+   │  │     └─ 0: https://animethemes.moe/video/EurekaSeven-ED4.webm
+   │  ├─ Eyeshield 21
+   │  │  ├─ Breakthrough
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-OP1.webm
+   │  │  ├─ Innocence
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-OP2.webm
+   │  │  ├─ Dang Dang
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-OP3.webm
+   │  │  ├─ BLAZE LINE
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-OP4.webm
+   │  │  ├─ Hanno no Runningback
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-OP5.webm
+   │  │  ├─ Be Free
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-ED1.webm
+   │  │  ├─ Blaze Away
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-ED2.webm
+   │  │  ├─ Goal
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-ED3.webm
+   │  │  ├─ Run to Win
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-ED4.webm
+   │  │  ├─ A day dreaming...
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-ED5.webm
+   │  │  ├─ Flower
+   │  │  │  └─ 0: https://animethemes.moe/video/Eyeshield21-ED6.webm
+   │  │  └─ Song of Power
+   │  │     └─ 0: https://animethemes.moe/video/Eyeshield21-ED7.webm
+   │  ├─ Futari wa Precure: Max Heart Movie 1
+   │  │  ├─ DANZEN! Futari wa Precure (Max Heart Version)
+   │  │  │  └─ 0: https://animethemes.moe/video/FutariWaPrecureMaxHeart-OP1.webm
+   │  │  └─ Kokoro no Chikara
+   │  │     └─ 0: https://animethemes.moe/video/FutariWaPrecureMaxHeartMovie1-ED1.webm
+   │  ├─ Glass no Kamen
+   │  │  ├─ Promise
+   │  │  │  └─ 0: https://animethemes.moe/video/GlassNoKamen-OP1.webm
+   │  │  ├─ zero
+   │  │  │  └─ 0: https://animethemes.moe/video/GlassNoKamen-OP2.webm
+   │  │  ├─ Yasashii Sayonara
+   │  │  │  └─ 0: https://animethemes.moe/video/GlassNoKamen-ED1.webm
+   │  │  ├─ Step One
+   │  │  │  └─ 0: https://animethemes.moe/video/GlassNoKamen-ED2.webm
+   │  │  ├─ Sunao ni Narenakute (I Couldn't Become True)
+   │  │  │  └─ 0: https://animethemes.moe/video/GlassNoKamen-ED3.webm
+   │  │  └─ Hello Hello ～another star～
+   │  │     └─ 0: https://animethemes.moe/video/GlassNoKamen-ED4.webm
+   │  ├─ Hachimitsu to Clover
+   │  │  ├─ Dramatic
+   │  │  │  └─ 0: https://animethemes.moe/video/HachimitsuToClover-OP1v2.webm
+   │  │  ├─ Waltz
+   │  │  │  └─ 0: https://animethemes.moe/video/HachimitsuToClover-ED1.webm
+   │  │  └─ Mistake
+   │  │     └─ 0: https://animethemes.moe/video/HachimitsuToClover-ED2.webm
+   │  ├─ Ichigo 100%
+   │  │  ├─ SHINE OF VOICE
+   │  │  │  └─ 0: https://animethemes.moe/video/Ichigo100-OP1.webm
+   │  │  └─ IKE IKE
+   │  │     └─ 0: https://animethemes.moe/video/Ichigo100-ED2.webm
+   │  ├─ Onegai My Melody
+   │  │  ├─ Oto MELODY
+   │  │  │  └─ 0: https://animethemes.moe/video/OnegaiMyMelody-OP1.webm
+   │  │  ├─ My Dream, My Melody
+   │  │  │  └─ 0: https://animethemes.moe/video/OnegaiMyMelody-ED1.webm
+   │  │  └─ Yume Miru Chikara
+   │  │     └─ 0: https://animethemes.moe/video/OnegaiMyMelody-ED2.webm
+   │  ├─ Sousei no Aquarion
+   │  │  ├─ Sousei no Aquarion
+   │  │  │  └─ 0: https://animethemes.moe/video/SouseiNoAquarion-OP1.webm
+   │  │  ├─ Go Tight
+   │  │  │  └─ 0: https://animethemes.moe/video/SouseiNoAquarion-OP2.webm
+   │  │  └─ Omna Magni
+   │  │     └─ 0: https://animethemes.moe/video/SouseiNoAquarion-ED1v2.webm
+   │  ├─ Speed Grapher
+   │  │  ├─ Girls on Film
+   │  │  │  └─ 0: https://animethemes.moe/video/SpeedGrapher-OP1v2.webm
+   │  │  ├─ Hinageshi no Oka
+   │  │  │  └─ 0: https://animethemes.moe/video/SpeedGrapher-ED1.webm
+   │  │  └─ Break the Cocoon
+   │  │     └─ 0: https://animethemes.moe/video/SpeedGrapher-ED2.webm
+   │  ├─ Trinity Blood
+   │  │  ├─ Dress (BLOODY TRINITY MIX)
+   │  │  │  └─ 0: https://animethemes.moe/video/TrinityBlood-OP1.webm
+   │  │  └─ Broken Wings
+   │  │     └─ 0: https://animethemes.moe/video/TrinityBlood-ED1.webm
+   │  ├─ Tsubasa Chronicle
+   │  │  ├─ BLAZE
+   │  │  │  └─ 0: https://animethemes.moe/video/TsubasaChronicle-OP1-Lyrics.webm
+   │  │  └─ Loop
+   │  │     └─ 0: https://animethemes.moe/video/TsubasaChronicle-ED1-Lyrics.webm
+   │  ├─ Yuusha-Ou GaoGaiGar Final Grand Glorious Gathering
+   │  │  ├─ Yuusha-Oh Tanjou! -Grand Glorious Gathering Version-
+   │  │  │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinalGGG-OP1.webm
+   │  │  ├─ Lion Reine
+   │  │  │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinalGGG-ED1.webm
+   │  │  ├─ Negaiboshi, Kanaeboshi
+   │  │  │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinalGGG-ED2.webm
+   │  │  ├─ Lion Reine (French version)
+   │  │  │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinalGGG-ED3.webm
+   │  │  └─ Lion Reine -Hyper Mode-
+   │  │     └─ 0: https://animethemes.moe/video/GaoGaiGarFinalGGG-ED4.webm
+   │  └─ Zoids Genesis
+   │     ├─ Yotaka no Yume
+   │     │  └─ 0: https://animethemes.moe/video/ZoidsGenesis-OP1v2.webm
+   │     ├─ Arino Mamade Lovin'U
+   │     │  └─ 0: https://animethemes.moe/video/ZoidsGenesis-ED2.webm
+   │     └─ Nigirishimeta sono Te ni
+   │        └─ 0: https://animethemes.moe/video/ZoidsGenesis-ED3.webm
+   └─ Winter
+      ├─ Aa! Megami-sama! (TV)
+      │  ├─ Open Your Mind ~Chiisana Hane Hirogete~
+      │  │  └─ 0: https://animethemes.moe/video/AaMegamiSama-OP1.webm
+      │  ├─ Negai
+      │  │  └─ 0: https://animethemes.moe/video/AaMegamiSama-ED1v2.webm
+      │  └─ WING
+      │     └─ 0: https://animethemes.moe/video/AaMegamiSama-ED2.webm
+      ├─ Air
+      │  ├─ Tori no Uta
+      │  │  └─ 0: https://animethemes.moe/video/Air-OP1.webm
+      │  └─ Farewell Song
+      │     └─ 0: https://animethemes.moe/video/Air-ED1.webm
+      ├─ Bokusatsu Tenshi Dokuro-chan
+      │  └─ Bokusatsu Tenshi Dokuro-Chan
+      │     └─ 0: https://animethemes.moe/video/BokusatsuTenshiDokuroChan-OP1.webm
+      ├─ Futari wa Precure: Max Heart
+      │  ├─ DANZEN! Futari wa Precure (MaxHeart Ver)
+      │  │  └─ 0: https://animethemes.moe/video/FutariWaPrecureMaxHeart-OP1.webm
+      │  ├─ Murimuri?! Ariari!! IN Jaa~nai?!
+      │  │  └─ 0: https://animethemes.moe/video/FutariWaPrecureMaxHeart-ED1v2.webm
+      │  └─ Wonder * Winter * Yattaa!!
+      │     └─ 0: https://animethemes.moe/video/FutariWaPrecureMaxHeart-ED2.webm
+      ├─ Jinki:Extend
+      │  ├─ FLY AWAY
+      │  │  └─ 0: https://animethemes.moe/video/JinkiExtend-OP1.webm
+      │  └─ Mirai to Yuu na no Kotae
+      │     └─ 0: https://animethemes.moe/video/JinkiExtend-ED1.webm
+      ├─ Kino no Tabi: Nanika wo Suru Tame ni - Life Goes On.
+      │  ├─ All the Way
+      │  │  └─ 0: https://animethemes.moe/video/KinoNoTabiMovie1-OP1-Lyrics.webm
+      │  └─ Hajimari no Hi
+      │     └─ 0: https://animethemes.moe/video/KinoNoTabiMovie1-ED1-Lyrics.webm
+      ├─ Mahoraba: Heartful days
+      │  ├─ Daiji
+      │  │  └─ 0: https://animethemes.moe/video/Mahoraba-OP1.webm
+      │  └─ Boku no SPEED de
+      │     └─ 0: https://animethemes.moe/video/Mahoraba-ED1.webm
+      ├─ Rockman.EXE Movie: Hikari to Yami no Program
+      │  └─ Be Somewhere
+      │     └─ 0: https://animethemes.moe/video/RockmanMovie-OP1.webm
+      ├─ Starship Operators
+      │  ├─ radiance
+      │  │  └─ 0: https://animethemes.moe/video/StarshipOperators-OP1.webm
+      │  └─ Chi ni Kaeru ~on the Earth~
+      │     └─ 0: https://animethemes.moe/video/StarshipOperators-ED1.webm
+      └─ Xenosaga The Animation
+         └─ In this serenity
+            └─ 0: https://animethemes.moe/video/Xenosaga-ED1.webm

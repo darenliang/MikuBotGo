@@ -1,0 +1,129 @@
+└─ 2000
+   ├─ Fall
+   │  ├─ Gakkou no Kaidan
+   │  │  ├─ Grow Up
+   │  │  │  └─ 0: https://animethemes.moe/video/GakkouNoKaidan-OP1.webm
+   │  │  └─ sexy sexy
+   │  │     └─ 0: https://animethemes.moe/video/GakkouNoKaidan-ED1.webm
+   │  ├─ Hajime no Ippo
+   │  │  ├─ Under Star
+   │  │  │  └─ 0: https://animethemes.moe/video/HajimeNoIppo-OP1.webm
+   │  │  ├─ Inner Light
+   │  │  │  └─ 0: https://animethemes.moe/video/HajimeNoIppo-OP2.webm
+   │  │  ├─ Tumbling Dice
+   │  │  │  └─ 0: https://animethemes.moe/video/HajimeNoIppo-OP3.webm
+   │  │  ├─ Yuuzora no Kamihikouki
+   │  │  │  └─ 0: https://animethemes.moe/video/HajimeNoIppo-ED1.webm
+   │  │  ├─ 360°
+   │  │  │  └─ 0: https://animethemes.moe/video/HajimeNoIppo-ED2.webm
+   │  │  └─ Eternal Loop
+   │  │     └─ 0: https://animethemes.moe/video/HajimeNoIppo-ED3v2.webm
+   │  └─ InuYasha
+   │     ├─ Change the World
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-OP1.webm
+   │     ├─ I Am
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-OP2.webm
+   │     ├─ Owarinai Yume
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-OP3.webm
+   │     ├─ Grip!
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-OP4.webm
+   │     ├─ One Day, One Dream
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-OP5.webm
+   │     ├─ Angelus
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-OP6.webm
+   │     ├─ My Will
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-ED1.webm
+   │     ├─ Fukai Mori
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-ED2.webm
+   │     ├─ Dearest
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-ED3.webm
+   │     ├─ Every Heart - Minna no Kimochi
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-ED4.webm
+   │     ├─ Shinjitsu no Uta
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-ED5.webm
+   │     ├─ Itazurana Kiss
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-ED6.webm
+   │     ├─ Come
+   │     │  └─ 0: https://animethemes.moe/video/InuYasha-ED7.webm
+   │     └─ Brand-New World
+   │        └─ 0: https://animethemes.moe/video/InuYasha-ED8.webm
+   ├─ Summer
+   │  ├─ Brigadoon: Marin to Melan
+   │  │  ├─ Kaze no Ao, Umi no Midori
+   │  │  │  └─ 0: https://animethemes.moe/video/Brigadoon-OP1v2.webm
+   │  │  ├─ Nijiiro no Takaramono" by KAOR
+   │  │  │  └─ 0: https://animethemes.moe/video/Brigadoon-ED1.webm
+   │  │  └─ Nijiiro no Takaramono" by Marin & Mo
+   │  │     └─ 0: https://animethemes.moe/video/Brigadoon-ED2.webm
+   │  ├─ Koutetsu Tenshi Kurumi Encore
+   │  │  ├─ Kiss Kara Hajimaru Miracle
+   │  │  │  └─ 0: https://animethemes.moe/video/KoutetsuTenshiKurumi-OP1.webm
+   │  │  └─ Suki Suki Suki Su-Kiss Shite
+   │  │     └─ 0: https://animethemes.moe/video/KoutetsuTenshiKurumiEncore-ED1v4.webm
+   │  ├─ Medarot Damashii
+   │  │  ├─ Super Guys!
+   │  │  │  └─ 0: https://animethemes.moe/video/MedarotDamashii-OP1.webm
+   │  │  └─ Toshishita no Boku
+   │  │     └─ 0: https://animethemes.moe/video/MedarotDamashii-ED1.webm
+   │  └─ Strange Dawn
+   │     ├─ Sora e
+   │     │  └─ 0: https://animethemes.moe/video/StrangeDawn-OP1.webm
+   │     └─ Melody ni..
+   │        └─ 0: https://animethemes.moe/video/StrangeDawn-ED1v2.webm
+   ├─ Spring
+   │  ├─ Digimon Adventure 02
+   │  │  ├─ Target ~Akai Shougeki~
+   │  │  │  └─ 0: https://animethemes.moe/video/DigimonAdventure02-OP1.webm
+   │  │  ├─ Ashita wa Atashi no Kaze ga Fuku
+   │  │  │  └─ 0: https://animethemes.moe/video/DigimonAdventure02-ED1.webm
+   │  │  └─ Itsumo Itsudemo
+   │  │     └─ 0: https://animethemes.moe/video/DigimonAdventure02-ED2.webm
+   │  ├─ FLCL
+   │  │  └─ Ride On Shooting Star
+   │  │     └─ 0: https://animethemes.moe/video/FLCL-ED1v2.webm
+   │  ├─ Love Hina
+   │  │  ├─ Sakura Saku
+   │  │  │  └─ 0: https://animethemes.moe/video/LoveHina-OP1.webm
+   │  │  ├─ Kimi Sae Ireba
+   │  │  │  └─ 0: https://animethemes.moe/video/LoveHina-ED1.webm
+   │  │  └─ Hajimari wa Kokokara
+   │  │     └─ 0: https://animethemes.moe/video/LoveHina-ED2.webm
+   │  ├─ Monster Farm: Legend e no Michi
+   │  │  └─ Flush
+   │  │     └─ 0: https://animethemes.moe/video/MonsterFarmS2-OP2v2.webm
+   │  ├─ NieA Under 7
+   │  │  ├─ Koko Made Oide
+   │  │  │  └─ 0: https://animethemes.moe/video/NieAUnder7-OP1.webm
+   │  │  └─ Venus to Chiisana Kamisama
+   │  │     └─ 0: https://animethemes.moe/video/NieAUnder7-ED1.webm
+   │  └─ Sakura Taisen
+   │     ├─ Geki Teikoku Kagekidan
+   │     │  └─ 0: https://animethemes.moe/video/SakuraTaisen-OP1.webm
+   │     ├─ Yume Mite Iyou
+   │     │  └─ 0: https://animethemes.moe/video/SakuraTaisen-ED1.webm
+   │     └─ Gekitei Ondo
+   │        └─ 0: https://animethemes.moe/video/SakuraTaisen-ED2.webm
+   └─ Winter
+      ├─ Boogiepop wa Warawanai: Boogiepop Phantom
+      │  ├─ Yuudachi
+      │  │  └─ 0: https://animethemes.moe/video/BoogiepopPhantom-OP1.webm
+      │  └─ Mirai-Seiki Maruhi Club
+      │     └─ 0: https://animethemes.moe/video/BoogiepopPhantom-ED1.webm
+      ├─ Miami Guns
+      │  ├─ Seeds
+      │  │  └─ 0: https://animethemes.moe/video/MiamiGuns-OP1.webm
+      │  └─ Kiseki no Shiro
+      │     └─ 0: https://animethemes.moe/video/MiamiGuns-ED1.webm
+      └─ Yuusha-Ou GaoGaiGar Final
+         ├─ Yuusha-oh Tanjou (Mythology Version)
+         │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinal-OP1.webm
+         ├─ Yuusha-oh Tanjou (Ultimate Mythology Version)
+         │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinal-OP2.webm
+         ├─ Yuusha-oh Tanjou (Piano Solo Version)
+         │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinal-OP3.webm
+         ├─ Lion Renias
+         │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinal-ED1.webm
+         ├─ Lion Reine -Hyper Mode-
+         │  └─ 0: https://animethemes.moe/video/GaoGaiGarFinal-ED2.webm
+         └─ Itsuka Hoshi no Umi de 
+            └─ 0: https://animethemes.moe/video/GaoGaiGarFinal-ED3.webm

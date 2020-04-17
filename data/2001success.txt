@@ -1,0 +1,224 @@
+└─ 2001
+   ├─ Fall
+   │  ├─ Cowboy Bebop: Tengoku no Tobira
+   │  │  ├─ Ask DNA
+   │  │  │  └─ 0: https://animethemes.moe/video/CowboyBebopMovie-OP1.webm
+   │  │  └─ Gotta Knock a Little Harder
+   │  │     └─ 0: https://animethemes.moe/video/CowboyBebopMovie-ED1.webm
+   │  ├─ Final Fantasy: Unlimited
+   │  │  └─ Over the Fantasy
+   │  │     └─ 0: https://animethemes.moe/video/FinalFantasyUnlimited-OP1.webm
+   │  ├─ Gekitou! Crush Gear Turbo
+   │  │  ├─ CRUSH GEAR FIGHT!!
+   │  │  │  └─ 0: https://animethemes.moe/video/CrushGear-OP1.webm
+   │  │  └─ Ai da yo ne!!~Gear wo tsnagou
+   │  │     └─ 0: https://animethemes.moe/video/CrushGear-ED1.webm
+   │  ├─ Groove Adventure Rave
+   │  │  ├─ Butterfly Kiss
+   │  │  │  └─ 0: https://animethemes.moe/video/GrooveAdventureRave-OP1-Lyrics.webm
+   │  │  └─ Kokaku no Yurikago
+   │  │     └─ 0: https://animethemes.moe/video/GrooveAdventureRave-ED1.webm
+   │  ├─ Hellsing
+   │  │  ├─ Logos Naki World
+   │  │  │  └─ 0: https://animethemes.moe/video/Hellsing-OP1.webm
+   │  │  └─ Shine
+   │  │     └─ 0: https://animethemes.moe/video/Hellsing-ED1.webm
+   │  ├─ Hikaru no Go
+   │  │  ├─ Get Over
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-OP1.webm
+   │  │  ├─ I'll Be the One
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-OP2.webm
+   │  │  ├─ Fantasy
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-OP3.webm
+   │  │  ├─ Bokura no Bouken
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-ED1.webm
+   │  │  ├─ Hitomi no Chikara
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-ED2.webm
+   │  │  ├─ Sincerely ~ever dream~
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-ED3.webm
+   │  │  ├─ Days
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-ED4.webm
+   │  │  ├─ Music is My Thing
+   │  │  │  └─ 0: https://animethemes.moe/video/HikaruNoGo-ED5.webm
+   │  │  └─ Get Over ~Special Mix~
+   │  │     └─ 0: https://animethemes.moe/video/HikaruNoGo-ED6.webm
+   │  ├─ Hoshi no Kirby: Right Back At Ya!
+   │  │  ├─ Kirby March
+   │  │  │  └─ 0: https://animethemes.moe/video/HoshiNoKirby-OP1.webm
+   │  │  ├─ Kirby!
+   │  │  │  └─ 0: https://animethemes.moe/video/HoshiNoKirby-OP2.webm
+   │  │  ├─ Kihon wa Maru
+   │  │  │  └─ 0: https://animethemes.moe/video/HoshiNoKirby-ED1.webm
+   │  │  └─ Kirby Step!
+   │  │     └─ 0: https://animethemes.moe/video/HoshiNoKirby-ED2.webm
+   │  ├─ Mahoromatic: Automatic Maiden
+   │  │  ├─ Kaerimichi - On the Way Home
+   │  │  │  └─ 0: https://animethemes.moe/video/Mahoromatic-OP1.webm
+   │  │  └─ Mahoro de MAMBO
+   │  │     └─ 0: https://animethemes.moe/video/Mahoromatic-ED1.webm
+   │  ├─ Pokemon Crystal: Raikou Ikazuchi no Densetsu
+   │  │  ├─ Aratanaru Chikai (Acoustic)
+   │  │  │  └─ 0: https://animethemes.moe/video/PokemonCrystalRaikou-OP1.webm
+   │  │  └─ Aratanaru Chikai
+   │  │     └─ 0: https://animethemes.moe/video/PokemonCrystalRaikou-ED1.webm
+   │  ├─ Tennis no Ouji-sama
+   │  │  ├─ Future
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP1.webm
+   │  │  ├─ Driving Myself
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP2.webm
+   │  │  ├─ Make You Free
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP3.webm
+   │  │  ├─ Long Way
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP4.webm
+   │  │  ├─ Fly High
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP5.webm
+   │  │  ├─ Shining
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP6.webm
+   │  │  ├─ Paradise
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP7.webm
+   │  │  ├─ Dream Believer
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-OP8.webm
+   │  │  ├─ You Got Game
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED1.webm
+   │  │  ├─ Keep Your Style
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED2.webm
+   │  │  ├─ Walk On
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED3.webm
+   │  │  ├─ White Line
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED4.webm
+   │  │  ├─ Kaze no Tabibito
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED5.webm
+   │  │  ├─ Sakura
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED6.webm
+   │  │  ├─ Wonderful Days
+   │  │  │  └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED7.webm
+   │  │  └─ Little Sky
+   │  │     └─ 0: https://animethemes.moe/video/TennisNoOujiSama-ED8.webm
+   │  └─ X
+   │     ├─ eX Dream
+   │     │  └─ 0: https://animethemes.moe/video/X-OP1.webm
+   │     └─ Secret Sorrow
+   │        └─ 0: https://animethemes.moe/video/X-ED1.webm
+   ├─ Summer
+   │  ├─ Fruits Basket
+   │  │  ├─ For Fruits Basket
+   │  │  │  └─ 0: https://animethemes.moe/video/FruitsBasket-OP1.webm
+   │  │  ├─ Chiisana Inori
+   │  │  │  └─ 0: https://animethemes.moe/video/FruitsBasket-ED1.webm
+   │  │  └─ Serenade
+   │  │     └─ 0: https://animethemes.moe/video/FruitsBasket-ED2.webm
+   │  ├─ Hanaukyou Maid-tai OVA
+   │  │  ├─ Hanaukyo Maid-tai no Uta
+   │  │  │  └─ 0: https://animethemes.moe/video/HanaukyouMaidTai-OP1.webm
+   │  │  └─ Zankai no Jikan
+   │  │     └─ 0: https://animethemes.moe/video/HanaukyouMaidTaiOVA-ED1v3.webm
+   │  ├─ Sen to Chihiro no Kamikakushi
+   │  │  └─ Itsumo Nando demo
+   │  │     └─ 0: https://animethemes.moe/video/SenToChihiroNoKamikakushi-ED1.webm
+   │  └─ Shaman King
+   │     ├─ Over Soul
+   │     │  └─ 0: https://animethemes.moe/video/ShamanKing-OP1.webm
+   │     ├─ Northern Lights
+   │     │  └─ 0: https://animethemes.moe/video/ShamanKing-OP2.webm
+   │     ├─ Trust You
+   │     │  └─ 0: https://animethemes.moe/video/ShamanKing-ED1.webm
+   │     └─ Omokage
+   │        └─ 0: https://animethemes.moe/video/ShamanKing-ED2.webm
+   ├─ Spring
+   │  ├─ Alien 9
+   │  │  ├─ Flower Psychedelic~type YURI~
+   │  │  │  └─ 0: https://animethemes.moe/video/Alien9-OP1.webm
+   │  │  ├─ Flower Psychedelic~type KUMI~
+   │  │  │  └─ 0: https://animethemes.moe/video/Alien9-OP2.webm
+   │  │  ├─ Flower Psychedelic~type KASUMI~
+   │  │  │  └─ 0: https://animethemes.moe/video/Alien9-OP3.webm
+   │  │  └─ rebirth
+   │  │     └─ 0: https://animethemes.moe/video/Alien9-ED1v4.webm
+   │  ├─ Dennou Boukenki Webdiver
+   │  │  ├─ Diver #2100
+   │  │  │  └─ 0: https://animethemes.moe/video/Webdiver-OP1.webm
+   │  │  ├─ SO DIVE!
+   │  │  │  └─ 0: https://animethemes.moe/video/Webdiver-OP2.webm
+   │  │  ├─ TOGETHER
+   │  │  │  └─ 0: https://animethemes.moe/video/Webdiver-ED1.webm
+   │  │  └─ Fighters
+   │  │     └─ 0: https://animethemes.moe/video/Webdiver-ED2.webm
+   │  ├─ Digimon Tamers
+   │  │  ├─ The Biggest Dreamer
+   │  │  │  └─ 0: https://animethemes.moe/video/DigimonTamers-OP1v2.webm
+   │  │  ├─ My Tomorrow
+   │  │  │  └─ 0: https://animethemes.moe/video/DigimonTamers-ED1.webm
+   │  │  └─ Days~Aijou to Nichijou~
+   │  │     └─ 0: https://animethemes.moe/video/DigimonTamers-ED2.webm
+   │  ├─ Figure 17: Tsubasa & Hikaru
+   │  │  ├─ BOY
+   │  │  │  └─ 0: https://animethemes.moe/video/Figure17-OP1.webm
+   │  │  └─ Fairy Dance
+   │  │     └─ 0: https://animethemes.moe/video/Figure17-ED1.webm
+   │  ├─ Galaxy Angel
+   │  │  ├─ Galaxy Bang! Bang!
+   │  │  │  └─ 0: https://animethemes.moe/video/GalaxyAngel-OP1.webm
+   │  │  └─ Horoscope Rhapsody
+   │  │     └─ 0: https://animethemes.moe/video/GalaxyAngel-ED1.webm
+   │  ├─ Hanaukyou Maid-tai
+   │  │  ├─ Hanaukyo Maid-tai no Uta
+   │  │  │  └─ 0: https://animethemes.moe/video/HanaukyouMaidTai-OP1.webm
+   │  │  └─ Sanshoku no Himitsu
+   │  │     └─ 0: https://animethemes.moe/video/HanaukyouMaidTai-ED1.webm
+   │  ├─ Jungle wa Itsumo Hare nochi Guu
+   │  │  ├─ Love Tropicana
+   │  │  │  └─ 0: https://animethemes.moe/video/HareGuu-OP1.webm
+   │  │  └─ Ohashi
+   │  │     └─ 0: https://animethemes.moe/video/HareGuu-ED1.webm
+   │  ├─ PaRappa The Rapper
+   │  │  ├─ Love Together
+   │  │  │  └─ 0: https://animethemes.moe/video/PaRappaTheRapper-OP1.webm
+   │  │  ├─ Attitude
+   │  │  │  └─ 0: https://animethemes.moe/video/PaRappaTheRapper-OP2.webm
+   │  │  ├─ School Girl
+   │  │  │  └─ 0: https://animethemes.moe/video/PaRappaTheRapper-ED1.webm
+   │  │  └─ Yellow Balloon
+   │  │     └─ 0: https://animethemes.moe/video/PaRappaTheRapper-ED2.webm
+   │  ├─ R.O.D OVA
+   │  │  └─ R.O.D Theme
+   │  │     └─ 0: https://animethemes.moe/video/ReadOrDieOVA-OP1.webm
+   │  ├─ Shin Shirayuki-hime Densetsu Pretear
+   │  │  └─ White destiny
+   │  │     └─ 0: https://animethemes.moe/video/Pretear-OP1.webm
+   │  ├─ Sister Princess
+   │  │  ├─ Love Destiny
+   │  │  │  └─ 0: https://animethemes.moe/video/SisterPrincess-OP1v2.webm
+   │  │  └─ Tsubasa
+   │  │     └─ 0: https://animethemes.moe/video/SisterPrincess-ED1v2.webm
+   │  ├─ Star Ocean EX
+   │  │  └─ To the light
+   │  │     └─ 0: https://animethemes.moe/video/StarOceanEX-OP1.webm
+   │  └─ Taiho Shichau zo: Second Season
+   │     ├─ Starting UP
+   │     │  └─ 0: https://animethemes.moe/video/TaihoShichauZoS2-OP1.webm
+   │     └─ Blooming Days
+   │        └─ 0: https://animethemes.moe/video/TaihoShichauZoS2-ED1.webm
+   └─ Winter
+      ├─ Grappler Baki
+      │  └─ Ai Believe
+      │     └─ 0: https://animethemes.moe/video/GrapplerBaki-OP1.webm
+      ├─ Initial D Extra Stage
+      │  ├─ Get It Alright
+      │  │  └─ 0: https://animethemes.moe/video/InitialDExtraStage-OP1.webm
+      │  └─ Next
+      │     └─ 0: https://animethemes.moe/video/InitialDExtraStage-ED1.webm
+      ├─ Initial D Third Stage
+      │  ├─ Gamble Rumble
+      │  │  └─ 0: https://animethemes.moe/video/InitialDThirdStage-OP1.webm
+      │  ├─ Jirenma
+      │  │  └─ 0: https://animethemes.moe/video/InitialDThirdStage-ED1.webm
+      │  └─ The Race is Over
+      │     └─ 0: https://animethemes.moe/video/InitialDThirdStage-ED2.webm
+      ├─ Motto! Ojamajo Doremi
+      │  └─ Ojamajo de BANBAN
+      │     └─ 0: https://animethemes.moe/video/MottoOjamajoDoremi-OP1.webm
+      └─ Tales of Eternia The Animation
+         ├─ Sora ni Kakeru Hashi
+         │  └─ 0: https://animethemes.moe/video/TalesOfEternia-OP1.webm
+         └─ I'd Love You to Touch Me
+            └─ 0: https://animethemes.moe/video/TalesOfEternia-ED1.webm
