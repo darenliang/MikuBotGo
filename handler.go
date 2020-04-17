@@ -28,20 +28,23 @@ func init() {
 	// Anime
 	Router.On("anime", cmd.Anime).Desc(
 		"anime: Get anime info\n\n" +
-			"Usage: ping <anime>")
+			"Alias: a\n\n" +
+			"Usage: ping <anime>").Alias("a")
 
 	// Quiz
 	Router.On("musicquiz", cmd.MusicQuiz).Desc(
 		"musicquiz: Get an anime music quiz\n\n" +
+			"Alias: mq\n\n" +
 			"Usage:\n" +
 			fmt.Sprintf("\t%-24v# Start an anime music quiz\n", "musicquiz") +
 			fmt.Sprintf("\t%-24v# Guess an anime\n", "musicquiz <answer>") +
-			fmt.Sprintf("\t%-24v# Give up current anime music quiz", "musicquiz giveup"))
+			fmt.Sprintf("\t%-24v# Give up current anime music quiz", "musicquiz giveup")).Alias("mq")
 
 	// Leaderboard
 	Router.On("leaderboard", cmd.Leaderboard).Desc(
 		"leaderboard: Get anime music leaderboard\n\n" +
-			"This command takes no arguments")
+			"Alias: lb\n\n" +
+			"This command takes no arguments").Alias("lb")
 
 	// Help
 	Router.Default = Router.On("help", func(ctx *exrouter.Context) {
@@ -67,7 +70,8 @@ func init() {
 
 		_, _ = ctx.Reply("Command not found.")
 	}).Desc("help: Prints this help menu\n\n" +
-		"Usage: help <command>")
+		"Alias: h\n\n" +
+		"Usage: help <command>").Alias("h")
 
 	// Handle incoming messages
 	Session.AddHandler(func(_ *discordgo.Session, m *discordgo.MessageCreate) {
