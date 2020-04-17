@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 )
 
 // Index returns index of string found in list. Return -1 if not found
@@ -60,4 +61,18 @@ func RandomString(n int) string {
 		buf[i] = letter[rand.Intn(len(letter))]
 	}
 	return string(buf)
+}
+
+// GeneratePreviewDesc returns preview description
+// Between space after : and \n
+func GeneratePreviewDesc(value string) string {
+	posFirst := strings.Index(value, ":")
+	if posFirst == -1 {
+		return ""
+	}
+	posLast := strings.Index(value, "\n")
+	if posLast == -1 {
+		return ""
+	}
+	return value[posFirst+2 : posLast]
 }
