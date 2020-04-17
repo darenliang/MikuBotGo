@@ -38,7 +38,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 				for _, val := range response.Data {
 					answers = append(answers, val.Attributes.CanonicalTitle)
 				}
-				if framework.GetStringValidation(answers, guess) {
+				if framework.GetStringValidation(answers, config.OpeningsMap[ctx.Msg.ChannelID]) {
 					_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct! The answer is "+config.OpeningsMap[ctx.Msg.ChannelID])
 					score, attempts := framework.GetDatabaseValue(ctx.Msg.Author.ID)
 					if score == 0 && attempts == 0 {
