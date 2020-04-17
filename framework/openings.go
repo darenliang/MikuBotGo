@@ -23,6 +23,11 @@ type Openings2 []struct {
 	} `json:"animes"`
 }
 
+type Openings3 []struct {
+	Name  string   `json:"name"`
+	Songs []string `json:"songs"`
+}
+
 func init() {
 	// Generate random seed
 	rand.Seed(time.Now().UnixNano())
@@ -57,6 +62,14 @@ func GetOpenings() Openings {
 func GetOpenings2() Openings2 {
 	file, _ := ioutil.ReadFile("data/dataset.json")
 	tmp := Openings2{}
+	_ = json.Unmarshal(file, &tmp)
+	return tmp
+}
+
+// Return openings version 3
+func GetOpenings3() Openings3 {
+	file, _ := ioutil.ReadFile("data/dataset_filtered.json")
+	tmp := Openings3{}
 	_ = json.Unmarshal(file, &tmp)
 	return tmp
 }

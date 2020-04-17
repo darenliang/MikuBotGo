@@ -63,18 +63,9 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
 
-	var animeName string
-	var fileName string
-	year := framework.GetRandomYear()
-
-	for _, val := range config.Openings {
-		if val.Year == year {
-			choice := rand.Int() % len(val.Animes)
-			animeName = val.Animes[choice].Name
-			fileName = val.Animes[choice].Songs[rand.Int()%len(val.Animes[choice].Songs)]
-			break
-		}
-	}
+	idx := rand.Int() % len(config.Openings)
+	animeName := config.Openings[idx].Name
+	fileName := config.Openings[idx].Songs[rand.Int()%len(config.Openings[idx].Songs)]
 
 	response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(animeName) + `&page[limit]=3`)
 
