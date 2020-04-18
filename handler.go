@@ -55,6 +55,13 @@ func init() {
 			"Alias: lb\n\n" +
 			"This command takes no arguments").Alias("lb")
 
+	// Sauce
+	Router.On("sauce", cmd.Sauce).Desc(
+		"sauce: Get sauce based on scene\n\n" +
+			"Usage:\n" +
+			"\tsauce <image url>\n" +
+			"\tsauce <image attachment>\n")
+
 	// Help
 	Router.Default = Router.On("help", func(ctx *exrouter.Context) {
 		command := strings.TrimSpace(ctx.Args.After(1))

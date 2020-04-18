@@ -54,6 +54,20 @@ type AniListAnimeSearchResponse struct {
 	} `json:"data"`
 }
 
+type TraceSearchResult struct {
+	Data struct {
+		Media struct {
+			Title struct {
+				UserPreferred string `json:"userPreferred"`
+			} `json:"title"`
+			CoverImage struct {
+				ExtraLarge string `json:"extraLarge"`
+				Color      string `json:"color"`
+			} `json:"coverImage"`
+		} `json:"Media"`
+	} `json:"data"`
+}
+
 func AnilistAnimeSearchQuery(query string) map[string]string {
 	jsonQuery := map[string]string{
 		"query": fmt.Sprintf(`
@@ -107,5 +121,24 @@ func AnilistAnimeSearchQuery(query string) map[string]string {
   }
 }
 `, query)}
+	return jsonQuery
+}
+
+func AnilistAnimeIDQuery(id int) map[string]string {
+	jsonQuery := map[string]string{
+		"query": fmt.Sprintf(`
+{
+  Media(id: %d) {
+    title {
+      userPreferred
+    }
+    coverImage {
+      extraLarge
+      color
+    }
+  }
+}
+
+`, id)}
 	return jsonQuery
 }
