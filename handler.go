@@ -38,7 +38,7 @@ func init() {
 	Router.On("anime", cmd.Anime).Desc(
 		"anime: Get anime info\n\n" +
 			"Alias: a\n\n" +
-			"Usage: ping <anime>").Alias("a")
+			"Usage: anime <anime name>").Alias("a")
 
 	// Quiz
 	Router.On("musicquiz", cmd.MusicQuiz).Desc(
