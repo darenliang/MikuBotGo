@@ -2,10 +2,17 @@ github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e h1:xuNW6yNogK
 github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e/go.mod h1:FdMxPfOp4ppZW2OJjLagSMri7g5k9luvTm7Y3aIxQSc=
 github.com/aerogo/http v1.0.9 h1:ddgS613r1/XNNayvlQK1/hnSoR2GCOzIeO6wL0x84gQ=
 github.com/aerogo/http v1.0.9/go.mod h1:qVlq+QszT9mFVL92hmMs71fqzA1DILTjNSucEWUdFmk=
+github.com/aerogo/http v1.1.0 h1:Ii+XcJ2OrX0Q/a2Zz99+z501TgYcwiWMt7bo0cOkYRg=
+github.com/aerogo/http v1.1.0/go.mod h1:5VMFMcmM5djh6c7L/v++HUjFvVz+7ER2t2NfXRrzohk=
 github.com/akyoto/assert v0.1.3/go.mod h1:g5e6ag+ksCEQENq/LnmU9z04wCAIFDr8KacBusVL0H8=
 github.com/akyoto/assert v0.2.0/go.mod h1:g5e6ag+ksCEQENq/LnmU9z04wCAIFDr8KacBusVL0H8=
+github.com/akyoto/assert v0.2.3/go.mod h1:g5e6ag+ksCEQENq/LnmU9z04wCAIFDr8KacBusVL0H8=
 github.com/akyoto/stringutils v0.2.3 h1:ggwgzXEXEj5SPtZr/7uYC+creqvz33UfWz37561/no4=
 github.com/akyoto/stringutils v0.2.3/go.mod h1:nyO78pc92gciYObsOGWasnQN/s18JEQusXtN/7iC2AM=
+github.com/akyoto/stringutils v0.3.0 h1:NJpcnpvp1dYmJAvuZapj1D5aEDRPv+c8vAva7qSklL4=
+github.com/akyoto/stringutils v0.3.0/go.mod h1:v+Lr6tJxVd/Q1InaxsqaSXO+vSkG7MYMNc9Y9ul6Mkc=
+github.com/animenotifier/anilist v0.2.6 h1:L1M7fcgy+gAShscnHucz+Jn3nM1hOQKWZxuyhLatBBo=
+github.com/animenotifier/anilist v0.2.6/go.mod h1:fzOQXacU6rHnVoLFZaercp26BwNZDWkB6MocbNst5mY=
 github.com/animenotifier/kitsu v0.2.4 h1:YFVUR0EPSbSljjgEWtf4Hz72cCFgGyxOpjPc+64EsWA=
 github.com/animenotifier/kitsu v0.2.4/go.mod h1:9ymFP+JgXlIYJ+hvaZMut9M4jHXdteYG+7/dk4XggQY=
 github.com/aws/aws-sdk-go v1.30.7 h1:IaXfqtioP6p9SFAnNfsqdNczbR5UNbYqvcZUSsCAdTY=

@@ -1,12 +1,12 @@
 package client
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
 	"net/url"
-
-	jsoniter "github.com/json-iterator/go"
+	"strconv"
 )
 
 // Client represents a single
@@ -74,7 +74,7 @@ func (http *Client) BodyString(raw string) *Client {
 
 // BodyJSON sets the request body by converting the object to JSON.
 func (http *Client) BodyJSON(obj interface{}) *Client {
-	data, err := jsoniter.Marshal(obj)
+	data, err := json.Marshal(obj)
 
 	if err != nil {
 		log.Printf("Error converting request body to JSON: %v", err)
@@ -102,17 +102,37 @@ func (http *Client) Do() error {
 		return fmt.Errorf("Could not resolve host: %s", http.request.url.Hostname())
 	}
 
-	for _, ip := range ips {
-		err = http.exec(ip)
+	port, _ := strconv.Atoi(http.request.url.Port())
 
-		// If it worked with one IP, we can stop here.
-		// No need to test the other IPs.
-		if err == nil {
-			return nil
+	if port == 0 {
+		if http.request.url.Scheme == "https" {
+			port = 443
+		} else {
+			port = 80
 		}
 	}
 
-	return err
+	connections := make(chan net.Conn, len(ips))
+
+	for _, ip := range ips {
+		go func(ip net.IP) {
+			remoteAddress := net.TCPAddr{
+				IP:   ip,
+				Port: port,
+			}
+
+			connection, err := net.DialTCP("tcp", nil, &remoteAddress)
+
+			if err != nil {
+				return
+			}
+
+			connections <- connection
+		}(ip)
+	}
+
+	connection := <-connections
+	return http.exec(connection)
 }
 
 // End executes the request and returns the response.

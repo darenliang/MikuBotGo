@@ -1,11 +1,13 @@
 package framework
 
 import (
+	"fmt"
 	"io"
 	"math/rand"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 // Index returns index of string found in list. Return -1 if not found
@@ -75,4 +77,10 @@ func GeneratePreviewDesc(value string) string {
 		return ""
 	}
 	return value[posFirst+2 : posLast]
+}
+
+func ParseDate(year, month, day int) string {
+	t, _ := time.Parse("2006-01-02",
+		fmt.Sprintf("%d-%02d-%02d", year, month, day))
+	return t.UTC().Format("January 2, 2006")
 }

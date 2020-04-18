@@ -6,6 +6,7 @@ go 1.14
 
 require (
 	github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
+	github.com/animenotifier/anilist v0.2.6
 	github.com/animenotifier/kitsu v0.2.4
 	github.com/aws/aws-sdk-go v1.30.7
 	github.com/bwmarrin/discordgo v0.20.0

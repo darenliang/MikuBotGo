@@ -3,7 +3,9 @@ package cmd
 import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
+	"github.com/animenotifier/anilist"
 	"github.com/animenotifier/kitsu"
+	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"math/rand"
@@ -31,6 +33,44 @@ func MusicQuiz(ctx *exrouter.Context) {
 			if guess == "giveup" {
 				_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The answer is "+config.OpeningsMap[ctx.Msg.ChannelID])
 				config.OpeningsMap[ctx.Msg.ChannelID] = ""
+				return
+			} else if guess == "hint" {
+				response := framework.AniListAnimeSearchResponse{}
+				_ = anilist.Query(framework.AnilistAnimeSearchQuery(config.OpeningsMap[ctx.Msg.ChannelID]), &response)
+
+				anime := response.Data.Media
+
+				properStudios := make([]string, 0)
+				for _, studio := range anime.Studios.Edges {
+					if studio.Node.IsAnimationStudio {
+						properStudios = append(properStudios, studio.Node.Name)
+					}
+				}
+
+				embed := &discordgo.MessageEmbed{
+					Author: &discordgo.MessageEmbedAuthor{},
+					Color:  config.EmbedColor,
+					Fields: []*discordgo.MessageEmbedField{
+						{
+							Name: "Season",
+							Value: fmt.Sprintf("%s %d", strings.Title(strings.ToLower(anime.Season)),
+								anime.SeasonYear),
+							Inline: false,
+						},
+						{
+							Name:   "Genres",
+							Value:  strings.Join(anime.Genres, ", "),
+							Inline: false,
+						},
+						{
+							Name:   "Studios",
+							Value:  strings.Join(properStudios, ", "),
+							Inline: false,
+						},
+					},
+					Title: "Hints for musicquiz",
+				}
+				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 				return
 			} else {
 				response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(guess) + `&page[limit]=3`)
@@ -98,7 +138,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"`%smusicquiz <guess>` to guess anime or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
+			"`%smusicquiz <guess>` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix))
 		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
 		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 		_ = f.Close()
