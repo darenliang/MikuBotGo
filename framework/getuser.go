@@ -48,7 +48,7 @@ func Getuser(ctx *exrouter.Context) *discordgo.User {
 
 	for _, member := range g.Members {
 		if matchUser(member.User, user) {
-			return u
+			return member.User
 		}
 	}
 
