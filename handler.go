@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
-	"strings"
 )
 
 // Router is registered as a global variable to allow easy access to the
@@ -15,6 +16,14 @@ import (
 var Router = exrouter.New()
 
 func init() {
+
+	// PFP command
+	Router.On("pfp", cmd.Pfp).Desc(
+		"pfp: Get the profile picture of the user or of any number of mentioned users\n\n" +
+			"Alias: avatar\n\n" +
+			"Usage: [pfp|avatar] [@|username|username#tag|ID]",
+	).Alias("avatar")
+
 	// Ping
 	Router.On("ping", cmd.Ping).Desc(
 		"ping: Respond with pong\n\n" +
