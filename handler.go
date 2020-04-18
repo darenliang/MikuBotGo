@@ -19,7 +19,7 @@ func init() {
 
 	// PFP command
 	Router.On("pfp", cmd.Pfp).Desc(
-		"pfp: Get the profile picture of the user or of any number of mentioned users\n\n" +
+		"pfp: Get profile pictures\n\n" +
 			"Alias: avatar\n\n" +
 			"Usage: [pfp|avatar] [@|username|username#tag|ID]",
 	).Alias("avatar")
