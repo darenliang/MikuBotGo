@@ -11,7 +11,7 @@ func Pfp(ctx *exrouter.Context) {
 	if target != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, target.AvatarURL("1024"))
 	} else {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The user is not found.")
 	}
 
 }
