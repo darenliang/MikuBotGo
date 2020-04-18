@@ -83,7 +83,7 @@ func Anime(ctx *exrouter.Context) {
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name:   "Type",
-				Value:  anime.Format,
+				Value:  strings.ReplaceAll(anime.Format, "_", " "),
 				Inline: true,
 			},
 			{
