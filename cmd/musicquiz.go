@@ -36,7 +36,8 @@ func MusicQuiz(ctx *exrouter.Context) {
 				response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(guess) + `&page[limit]=3`)
 				answers := make([]string, 0)
 				for _, val := range response.Data {
-					answers = append(answers, val.Attributes.CanonicalTitle)
+					answers = append(answers, val.Attributes.Titles.En)
+					answers = append(answers, val.Attributes.Titles.EnJp)
 				}
 				if framework.GetStringValidation(answers, config.OpeningsMap[ctx.Msg.ChannelID]) {
 					_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct! The answer is "+config.OpeningsMap[ctx.Msg.ChannelID])
@@ -71,10 +72,12 @@ func MusicQuiz(ctx *exrouter.Context) {
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
 
 	idx := rand.Int() % len(config.Openings)
-	animeName := config.Openings[idx].Name
+
+	response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(config.Openings[idx].Name) + `&page[limit]=1`)
+
 	fileName := config.Openings[idx].Songs[rand.Int()%len(config.Openings[idx].Songs)]
 
-	config.OpeningsMap[ctx.Msg.ChannelID] = animeName
+	config.OpeningsMap[ctx.Msg.ChannelID] = response.Data[0].Attributes.CanonicalTitle
 
 	fileNameOut := framework.RandomString(16)
 

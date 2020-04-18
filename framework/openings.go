@@ -2,7 +2,6 @@ package framework
 
 import (
 	"encoding/json"
-	"github.com/paul-mannino/go-fuzzywuzzy"
 	"io/ioutil"
 	"math/rand"
 	"strings"
@@ -88,7 +87,7 @@ func GetRandomYear() int {
 // GetStringValidation checks if string is correct
 func GetStringValidation(answers []string, guess string) bool {
 	for _, val := range answers {
-		if fuzzy.TokenSortRatio(val, guess) > 80 {
+		if val == guess {
 			return true
 		}
 	}
