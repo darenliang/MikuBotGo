@@ -47,8 +47,7 @@ func Getuser(ctx *exrouter.Context) *discordgo.User {
 	}
 
 	for _, member := range g.Members {
-		u := member.User
-		if matchUser(u, user) {
+		if matchUser(member.User, user) {
 			return u
 		}
 	}
@@ -57,10 +56,7 @@ func Getuser(ctx *exrouter.Context) *discordgo.User {
 }
 
 func matchUser(u *discordgo.User, uString string) bool {
-	if u.Username == uString || u.String() == uString || u.ID == uString || getMentionString(u) == uString {
-		return true
-	}
-	return false
+	return u.Username == uString || u.String() == uString || u.ID == uString || getMentionString(u) == uString
 }
 
 func getMentionString(u *discordgo.User) string {
