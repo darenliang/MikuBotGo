@@ -43,8 +43,7 @@ func main() {
 		return
 	}
 
-	// Set presence
-	_ = Session.UpdateStatus(0, fmt.Sprintf("%shelp", config.Prefix))
+	go UpdatePresence()
 
 	// Run and keep open
 	log.Printf("Now running.")
