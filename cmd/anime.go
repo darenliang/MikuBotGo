@@ -6,6 +6,7 @@ import (
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/animenotifier/anilist"
 	"github.com/bwmarrin/discordgo"
+	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"strconv"
 	"strings"
@@ -74,7 +75,15 @@ func Anime(ctx *exrouter.Context) {
 		score = strconv.Itoa(anime.AverageScore) + "/100"
 	}
 
-	color, _ := strconv.ParseUint(anime.CoverImage.Color[1:], 16, 64)
+	var color uint64
+	if anime.CoverImage.Color != "" {
+		color, err = strconv.ParseUint(anime.CoverImage.Color[1:], 16, 64)
+		if err != nil {
+			color = config.EmbedColor
+		}
+	} else {
+		color = config.EmbedColor
+	}
 
 	embed := &discordgo.MessageEmbed{
 		Author:      &discordgo.MessageEmbedAuthor{},
