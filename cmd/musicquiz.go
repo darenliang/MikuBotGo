@@ -130,13 +130,13 @@ func MusicQuiz(ctx *exrouter.Context) {
 	anime := framework.MALAnime{}
 	_ = json.NewDecoder(r.Body).Decode(&anime)
 
-	re := regexp.MustCompile("-(\\D+)(\\d+)v*\\d*.webm$")
+	re := regexp.MustCompile("-((OP)|(ED))v?(\\d+)")
 	match := re.FindStringSubmatch(fileName)
 
-	songIdx, _ := strconv.Atoi(match[2])
+	songIdx, _ := strconv.Atoi(match[4])
 
 	song := ""
-	if strings.HasPrefix(match[1], "OP") {
+	if match[1] == "OP" {
 		if len(anime.OpeningThemes) <= songIdx-1 {
 			song = "Cannot find song info"
 		} else {
