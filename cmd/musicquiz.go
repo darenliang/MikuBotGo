@@ -75,7 +75,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 				return
 			} else {
-				response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(guess) + `&page[limit]=3`)
+				response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(guess) + `&page[limit]=5`)
 				answers := make([]string, 0)
 				for _, val := range response.Data {
 					answers = append(answers, val.Attributes.Titles.En)
