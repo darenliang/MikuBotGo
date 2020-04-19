@@ -95,6 +95,11 @@
    │  │  │  └─ 0: https://animethemes.moe/video/JashinChanDropkickS2-ED1.webm
    │  │  └─ Anoko ni Drop Kick
    │  │     └─ 0: https://animethemes.moe/video/JashinChanDropkickS2-ED2.webm
+   │  ├─ Kaguya-sama wa Kokurasetai?: Tensai-tachi no Renai Zunousen
+   │  │  ├─ DADDY! DADDY! DO! feat. Airi Suzuki
+   │  │  │  └─ 0: https://animethemes.moe/video/KaguyaSamaWaKokurasetaiS2-OP1.webm
+   │  │  └─ Kaze ni Fukarete
+   │  │     └─ 0: https://animethemes.moe/video/KaguyaSamaWaKokurasetaiS2-ED1.webm
    │  ├─ Kakushigoto
    │  │  ├─ Chiisana Hibi
    │  │  │  └─ 0: https://animethemes.moe/video/Kakushigoto-OP1.webm
@@ -126,7 +131,7 @@
    │  │  ├─ Muse
    │  │  │  └─ 0: https://animethemes.moe/video/Listeners-ED1.webm
    │  │  └─ Borders
-   │  │     └─ 0: https://files.catbox.moe/i3q3mb.webm
+   │  │     └─ 0: https://animethemes.moe/video/Listeners-ED2.webm
    │  ├─ Major 2nd 2nd Season
    │  │  ├─ Answer
    │  │  │  └─ 0: https://animethemes.moe/video/Major2ndS2-OP1.webm
