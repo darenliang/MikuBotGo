@@ -10,7 +10,7 @@ import (
 
 // Leaderboard command
 func Leaderboard(ctx *exrouter.Context) {
-	highScores := framework.GetHighscores()
+	highScores := framework.MQDB.GetScores()
 
 	leaderboard := "```\nRank | Score | User\n"
 

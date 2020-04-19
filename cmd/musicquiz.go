@@ -23,6 +23,7 @@ func init() {
 
 // MusicQuiz command
 func MusicQuiz(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	guess := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(guess) != 0 {
@@ -85,11 +86,11 @@ func MusicQuiz(ctx *exrouter.Context) {
 					config.OpeningsMap[ctx.Msg.ChannelID].Embed.Title = "Correct: " + config.OpeningsMap[ctx.Msg.ChannelID].Embed.Title
 					config.OpeningsMap[ctx.Msg.ChannelID].Embed.Color = 0x4caf50
 					_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, config.OpeningsMap[ctx.Msg.ChannelID].Embed)
-					score, attempts := framework.GetDatabaseValue(ctx.Msg.Author.ID)
+					score, attempts := framework.MQDB.GetScore(ctx.Msg.Author.ID)
 					if score == 0 && attempts == 0 {
-						framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 1, 0)
+						framework.MQDB.CreateScore(ctx.Msg.Author.ID, 1, 0)
 					} else {
-						framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score+1, attempts)
+						framework.MQDB.UpdateScore(ctx.Msg.Author.ID, score+1, attempts)
 					}
 					config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningEntry{}
 					return
@@ -106,11 +107,11 @@ func MusicQuiz(ctx *exrouter.Context) {
 		return
 	}
 
-	score, attempts := framework.GetDatabaseValue(ctx.Msg.Author.ID)
+	score, attempts := framework.MQDB.GetScore(ctx.Msg.Author.ID)
 	if score == 0 && attempts == 0 {
-		framework.CreateDatabaseEntry(ctx.Msg.Author.ID, 0, 1)
+		framework.MQDB.CreateScore(ctx.Msg.Author.ID, 0, 1)
 	} else {
-		framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score, attempts+1)
+		framework.MQDB.UpdateScore(ctx.Msg.Author.ID, score, attempts+1)
 	}
 
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
@@ -167,7 +168,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"`%smusicquiz <guess>` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", config.Prefix, config.Prefix, config.Prefix))
+			"`%smusicquiz <guess>` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", prefix, prefix, prefix))
 		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
 		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 		_ = f.Close()

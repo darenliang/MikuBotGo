@@ -16,7 +16,7 @@ const Timeout = 60
 const Timer = "\xe2\x8f\xb2\xef\xb8\x8f"
 
 var StartTime time.Time
-var Openings framework.Openings3
+var Openings framework.Openings
 var OpeningsMap = make(map[string]OpeningEntry)
 var TraceMoeBase string
 
@@ -30,7 +30,7 @@ func init() {
 	StartTime = time.Now()
 
 	// Setup openings
-	Openings = framework.GetOpenings3()
+	Openings = framework.GetOpenings()
 
 	TraceMoeKey := os.Getenv("TRACEMOE")
 	if TraceMoeKey != "" {

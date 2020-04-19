@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"strings"
 )
 
 // Router is registered as a global variable to allow easy access to the
@@ -19,7 +18,7 @@ func init() {
 
 	// PFP command
 	Router.On("pfp", cmd.Pfp).Desc(
-		"pfp: Get profile pictures\n\n" +
+		"pfp: Get profile picture\n\n" +
 			"Alias: avatar\n\n" +
 			"Usage: [pfp|avatar] [@|username|username#tag|ID]",
 	).Alias("avatar")
@@ -39,6 +38,13 @@ func init() {
 		"anime: Get anime info\n\n" +
 			"Alias: a\n\n" +
 			"Usage: anime <anime name>").Alias("a")
+
+	// Prefix
+	Router.On("prefix", cmd.Prefix).Desc(
+		"prefix: Set custom prefix\n\n" +
+			"Alias: p\n\n" +
+			"Usage: prefix <new prefix>\n\n" +
+			"Note that you must have admin or owner privileges").Alias("p")
 
 	// Quiz
 	Router.On("musicquiz", cmd.MusicQuiz).Desc(
@@ -65,9 +71,9 @@ func init() {
 	// Help
 	Router.Default = Router.On("help", func(ctx *exrouter.Context) {
 		command := strings.TrimSpace(ctx.Args.After(1))
-
 		if command == "" {
-			var text = fmt.Sprintf("help: Type %shelp <command> for more info on a command.\n\n", config.Prefix)
+			var text = fmt.Sprintf("help: Type %shelp <command> for more info on a command.\n\n",
+				framework.PDB.GetPrefix(ctx.Msg.GuildID))
 			for _, v := range Router.Routes {
 				length := 16 - len(v.Name)
 				text += v.Name + strings.Repeat(" ", length) + "# " +
@@ -89,8 +95,36 @@ func init() {
 		"Alias: h\n\n" +
 		"Usage: help <command>").Alias("h")
 
+	// Query database on ready
+	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
+		// Query database to temp
+		framework.PDB.SetGuilds()
+
+		// Load cache and check for new guilds
+		cache := framework.PDB.GetGuilds()
+		for _, guild := range ready.Guilds {
+			if cache[guild.ID] == "" {
+				framework.PDB.CreateGuild(guild.ID, config.Prefix)
+			}
+		}
+	})
+
+	// Add guild on guild add
+	Session.AddHandler(func(_ *discordgo.Session, create *discordgo.GuildCreate) {
+		framework.PDB.CreateGuild(create.ID, config.Prefix)
+	})
+
+	// Remove guild on guild remote
+	Session.AddHandler(func(_ *discordgo.Session, delete *discordgo.GuildDelete) {
+		framework.PDB.RemoveGuild(delete.ID)
+	})
+
 	// Handle incoming messages
 	Session.AddHandler(func(_ *discordgo.Session, m *discordgo.MessageCreate) {
-		_ = Router.FindAndExecute(Session, config.Prefix, Session.State.User.ID, m.Message)
+		prefix := config.Prefix
+		if len(m.GuildID) != 0 {
+			prefix = framework.PDB.GetPrefix(m.GuildID)
+		}
+		_ = Router.FindAndExecute(Session, prefix, Session.State.User.ID, m.Message)
 	})
 }

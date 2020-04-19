@@ -5,6 +5,7 @@ import (
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
+	"github.com/darenliang/MikuBotGo/framework"
 	"strconv"
 	"time"
 )
@@ -33,7 +34,7 @@ func Info(ctx *exrouter.Context) {
 			},
 			{
 				Name:   "Server Prefix",
-				Value:  config.Prefix,
+				Value:  framework.PDB.GetPrefix(ctx.Msg.GuildID),
 				Inline: true,
 			},
 			{
