@@ -69,7 +69,7 @@ func Sauce(ctx *exrouter.Context) {
 	}
 
 	trace := TraceData{}
-	err := getJson("https://trace.moe/api/search?url="+URL, &trace)
+	err := getJson(config.TraceMoeBase+URL, &trace)
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
 		return

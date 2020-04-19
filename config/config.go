@@ -1,8 +1,10 @@
 package config
 
 import (
+	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/framework"
+	"os"
 	"time"
 )
 
@@ -15,6 +17,7 @@ const Timeout = 60
 var StartTime time.Time
 var Openings framework.Openings3
 var OpeningsMap = make(map[string]OpeningEntry)
+var TraceMoeBase string
 
 type OpeningEntry struct {
 	Name  string
@@ -27,4 +30,11 @@ func init() {
 
 	// Setup openings
 	Openings = framework.GetOpenings3()
+
+	TraceMoeKey := os.Getenv("TRACEMOE")
+	if TraceMoeKey != "" {
+		TraceMoeBase = fmt.Sprintf("https://trace.moe/api/search?token=%s&url=", TraceMoeKey)
+	} else {
+		TraceMoeBase = "https://trace.moe/api/search?url="
+	}
 }
