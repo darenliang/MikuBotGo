@@ -176,7 +176,7 @@ func Sauce(ctx *exrouter.Context) {
 		},
 		Title: fmt.Sprintf("Here's the sauce %s#%s", ctx.Msg.Author.Username, ctx.Msg.Author.Discriminator),
 		Image: &discordgo.MessageEmbedImage{
-			URL: fmt.Sprintf("https://trace.moe/thumbnail.php?anilist_id=%d&file=%s&t=%.2f&token=%s",
+			URL: fmt.Sprintf("https://trace.moe/thumbnail.php?anilist_id=%d&file=%s&t=%g&token=%s",
 				trace.Docs[0].AnilistID,
 				url.QueryEscape(trace.Docs[0].Filename),
 				trace.Docs[0].At,
