@@ -17,25 +17,9 @@ import (
 
 type TraceData struct {
 	Docs []struct {
-		From            float64  `json:"from"`
-		To              float64  `json:"to"`
-		AnilistID       int      `json:"anilist_id"`
-		At              float64  `json:"at"`
-		Season          string   `json:"season"`
-		Anime           string   `json:"anime"`
-		Filename        string   `json:"filename"`
-		Episode         int      `json:"episode"`
-		Tokenthumb      string   `json:"tokenthumb"`
-		Similarity      float64  `json:"similarity"`
-		Title           string   `json:"title"`
-		TitleNative     string   `json:"title_native"`
-		TitleChinese    string   `json:"title_chinese"`
-		TitleEnglish    string   `json:"title_english"`
-		TitleRomaji     string   `json:"title_romaji"`
-		MalID           int      `json:"mal_id"`
-		Synonyms        []string `json:"synonyms"`
-		SynonymsChinese []string `json:"synonyms_chinese"`
-		IsAdult         bool     `json:"is_adult"`
+		AnilistID int         `json:"anilist_id"`
+		Episode   interface{} `json:"episode,string"`
+		MalID     int         `json:"mal_id"`
 	} `json:"docs"`
 }
 
@@ -110,6 +94,11 @@ func Sauce(ctx *exrouter.Context) {
 		color = config.EmbedColor
 	}
 
+	episode := fmt.Sprint(trace.Docs[0].Episode)
+	if episode == "" {
+		episode = "Unknown"
+	}
+
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
 		Color:  int(color),
@@ -121,7 +110,7 @@ func Sauce(ctx *exrouter.Context) {
 			},
 			{
 				Name:   "Episode Number",
-				Value:  strconv.Itoa(trace.Docs[0].Episode),
+				Value:  episode,
 				Inline: true,
 			},
 			{
