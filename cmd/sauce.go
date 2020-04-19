@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
@@ -8,6 +10,8 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"github.com/disintegration/imaging"
+	"image/jpeg"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -31,6 +35,29 @@ var httpClient = &http.Client{Timeout: config.Timeout * time.Second}
 
 func getJson(url string, target interface{}) error {
 	r, err := httpClient.Get(url)
+	if err != nil {
+		return err
+	}
+
+	err = json.NewDecoder(r.Body).Decode(target)
+	if err != nil {
+		return err
+	}
+
+	err = r.Body.Close()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func getPostJson(data string, target interface{}) error {
+	form := url.Values{
+		"image": {data},
+	}
+
+	r, err := httpClient.PostForm(config.TraceMoeBase, form)
 	if err != nil {
 		return err
 	}
@@ -72,25 +99,39 @@ func Sauce(ctx *exrouter.Context) {
 		URL = ctx.Msg.Attachments[0].URL
 	}
 
-	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
+	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+
+	image, err := framework.LoadImage(URL)
+
+	if err != nil {
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Theres an issue with your image.")
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+	}
+
+	image = imaging.Resize(image, 0, 480, imaging.Lanczos)
+
+	buf := new(bytes.Buffer)
+	err = jpeg.Encode(buf, image, &jpeg.Options{Quality: 35})
+	imageBits := buf.Bytes()
+	photoBase64 := base64.StdEncoding.EncodeToString(imageBits)
 
 	trace := TraceData{}
-	err := getJson(config.TraceMoeBase+URL, &trace)
+	err = getPostJson(photoBase64, &trace)
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 		return
 	}
 
 	if len(trace.Docs) == 0 {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "We can't find any sauce from the provided image.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 		return
 	}
 
 	if trace.Docs[0].Similarity < 0.87 {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "We can't find the sauce for you.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 		return
 	}
 
@@ -148,5 +189,5 @@ func Sauce(ctx *exrouter.Context) {
 
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 
-	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
+	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 }

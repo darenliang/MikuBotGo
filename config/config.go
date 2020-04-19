@@ -13,6 +13,7 @@ const BotInfo = "MikuBotGo v0.1.0"
 const EmbedColor = 0x2e98a6
 const Prefix = ";"
 const Timeout = 60
+const Timer = "\xe2\x8f\xb2\xef\xb8\x8f"
 
 var StartTime time.Time
 var Openings framework.Openings3
@@ -33,8 +34,8 @@ func init() {
 
 	TraceMoeKey := os.Getenv("TRACEMOE")
 	if TraceMoeKey != "" {
-		TraceMoeBase = fmt.Sprintf("https://trace.moe/api/search?token=%s&url=", TraceMoeKey)
+		TraceMoeBase = fmt.Sprintf("https://trace.moe/api/search?token=%s", TraceMoeKey)
 	} else {
-		TraceMoeBase = "https://trace.moe/api/search?url="
+		TraceMoeBase = "https://trace.moe/api/search"
 	}
 }

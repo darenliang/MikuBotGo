@@ -113,7 +113,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		framework.UpdateDatabaseValue(ctx.Msg.Author.ID, score, attempts+1)
 	}
 
-	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
+	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
 
 	idx := rand.Int() % len(config.Openings)
 
@@ -163,7 +163,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 	case err := <-ch:
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to convert media file.")
-			_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
+			_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
@@ -177,5 +177,5 @@ func MusicQuiz(ctx *exrouter.Context) {
 		config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningEntry{}
 	}
 
-	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
+	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 }

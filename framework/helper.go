@@ -2,6 +2,8 @@ package framework
 
 import (
 	"fmt"
+	"github.com/disintegration/imaging"
+	"image"
 	"io"
 	"math/rand"
 	"net/http"
@@ -83,4 +85,22 @@ func ParseDate(year, month, day int) string {
 	t, _ := time.Parse("2006-01-02",
 		fmt.Sprintf("%d-%02d-%02d", year, month, day))
 	return t.UTC().Format("January 2, 2006")
+}
+
+// LoadImage from url
+func LoadImage(url string) (image.Image, error) {
+	// Get the data
+	resp, err := http.Get(url)
+
+	if err != nil {
+		return nil, err
+	}
+
+	webImage, err := imaging.Decode(resp.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return webImage, nil
 }
