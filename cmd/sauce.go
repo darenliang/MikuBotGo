@@ -17,9 +17,13 @@ import (
 
 type TraceData struct {
 	Docs []struct {
-		AnilistID int         `json:"anilist_id"`
-		Episode   interface{} `json:"episode,string"`
-		MalID     int         `json:"mal_id"`
+		AnilistID  int         `json:"anilist_id"`
+		At         float64     `json:"at"`
+		Filename   string      `json:"filename"`
+		Episode    interface{} `json:"episode,string"`
+		Tokenthumb string      `json:"tokenthumb"`
+		Similarity float64     `json:"similarity"`
+		MalID      int         `json:"mal_id"`
 	} `json:"docs"`
 }
 
@@ -68,15 +72,25 @@ func Sauce(ctx *exrouter.Context) {
 		URL = ctx.Msg.Attachments[0].URL
 	}
 
+	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f")
+
 	trace := TraceData{}
 	err := getJson(config.TraceMoeBase+URL, &trace)
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
 		return
 	}
 
 	if len(trace.Docs) == 0 {
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "We can't find any sauce from the provided image.")
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
+		return
+	}
+
+	if trace.Docs[0].Similarity < 0.87 {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "We can't find the sauce for you.")
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
 		return
 	}
 
@@ -121,9 +135,18 @@ func Sauce(ctx *exrouter.Context) {
 		},
 		Title: fmt.Sprintf("Here's the sauce %s#%s", ctx.Msg.Author.Username, ctx.Msg.Author.Discriminator),
 		Image: &discordgo.MessageEmbedImage{
+			URL: fmt.Sprintf("https://trace.moe/thumbnail.php?anilist_id=%d&file=%s&t=%.2f&token=%s",
+				trace.Docs[0].AnilistID,
+				url.QueryEscape(trace.Docs[0].Filename),
+				trace.Docs[0].At,
+				trace.Docs[0].Tokenthumb),
+		},
+		Thumbnail: &discordgo.MessageEmbedThumbnail{
 			URL: anime.CoverImage.ExtraLarge,
 		},
 	}
 
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+
+	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, "\xe2\x8f\xb2\xef\xb8\x8f", ctx.Ses.State.User.ID)
 }
