@@ -58,6 +58,9 @@ github.com/aws/aws-sdk-go/service/sts/stsiface
 # github.com/bwmarrin/discordgo v0.20.0
 ## explicit
 github.com/bwmarrin/discordgo
+# github.com/disintegration/imaging v1.6.2
+## explicit
+github.com/disintegration/imaging
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
 # github.com/jmespath/go-jmespath v0.3.0
@@ -70,5 +73,10 @@ golang.org/x/crypto/internal/subtle
 golang.org/x/crypto/nacl/secretbox
 golang.org/x/crypto/poly1305
 golang.org/x/crypto/salsa20/salsa
+# golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8
+golang.org/x/image/bmp
+golang.org/x/image/ccitt
+golang.org/x/image/tiff
+golang.org/x/image/tiff/lzw
 # golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a
 golang.org/x/sys/cpu
