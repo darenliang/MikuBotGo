@@ -33,25 +33,6 @@ type TraceData struct {
 
 var httpClient = &http.Client{Timeout: config.Timeout * time.Second}
 
-func getJson(url string, target interface{}) error {
-	r, err := httpClient.Get(url)
-	if err != nil {
-		return err
-	}
-
-	err = json.NewDecoder(r.Body).Decode(target)
-	if err != nil {
-		return err
-	}
-
-	err = r.Body.Close()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func getPostJson(data string, target interface{}) error {
 	form := url.Values{
 		"image": {data},
