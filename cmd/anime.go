@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/animenotifier/anilist"
@@ -11,11 +10,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-func prettyPrint(i interface{}) string {
-	s, _ := json.MarshalIndent(i, "", "\t")
-	return string(s)
-}
 
 // Anime command
 func Anime(ctx *exrouter.Context) {
