@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/framework"
 	"time"
 )
@@ -13,7 +14,12 @@ const Timeout = 60
 
 var StartTime time.Time
 var Openings framework.Openings3
-var OpeningsMap = make(map[string]string)
+var OpeningsMap = make(map[string]OpeningEntry)
+
+type OpeningEntry struct {
+	Name  string
+	Embed *discordgo.MessageEmbed
+}
 
 func init() {
 	// Set start time
