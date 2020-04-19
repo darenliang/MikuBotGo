@@ -47,9 +47,13 @@ if __name__ == "__main__":
                 if search:
                     Aninx.Data.append({"name": search[1], "songs": []})
                 else:
-                    search = re.search("^.{12}└─ 0: (.+)\n$", line)
+                    search = re.search("^.{10}─ (.+)\n$", line)
                     if search:
-                        Aninx.Data[-1]["songs"].append(search[1])
+                        Aninx.Data[-1]["songs"].append({"songname": search[1]})
+                    else:
+                        search = re.search("^.{12}└─ 0: (.+)\n$", line)
+                        if search:
+                            Aninx.Data[-1]["songs"][-1]["url"] = search[1]
                 line = f.readline()
 
     # filter_set = get_top_500()

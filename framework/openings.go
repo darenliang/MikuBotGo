@@ -23,8 +23,11 @@ type Openings2 []struct {
 }
 
 type Openings3 []struct {
-	Name  string   `json:"name"`
-	Songs []string `json:"songs"`
+	Name  string `json:"name"`
+	Songs []struct {
+		Songname string `json:"songname"`
+		URL      string `json:"url"`
+	} `json:"songs"`
 }
 
 func init() {

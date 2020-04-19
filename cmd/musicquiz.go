@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/animenotifier/anilist"
@@ -13,8 +12,6 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
-	"regexp"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -123,32 +120,9 @@ func MusicQuiz(ctx *exrouter.Context) {
 	response := framework.AniListAnimeSearchResponse{}
 	_ = anilist.Query(framework.AnilistAnimeSearchQuery(config.Openings[idx].Name), &response)
 
-	fileName := config.Openings[idx].Songs[rand.Int()%len(config.Openings[idx].Songs)]
+	song := config.Openings[idx].Songs[rand.Int()%len(config.Openings[idx].Songs)]
 
 	// This is whack-----------------------------------------------
-	r, _ := httpClient.Get(fmt.Sprintf("https://api.jikan.moe/v3/anime/%d", response.Data.Media.IDMal))
-	anime := framework.MALAnime{}
-	_ = json.NewDecoder(r.Body).Decode(&anime)
-
-	re := regexp.MustCompile("-((OP)|(ED))v?(\\d+)")
-	match := re.FindStringSubmatch(fileName)
-
-	songIdx, _ := strconv.Atoi(match[4])
-
-	song := ""
-	if match[1] == "OP" {
-		if len(anime.OpeningThemes) <= songIdx-1 {
-			song = "Cannot find song info"
-		} else {
-			song = anime.OpeningThemes[songIdx-1]
-		}
-	} else {
-		if len(anime.EndingThemes) <= songIdx-1 {
-			song = "Cannot find song info"
-		} else {
-			song = anime.EndingThemes[songIdx-1]
-		}
-	}
 
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
@@ -156,7 +130,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name:   "Song",
-				Value:  song,
+				Value:  song.Songname,
 				Inline: true,
 			},
 		},
@@ -175,7 +149,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	cmd := exec.Command("youtube-dl", "--extract-audio", "--audio-format", "mp3", "--output",
 		"./cache/"+fileNameOut+".webm", "--external-downloader", "aria2c", "--external-downloader-args",
-		`-x 5 -s 5 -k 1M`, fileName)
+		`-x 5 -s 5 -k 1M`, song.URL)
 
 	ch := make(chan error)
 	go func() {
