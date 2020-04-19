@@ -134,6 +134,9 @@ func MusicQuiz(ctx *exrouter.Context) {
 				Inline: true,
 			},
 		},
+		Thumbnail: &discordgo.MessageEmbedThumbnail{
+			URL: response.Data.Media.CoverImage.ExtraLarge,
+		},
 		Title: response.Data.Media.Title.UserPreferred,
 		URL:   fmt.Sprintf("https://myanimelist.net/anime/%d", response.Data.Media.IDMal),
 	}

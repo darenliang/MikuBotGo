@@ -138,7 +138,7 @@ func Anime(ctx *exrouter.Context) {
 		},
 		Title: anime.Title.UserPreferred,
 		URL:   anime.SiteURL,
-		Image: &discordgo.MessageEmbedImage{
+		Thumbnail: &discordgo.MessageEmbedThumbnail{
 			URL: anime.CoverImage.ExtraLarge,
 		},
 	}
