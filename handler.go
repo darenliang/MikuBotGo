@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/Necroforger/dgrouter"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/cmd"
@@ -17,71 +18,70 @@ var Router = exrouter.New()
 func init() {
 
 	// PFP command
-	Router.On("pfp", cmd.Pfp).Desc(
+	Router.OnMatch("pfp", dgrouter.NewRegexMatcher("^(?i)(pfp|avatar)$"), cmd.Pfp).Desc(
 		"pfp: Get profile picture\n\n" +
 			"Alias: avatar\n\n" +
-			"Usage: [pfp|avatar] [@|username|username#tag|ID]",
-	).Alias("avatar")
+			"Usage: pfp [@|username|username#tag|ID]")
 
 	// Ping
-	Router.On("ping", cmd.Ping).Desc(
+	Router.OnMatch("ping", dgrouter.NewRegexMatcher("^(?i)ping$"), cmd.Ping).Desc(
 		"ping: Respond with pong\n\n" +
 			"This command takes no arguments")
 
 	// Info
-	Router.On("info", cmd.Info).Desc(
+	Router.OnMatch("info", dgrouter.NewRegexMatcher("^(?i)info$"), cmd.Info).Desc(
 		"info: Get bot info\n\n" +
 			"This command takes no arguments")
 
 	// Anime
-	Router.On("anime", cmd.Anime).Desc(
+	Router.OnMatch("anime", dgrouter.NewRegexMatcher("^(?i)(anime|a)$"), cmd.Anime).Desc(
 		"anime: Get anime info\n\n" +
 			"Alias: a\n\n" +
-			"Usage: anime <anime name>").Alias("a")
+			"Usage: anime <anime name>")
 
 	// Prefix
-	Router.On("prefix", cmd.Prefix).Desc(
+	Router.OnMatch("prefix", dgrouter.NewRegexMatcher("^(?i)(prefix|p)$"), cmd.Prefix).Desc(
 		"prefix: Set custom prefix\n\n" +
 			"Alias: p\n\n" +
 			"Usage: prefix <new prefix>\n\n" +
-			"Note that you must have admin or owner privileges").Alias("p")
+			"Note that you must have admin or owner privileges")
 
 	// Quiz
-	Router.On("musicquiz", cmd.MusicQuiz).Desc(
+	Router.OnMatch("musicquiz", dgrouter.NewRegexMatcher("^(?i)(musicquiz|mq)$"), cmd.MusicQuiz).Desc(
 		"musicquiz: Get an anime music quiz\n\n" +
 			"Alias: mq\n\n" +
 			"Usage:\n" +
 			fmt.Sprintf("\t%-24v# Start an anime music quiz\n", "musicquiz") +
 			fmt.Sprintf("\t%-24v# Guess an anime\n", "musicquiz <answer>") +
-			fmt.Sprintf("\t%-24v# Give up current anime music quiz", "musicquiz giveup")).Alias("mq")
+			fmt.Sprintf("\t%-24v# Give up current anime music quiz", "musicquiz giveup"))
 
 	// Trivia
-	Router.On("trivia", cmd.Trivia).Desc(
+	Router.OnMatch("trivia", dgrouter.NewRegexMatcher("^(?i)(trivia|t)$"), cmd.Trivia).Desc(
 		"trivia: Get an anime trivia question\n\n" +
 			"Alias: t\n\n" +
-			"This command takes no arguments").Alias("t")
+			"This command takes no arguments")
 
 	// Waifu
-	Router.On("waifu", cmd.Waifu).Desc(
+	Router.OnMatch("waifu", dgrouter.NewRegexMatcher("^(?i)waifu$"), cmd.Waifu).Desc(
 		"waifu: Get a never before seen waifu\n\n" +
 			"Cross your fingers :)\n\n" +
 			"This command takes no arguments")
 
 	// Leaderboard
-	Router.On("leaderboard", cmd.Leaderboard).Desc(
+	Router.OnMatch("leaderboard", dgrouter.NewRegexMatcher("^(?i)(leaderboard|lb)$"), cmd.Leaderboard).Desc(
 		"leaderboard: Get anime music leaderboard\n\n" +
 			"Alias: lb\n\n" +
-			"This command takes no arguments").Alias("lb")
+			"This command takes no arguments")
 
 	// Sauce
-	Router.On("sauce", cmd.Sauce).Desc(
+	Router.OnMatch("sauce", dgrouter.NewRegexMatcher("^(?i)sauce$"), cmd.Sauce).Desc(
 		"sauce: Get sauce based on scene\n\n" +
 			"Usage:\n" +
 			"\tsauce <image url>\n" +
 			"\tsauce <image attachment>\n")
 
 	// Help
-	Router.Default = Router.On("help", func(ctx *exrouter.Context) {
+	Router.Default = Router.OnMatch("help", dgrouter.NewRegexMatcher("^(?i)(help|h)$"), func(ctx *exrouter.Context) {
 		command := strings.TrimSpace(ctx.Args.After(1))
 		if command == "" {
 			var text = fmt.Sprintf("help: Type %shelp <command> for more info on a command.\n\n",
@@ -101,11 +101,10 @@ func init() {
 				return
 			}
 		}
-
 		_, _ = ctx.Reply("Command not found.")
 	}).Desc("help: Prints this help menu\n\n" +
 		"Alias: h\n\n" +
-		"Usage: help <command>").Alias("h")
+		"Usage: help <command>")
 
 	// Query database on ready
 	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
