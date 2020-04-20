@@ -5,6 +5,7 @@ import (
 	"github.com/paul-mannino/go-fuzzywuzzy"
 	"io/ioutil"
 	"math/rand"
+	"strings"
 	"time"
 )
 
@@ -31,8 +32,10 @@ func GetOpenings() Openings {
 
 // GetStringValidation checks if string is correct
 func GetStringValidation(answers []string, guess string) bool {
+	guess = strings.ToLower(guess)
 	for _, val := range answers {
-		if fuzzy.TokenSortRatio(val, guess) > 60 {
+		val = strings.ToLower(val)
+		if fuzzy.TokenSortRatio(val, guess) > 65 {
 			return true
 		}
 	}
