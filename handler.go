@@ -63,8 +63,8 @@ func init() {
 
 	// Waifu
 	Router.On("waifu", cmd.Waifu).Desc(
-		"waifu: Get a waifu\n\n" +
-			"Hope its a good one :)\n\n" +
+		"waifu: Get a never before seen waifu\n\n" +
+			"Cross your fingers :)\n\n" +
 			"This command takes no arguments")
 
 	// Leaderboard
