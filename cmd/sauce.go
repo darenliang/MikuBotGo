@@ -12,11 +12,9 @@ import (
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/disintegration/imaging"
 	"image/jpeg"
-	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type TraceData struct {
@@ -31,14 +29,12 @@ type TraceData struct {
 	} `json:"docs"`
 }
 
-var httpClient = &http.Client{Timeout: config.Timeout * time.Second}
-
 func getPostJson(data string, target interface{}) error {
 	form := url.Values{
 		"image": {data},
 	}
 
-	r, err := httpClient.PostForm(config.TraceMoeBase, form)
+	r, err := framework.HttpClient.PostForm(config.TraceMoeBase, form)
 	if err != nil {
 		return err
 	}

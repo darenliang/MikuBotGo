@@ -55,6 +55,12 @@ func init() {
 			fmt.Sprintf("\t%-24v# Guess an anime\n", "musicquiz <answer>") +
 			fmt.Sprintf("\t%-24v# Give up current anime music quiz", "musicquiz giveup")).Alias("mq")
 
+	// Trivia
+	Router.On("trivia", cmd.Trivia).Desc(
+		"trivia: Get an anime trivia question\n\n" +
+			"Alias: t\n\n" +
+			"This command takes no arguments").Alias("t")
+
 	// Leaderboard
 	Router.On("leaderboard", cmd.Leaderboard).Desc(
 		"leaderboard: Get anime music leaderboard\n\n" +
