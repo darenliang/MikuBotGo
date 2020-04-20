@@ -108,8 +108,9 @@ func init() {
 
 	// Query database on ready
 	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
-		// Query database to temp
+		// Query databases to temp
 		framework.PDB.SetGuilds()
+		framework.MQDB.SetScores()
 
 		// Load cache and check for new guilds
 		cache := framework.PDB.GetGuilds()

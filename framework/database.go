@@ -25,6 +25,7 @@ type MusicQuizDatabase interface {
 	GetScore(string) (int, int)
 	UpdateScore(string, int, int)
 	CreateScore(string, int, int)
+	SetScores()
 	GetScores() []MusicQuizEntry
 }
 
@@ -38,7 +39,8 @@ type PrefixDatabase interface {
 }
 
 type DynamoDBMusicQuizDatabase struct {
-	TableName string
+	TableName      string
+	MusicQuizCache []MusicQuizEntry
 }
 
 type DynamoDBPrefixDatabase struct {
@@ -51,6 +53,25 @@ var DynamoDBInstance *dynamodb.DynamoDB
 var MQDB MusicQuizDatabase
 var PDB PrefixDatabase
 
+// Sort music score descending
+func bubbleSort(entries []MusicQuizEntry) {
+	entriesLeft := len(entries)
+	sorted := false
+	for !sorted {
+		swapped := false
+		for i := 0; i < entriesLeft-1; i++ {
+			if entries[i].MusicScore < entries[i+1].MusicScore {
+				entries[i+1], entries[i] = entries[i], entries[i+1]
+				swapped = true
+			}
+		}
+		if !swapped {
+			sorted = true
+		}
+		entriesLeft--
+	}
+}
+
 func init() {
 	// Initialize session
 	AwsSession = session.Must(session.NewSession())
@@ -59,35 +80,30 @@ func init() {
 	DynamoDBInstance = dynamodb.New(AwsSession)
 
 	// Setup music quiz database struct
-	MQDB = DynamoDBMusicQuizDatabase{TableName: "music_quiz"}
+	MQDB = &DynamoDBMusicQuizDatabase{
+		TableName:      "music_quiz",
+		MusicQuizCache: make([]MusicQuizEntry, 0),
+	}
 
+	// Setup prefix database struct
 	PDB = &DynamoDBPrefixDatabase{
 		TableName:   "prefix_table",
 		PrefixCache: make(map[string]string),
 	}
 }
 
-func (db DynamoDBMusicQuizDatabase) GetScore(id string) (int, int) {
-	result, _ := DynamoDBInstance.GetItem(&dynamodb.GetItemInput{
-		TableName: aws.String(db.TableName),
-		Key: map[string]*dynamodb.AttributeValue{
-			"UserId": {
-				S: aws.String(id),
-			},
-		},
-	})
+func (db *DynamoDBMusicQuizDatabase) GetScore(id string) (int, int) {
 
-	item := MusicQuizEntry{}
-	_ = dynamodbattribute.UnmarshalMap(result.Item, &item)
-
-	if item.UserId == "" {
-		return 0, 0
+	for _, v := range db.MusicQuizCache {
+		if v.UserId == id {
+			return v.MusicScore, v.TotalAttempts
+		}
 	}
 
-	return item.MusicScore, item.TotalAttempts
+	return 0, 0
 }
 
-func (db DynamoDBMusicQuizDatabase) UpdateScore(id string, score, attempts int) {
+func (db *DynamoDBMusicQuizDatabase) UpdateScore(id string, score, attempts int) {
 	input := &dynamodb.UpdateItemInput{
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
 			":s": {
@@ -108,9 +124,19 @@ func (db DynamoDBMusicQuizDatabase) UpdateScore(id string, score, attempts int) 
 	}
 
 	_, _ = DynamoDBInstance.UpdateItem(input)
+
+	for i := 0; i < len(db.MusicQuizCache); i++ {
+		if db.MusicQuizCache[i].UserId == id {
+			db.MusicQuizCache[i].MusicScore = score
+			db.MusicQuizCache[i].TotalAttempts = attempts
+			break
+		}
+	}
+
+	bubbleSort(db.MusicQuizCache)
 }
 
-func (db DynamoDBMusicQuizDatabase) CreateScore(id string, score, attempts int) {
+func (db *DynamoDBMusicQuizDatabase) CreateScore(id string, score, attempts int) {
 	item := MusicQuizEntry{
 		UserId:        id,
 		MusicScore:    score,
@@ -125,35 +151,42 @@ func (db DynamoDBMusicQuizDatabase) CreateScore(id string, score, attempts int) 
 	}
 
 	_, _ = DynamoDBInstance.PutItem(input)
+
+	db.MusicQuizCache = append(db.MusicQuizCache, MusicQuizEntry{
+		UserId:        id,
+		MusicScore:    score,
+		TotalAttempts: attempts,
+	})
+
+	bubbleSort(db.MusicQuizCache)
 }
 
-func (db DynamoDBMusicQuizDatabase) GetScores() []MusicQuizEntry {
-	filt := expression.Name("MusicScore").GreaterThan(expression.Value(0))
+func (db *DynamoDBMusicQuizDatabase) SetScores() {
 	proj := expression.NamesList(expression.Name("UserId"),
 		expression.Name("MusicScore"),
 		expression.Name("TotalAttempts"))
-	expr, _ := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
+	expr, _ := expression.NewBuilder().WithProjection(proj).Build()
 	params := &dynamodb.ScanInput{
 		ExpressionAttributeNames:  expr.Names(),
 		ExpressionAttributeValues: expr.Values(),
-		FilterExpression:          expr.Filter(),
 		ProjectionExpression:      expr.Projection(),
 		TableName:                 aws.String(db.TableName),
 	}
 	result, _ := DynamoDBInstance.Scan(params)
 
-	entries := make([]MusicQuizEntry, 0)
 	for _, i := range result.Items {
 		item := MusicQuizEntry{}
 		_ = dynamodbattribute.UnmarshalMap(i, &item)
-		entries = append(entries, item)
+		db.MusicQuizCache = append(db.MusicQuizCache, item)
 	}
 
-	sort.Slice(entries, func(i, j int) bool {
-		return entries[i].MusicScore > entries[j].MusicScore
+	sort.Slice(db.MusicQuizCache, func(i, j int) bool {
+		return db.MusicQuizCache[i].MusicScore > db.MusicQuizCache[j].MusicScore
 	})
+}
 
-	return entries
+func (db *DynamoDBMusicQuizDatabase) GetScores() []MusicQuizEntry {
+	return db.MusicQuizCache
 }
 
 func (db *DynamoDBPrefixDatabase) CreateGuild(id, prefix string) {
