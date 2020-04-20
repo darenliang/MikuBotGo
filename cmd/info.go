@@ -20,6 +20,13 @@ func Info(ctx *exrouter.Context) {
 		userCount += guild.MemberCount
 	}
 
+	prefixMsg := "DM Prefix"
+	prefix := config.Prefix
+	if len(ctx.Msg.GuildID) != 0 {
+		prefixMsg = "Server Prefix"
+		prefix = framework.PDB.GetPrefix(ctx.Msg.GuildID)
+	}
+
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
 		Color:  config.EmbedColor,
@@ -33,8 +40,8 @@ func Info(ctx *exrouter.Context) {
 				Inline: true,
 			},
 			{
-				Name:   "Server Prefix",
-				Value:  framework.PDB.GetPrefix(ctx.Msg.GuildID),
+				Name:   prefixMsg,
+				Value:  prefix,
 				Inline: true,
 			},
 			{
