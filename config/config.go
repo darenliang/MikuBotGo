@@ -1,10 +1,12 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
-	"github.com/darenliang/MikuBotGo/framework"
+	"io/ioutil"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -16,8 +18,8 @@ const Timeout = 60
 const Timer = "\xe2\x8f\xb2\xef\xb8\x8f"
 
 var StartTime time.Time
-var Openings framework.Openings
-var OpeningsMap = make(map[string]OpeningEntry)
+var OpeningsData Openings
+var OpeningsMap = sync.Map{}
 var TraceMoeBase string
 
 type OpeningEntry struct {
@@ -25,12 +27,28 @@ type OpeningEntry struct {
 	Embed *discordgo.MessageEmbed
 }
 
+type Openings []struct {
+	Name  string `json:"name"`
+	Songs []struct {
+		Songname string `json:"songname"`
+		URL      string `json:"url"`
+	} `json:"songs"`
+}
+
+// Return openings
+func GetOpenings() Openings {
+	file, _ := ioutil.ReadFile("data/dataset_filtered.json")
+	tmp := Openings{}
+	_ = json.Unmarshal(file, &tmp)
+	return tmp
+}
+
 func init() {
 	// Set start time
 	StartTime = time.Now()
 
 	// Setup openings
-	Openings = framework.GetOpenings()
+	OpeningsData = GetOpenings()
 
 	TraceMoeKey := os.Getenv("TRACEMOE")
 	if TraceMoeKey != "" {

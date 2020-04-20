@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
+	"github.com/darenliang/MikuBotGo/config"
 	"strconv"
 	"sync"
 )
@@ -224,7 +225,7 @@ func (db *DynamoDBPrefixDatabase) GetPrefix(id string) string {
 	if ok {
 		return res.(string)
 	}
-	return ""
+	return config.Prefix
 }
 
 func (db *DynamoDBPrefixDatabase) SetGuilds() {

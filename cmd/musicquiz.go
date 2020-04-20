@@ -27,19 +27,21 @@ func MusicQuiz(ctx *exrouter.Context) {
 	guess := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(guess) != 0 {
-		if config.OpeningsMap[ctx.Msg.ChannelID].Name == "" {
+		entryInterface, ok := config.OpeningsMap.Load(ctx.Msg.ChannelID)
+		entry := entryInterface.(config.OpeningEntry)
+		if !ok {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There is no currently active quiz in this channel.")
 			return
 		} else {
 			if guess == "giveup" {
-				config.OpeningsMap[ctx.Msg.ChannelID].Embed.Title = "Answer: " + config.OpeningsMap[ctx.Msg.ChannelID].Embed.Title
-				config.OpeningsMap[ctx.Msg.ChannelID].Embed.Color = 0xf44336
-				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, config.OpeningsMap[ctx.Msg.ChannelID].Embed)
-				config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningEntry{}
+				entry.Embed.Title = "Answer: " + entry.Embed.Title
+				entry.Embed.Color = 0xf44336
+				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, entry.Embed)
+				config.OpeningsMap.Delete(ctx.Msg.ChannelID)
 				return
 			} else if guess == "hint" {
 				response := framework.AniListAnimeSearchResponse{}
-				_ = anilist.Query(framework.AnilistAnimeSearchQuery(config.OpeningsMap[ctx.Msg.ChannelID].Name), &response)
+				_ = anilist.Query(framework.AnilistAnimeSearchQuery(entry.Name), &response)
 
 				anime := response.Data.Media
 
@@ -82,17 +84,17 @@ func MusicQuiz(ctx *exrouter.Context) {
 					answers = append(answers, val.Attributes.Titles.En)
 					answers = append(answers, val.Attributes.Titles.EnJp)
 				}
-				if framework.GetStringValidation(answers, config.OpeningsMap[ctx.Msg.ChannelID].Name) {
-					config.OpeningsMap[ctx.Msg.ChannelID].Embed.Title = "Correct: " + config.OpeningsMap[ctx.Msg.ChannelID].Embed.Title
-					config.OpeningsMap[ctx.Msg.ChannelID].Embed.Color = 0x4caf50
-					_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, config.OpeningsMap[ctx.Msg.ChannelID].Embed)
+				if framework.GetStringValidation(answers, entry.Name) {
+					entry.Embed.Title = "Correct: " + entry.Embed.Title
+					entry.Embed.Color = 0x4caf50
+					_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, entry.Embed)
 					score, attempts := framework.MQDB.GetScore(ctx.Msg.Author.ID)
 					if score == 0 && attempts == 0 {
 						framework.MQDB.CreateScore(ctx.Msg.Author.ID, 1, 0)
 					} else {
 						framework.MQDB.UpdateScore(ctx.Msg.Author.ID, score+1, attempts)
 					}
-					config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningEntry{}
+					config.OpeningsMap.Delete(ctx.Msg.ChannelID)
 					return
 				} else {
 					_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are incorrect. Please try again.")
@@ -102,7 +104,8 @@ func MusicQuiz(ctx *exrouter.Context) {
 		}
 	}
 
-	if config.OpeningsMap[ctx.Msg.ChannelID].Name != "" {
+	_, ok := config.OpeningsMap.Load(ctx.Msg.ChannelID)
+	if ok {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You haven't gave an answer to the previous quiz.")
 		return
 	}
@@ -116,12 +119,12 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
 
-	idx := rand.Int() % len(config.Openings)
+	idx := rand.Int() % len(config.OpeningsData)
 
 	response := framework.AniListAnimeSearchResponse{}
-	_ = anilist.Query(framework.AnilistAnimeSearchQuery(config.Openings[idx].Name), &response)
+	_ = anilist.Query(framework.AnilistAnimeSearchQuery(config.OpeningsData[idx].Name), &response)
 
-	song := config.Openings[idx].Songs[rand.Int()%len(config.Openings[idx].Songs)]
+	song := config.OpeningsData[idx].Songs[rand.Int()%len(config.OpeningsData[idx].Songs)]
 
 	// This is whack-----------------------------------------------
 
@@ -144,10 +147,10 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	// This is whack-----------------------------------------------
 
-	config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningEntry{
+	config.OpeningsMap.Store(ctx.Msg.ChannelID, config.OpeningEntry{
 		Name:  response.Data.Media.Title.UserPreferred,
 		Embed: embed,
-	}
+	})
 
 	fileNameOut := framework.RandomString(16)
 
@@ -175,8 +178,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		_ = os.Remove("./cache/" + fileNameOut + ".mp3")
 	case <-time.After(config.Timeout * 3 * time.Second):
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "This command timed out.")
-		config.OpeningsMap[ctx.Msg.ChannelID] = config.OpeningEntry{}
+		config.OpeningsMap.Delete(ctx.Msg.ChannelID)
 	}
-
 	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 }
