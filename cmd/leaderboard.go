@@ -6,15 +6,29 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"sort"
 )
 
 // Leaderboard command
 func Leaderboard(ctx *exrouter.Context) {
-	highScores := framework.MQDB.GetScores()
+	scores := framework.MQDB.GetScores()
+
+	scoresSlice := make([]framework.MusicQuizEntry, 0, len(scores))
+	for k, v := range scores {
+		scoresSlice = append(scoresSlice, framework.MusicQuizEntry{
+			UserId:        k,
+			MusicScore:    v.MusicScore,
+			TotalAttempts: v.TotalAttempts,
+		})
+	}
+
+	sort.Slice(scoresSlice, func(i, j int) bool {
+		return scoresSlice[i].MusicScore > scoresSlice[j].MusicScore
+	})
 
 	leaderboard := "```\nRank | Score | User\n"
 
-	for idx, val := range highScores {
+	for idx, val := range scoresSlice {
 		if idx == 10 {
 			break
 		}

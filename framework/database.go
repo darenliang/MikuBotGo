@@ -6,12 +6,17 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
-	"sort"
 	"strconv"
+	"sync"
 )
 
 type MusicQuizEntry struct {
 	UserId        string
+	MusicScore    int
+	TotalAttempts int
+}
+
+type MusicQuizEntryTuple struct {
 	MusicScore    int
 	TotalAttempts int
 }
@@ -26,7 +31,7 @@ type MusicQuizDatabase interface {
 	UpdateScore(string, int, int)
 	CreateScore(string, int, int)
 	SetScores()
-	GetScores() []MusicQuizEntry
+	GetScores() map[string]MusicQuizEntryTuple
 }
 
 type PrefixDatabase interface {
@@ -40,37 +45,18 @@ type PrefixDatabase interface {
 
 type DynamoDBMusicQuizDatabase struct {
 	TableName      string
-	MusicQuizCache []MusicQuizEntry
+	MusicQuizCache *sync.Map
 }
 
 type DynamoDBPrefixDatabase struct {
 	TableName   string
-	PrefixCache map[string]string
+	PrefixCache *sync.Map
 }
 
 var AwsSession *session.Session
 var DynamoDBInstance *dynamodb.DynamoDB
 var MQDB MusicQuizDatabase
 var PDB PrefixDatabase
-
-// Sort music score descending
-func bubbleSort(entries []MusicQuizEntry) {
-	entriesLeft := len(entries)
-	sorted := false
-	for !sorted {
-		swapped := false
-		for i := 0; i < entriesLeft-1; i++ {
-			if entries[i].MusicScore < entries[i+1].MusicScore {
-				entries[i+1], entries[i] = entries[i], entries[i+1]
-				swapped = true
-			}
-		}
-		if !swapped {
-			sorted = true
-		}
-		entriesLeft--
-	}
-}
 
 func init() {
 	// Initialize session
@@ -82,24 +68,22 @@ func init() {
 	// Setup music quiz database struct
 	MQDB = &DynamoDBMusicQuizDatabase{
 		TableName:      "music_quiz",
-		MusicQuizCache: make([]MusicQuizEntry, 0),
+		MusicQuizCache: &sync.Map{},
 	}
 
 	// Setup prefix database struct
 	PDB = &DynamoDBPrefixDatabase{
 		TableName:   "prefix_table",
-		PrefixCache: make(map[string]string),
+		PrefixCache: &sync.Map{},
 	}
 }
 
 func (db *DynamoDBMusicQuizDatabase) GetScore(id string) (int, int) {
-
-	for _, v := range db.MusicQuizCache {
-		if v.UserId == id {
-			return v.MusicScore, v.TotalAttempts
-		}
+	res, ok := db.MusicQuizCache.Load(id)
+	if ok {
+		entry := res.(MusicQuizEntryTuple)
+		return entry.MusicScore, entry.TotalAttempts
 	}
-
 	return 0, 0
 }
 
@@ -124,16 +108,10 @@ func (db *DynamoDBMusicQuizDatabase) UpdateScore(id string, score, attempts int)
 	}
 
 	_, _ = DynamoDBInstance.UpdateItem(input)
-
-	for i := 0; i < len(db.MusicQuizCache); i++ {
-		if db.MusicQuizCache[i].UserId == id {
-			db.MusicQuizCache[i].MusicScore = score
-			db.MusicQuizCache[i].TotalAttempts = attempts
-			break
-		}
-	}
-
-	bubbleSort(db.MusicQuizCache)
+	db.MusicQuizCache.Store(id, MusicQuizEntryTuple{
+		MusicScore:    score,
+		TotalAttempts: attempts,
+	})
 }
 
 func (db *DynamoDBMusicQuizDatabase) CreateScore(id string, score, attempts int) {
@@ -151,14 +129,10 @@ func (db *DynamoDBMusicQuizDatabase) CreateScore(id string, score, attempts int)
 	}
 
 	_, _ = DynamoDBInstance.PutItem(input)
-
-	db.MusicQuizCache = append(db.MusicQuizCache, MusicQuizEntry{
-		UserId:        id,
+	db.MusicQuizCache.Store(id, MusicQuizEntryTuple{
 		MusicScore:    score,
 		TotalAttempts: attempts,
 	})
-
-	bubbleSort(db.MusicQuizCache)
 }
 
 func (db *DynamoDBMusicQuizDatabase) SetScores() {
@@ -177,16 +151,20 @@ func (db *DynamoDBMusicQuizDatabase) SetScores() {
 	for _, i := range result.Items {
 		item := MusicQuizEntry{}
 		_ = dynamodbattribute.UnmarshalMap(i, &item)
-		db.MusicQuizCache = append(db.MusicQuizCache, item)
+		db.MusicQuizCache.Store(item.UserId, MusicQuizEntryTuple{
+			MusicScore:    item.MusicScore,
+			TotalAttempts: item.TotalAttempts,
+		})
 	}
-
-	sort.Slice(db.MusicQuizCache, func(i, j int) bool {
-		return db.MusicQuizCache[i].MusicScore > db.MusicQuizCache[j].MusicScore
-	})
 }
 
-func (db *DynamoDBMusicQuizDatabase) GetScores() []MusicQuizEntry {
-	return db.MusicQuizCache
+func (db *DynamoDBMusicQuizDatabase) GetScores() map[string]MusicQuizEntryTuple {
+	res := make(map[string]MusicQuizEntryTuple)
+	db.MusicQuizCache.Range(func(k, v interface{}) bool {
+		res[k.(string)] = v.(MusicQuizEntryTuple)
+		return true
+	})
+	return res
 }
 
 func (db *DynamoDBPrefixDatabase) CreateGuild(id, prefix string) {
@@ -203,7 +181,7 @@ func (db *DynamoDBPrefixDatabase) CreateGuild(id, prefix string) {
 	}
 
 	_, _ = DynamoDBInstance.PutItem(input)
-	db.PrefixCache[id] = prefix
+	db.PrefixCache.Store(id, prefix)
 }
 
 func (db *DynamoDBPrefixDatabase) UpdateGuild(id, prefix string) {
@@ -224,7 +202,7 @@ func (db *DynamoDBPrefixDatabase) UpdateGuild(id, prefix string) {
 	}
 
 	_, _ = DynamoDBInstance.UpdateItem(input)
-	db.PrefixCache[id] = prefix
+	db.PrefixCache.Store(id, prefix)
 }
 
 func (db *DynamoDBPrefixDatabase) RemoveGuild(id string) {
@@ -238,11 +216,15 @@ func (db *DynamoDBPrefixDatabase) RemoveGuild(id string) {
 	}
 
 	_, _ = DynamoDBInstance.DeleteItem(input)
-	delete(db.PrefixCache, id)
+	db.PrefixCache.Delete(id)
 }
 
 func (db *DynamoDBPrefixDatabase) GetPrefix(id string) string {
-	return db.PrefixCache[id]
+	res, ok := db.PrefixCache.Load(id)
+	if ok {
+		return res.(string)
+	}
+	return ""
 }
 
 func (db *DynamoDBPrefixDatabase) SetGuilds() {
@@ -260,10 +242,15 @@ func (db *DynamoDBPrefixDatabase) SetGuilds() {
 	for _, i := range result.Items {
 		item := PrefixEntry{}
 		_ = dynamodbattribute.UnmarshalMap(i, &item)
-		db.PrefixCache[item.GuildId] = item.Prefix
+		db.PrefixCache.Store(item.GuildId, item.Prefix)
 	}
 }
 
 func (db *DynamoDBPrefixDatabase) GetGuilds() map[string]string {
-	return db.PrefixCache
+	res := make(map[string]string)
+	db.PrefixCache.Range(func(k, v interface{}) bool {
+		res[k.(string)] = v.(string)
+		return true
+	})
+	return res
 }
