@@ -9,7 +9,7 @@ import (
 )
 
 // Includes config variables for bot
-const BotInfo = "MikuBotGo v0.1.0"
+const BotInfo = "MikuBotGo v1.0.0"
 const EmbedColor = 0x2e98a6
 const Prefix = ";"
 const Timeout = 60
