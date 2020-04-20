@@ -61,6 +61,12 @@ func init() {
 			"Alias: t\n\n" +
 			"This command takes no arguments").Alias("t")
 
+	// Waifu
+	Router.On("waifu", cmd.Waifu).Desc(
+		"waifu: Get a waifu\n\n" +
+			"Hope its a good one :)\n\n" +
+			"This command takes no arguments")
+
 	// Leaderboard
 	Router.On("leaderboard", cmd.Leaderboard).Desc(
 		"leaderboard: Get anime music leaderboard\n\n" +

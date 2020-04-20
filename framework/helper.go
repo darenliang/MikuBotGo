@@ -59,6 +59,12 @@ func LoadImage(url string) (image.Image, error) {
 
 	webImage, err := imaging.Decode(resp.Body)
 
+	errClose := resp.Body.Close()
+
+	if errClose != nil {
+		return nil, errClose
+	}
+
 	if err != nil {
 		return nil, err
 	}
