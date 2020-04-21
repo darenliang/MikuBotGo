@@ -16,11 +16,17 @@ const EmbedColor = 0x2e98a6
 const Prefix = ";"
 const Timeout = 60
 const Timer = "\xe2\x8f\xb2\xef\xb8\x8f"
+const ImgurEndpoint = "https://api.imgur.com/3"
+const MaxImgurByteSize = 1000 * 1000 * 10
 
-var StartTime time.Time
-var OpeningsData Openings
-var OpeningsMap = sync.Map{}
-var TraceMoeBase string
+var (
+	StartTime     time.Time
+	OpeningsData  Openings
+	OpeningsMap   = sync.Map{}
+	TraceMoeBase  string
+	ImgurToken    string
+	ImgurUsername string
+)
 
 type OpeningEntry struct {
 	Name  string
@@ -56,4 +62,7 @@ func init() {
 	} else {
 		TraceMoeBase = "https://trace.moe/api/search"
 	}
+
+	ImgurToken = os.Getenv("IMGUR_TOKEN")
+	ImgurUsername = os.Getenv("IMGUR_USERNAME")
 }

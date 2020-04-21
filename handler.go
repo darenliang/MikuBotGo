@@ -83,6 +83,13 @@ func init() {
 				"Usage:\n" +
 				"\tsauce <image url>\n" +
 				"\tsauce <image attachment>\n")
+
+		// Gif
+		Router.OnMatch("gif", dgrouter.NewRegexMatcher("^(?i)gif$"), cmd.Gif).Desc(
+			"gif: Add or get previously stored gifs\n\n" +
+				"Usage:\n" +
+				fmt.Sprintf("\t%-24v# Get a random gif\n", "gif") +
+				fmt.Sprintf("\t%-24v# Store gifs\n", "gif <gif urls or attachments>"))
 	})
 
 	// Help
@@ -121,6 +128,7 @@ func init() {
 		// Query databases to temp
 		framework.PDB.SetGuilds()
 		framework.MQDB.SetScores()
+		framework.GBD.SetAlbums()
 
 		// Load cache and check for new guilds
 		cache := framework.PDB.GetGuilds()

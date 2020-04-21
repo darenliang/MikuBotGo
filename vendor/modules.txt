@@ -63,8 +63,17 @@ github.com/bwmarrin/discordgo
 github.com/disintegration/imaging
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
+# github.com/h2non/filetype v1.0.12
+## explicit
+github.com/h2non/filetype
+github.com/h2non/filetype/matchers
+github.com/h2non/filetype/matchers/isobmff
+github.com/h2non/filetype/types
 # github.com/jmespath/go-jmespath v0.3.0
 github.com/jmespath/go-jmespath
+# github.com/mvdan/xurls v1.1.0
+## explicit
+github.com/mvdan/xurls
 # github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
 ## explicit
 github.com/paul-mannino/go-fuzzywuzzy

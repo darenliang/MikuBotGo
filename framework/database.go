@@ -1,12 +1,19 @@
 package framework
 
 import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
 	"github.com/darenliang/MikuBotGo/config"
+	"math/rand"
+	"net/http"
+	"net/url"
 	"strconv"
 	"sync"
 )
@@ -27,6 +34,22 @@ type PrefixEntry struct {
 	Prefix  string
 }
 
+type GifItemList struct {
+	Data []struct {
+		ID    string `json:"id"`
+		Title string `json:"title"`
+		Link  string `json:"link"`
+	} `json:"data"`
+	Success bool `json:"success"`
+}
+
+type GifItem struct {
+	Data struct {
+		ID string `json:"id"`
+	} `json:"data"`
+	Success bool `json:"success"`
+}
+
 type MusicQuizDatabase interface {
 	GetScore(string) (int, int)
 	UpdateScore(string, int, int)
@@ -44,6 +67,12 @@ type PrefixDatabase interface {
 	GetGuilds() map[string]string
 }
 
+type GifDatabase interface {
+	GetGif(string) (string, string)
+	UploadGif(string, string, string) error
+	SetAlbums()
+}
+
 type DynamoDBMusicQuizDatabase struct {
 	TableName      string
 	MusicQuizCache *sync.Map
@@ -54,10 +83,17 @@ type DynamoDBPrefixDatabase struct {
 	PrefixCache *sync.Map
 }
 
-var AwsSession *session.Session
-var DynamoDBInstance *dynamodb.DynamoDB
-var MQDB MusicQuizDatabase
-var PDB PrefixDatabase
+type GifCacheDatabase struct {
+	GifCache *sync.Map
+}
+
+var (
+	AwsSession       *session.Session
+	DynamoDBInstance *dynamodb.DynamoDB
+	MQDB             MusicQuizDatabase
+	PDB              PrefixDatabase
+	GBD              GifDatabase
+)
 
 func init() {
 	// Initialize session
@@ -76,6 +112,11 @@ func init() {
 	PDB = &DynamoDBPrefixDatabase{
 		TableName:   "prefix_table",
 		PrefixCache: &sync.Map{},
+	}
+
+	// Setup gif album cache struct
+	GBD = &GifCacheDatabase{
+		GifCache: &sync.Map{},
 	}
 }
 
@@ -254,4 +295,108 @@ func (db *DynamoDBPrefixDatabase) GetGuilds() map[string]string {
 		return true
 	})
 	return res
+}
+
+func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
+	albumHash, ok := db.GifCache.Load(guildId)
+
+	if !ok {
+		return "", ""
+	}
+
+	req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
+		config.ImgurEndpoint, albumHash), new(bytes.Buffer))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+
+	resp, _ := HttpClient.Do(req)
+	AlbumEntry := GifItemList{}
+
+	err := json.NewDecoder(resp.Body).Decode(&AlbumEntry)
+
+	if err != nil {
+		return "", ""
+	}
+
+	if !AlbumEntry.Success {
+		return "", ""
+	}
+
+	if len(AlbumEntry.Data) == 0 {
+		return "", ""
+	}
+
+	img := AlbumEntry.Data[rand.Intn(len(AlbumEntry.Data))]
+
+	return img.Title, img.Link
+}
+
+func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl string) error {
+	albumHash, ok := db.GifCache.Load(guildId)
+
+	if !ok {
+		params := url.Values{}
+		params.Set("title", guildId)
+		params.Set("privacy", "secret")
+		req, _ := http.NewRequest("POST", fmt.Sprintf("%s/album?%s",
+			config.ImgurEndpoint, params.Encode()), new(bytes.Buffer))
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+		resp, _ := HttpClient.Do(req)
+
+		albumCreation := GifItem{}
+		err := json.NewDecoder(resp.Body).Decode(&albumCreation)
+
+		if err != nil {
+			return err
+		}
+
+		if !albumCreation.Success {
+			return errors.New("database error")
+		}
+
+		db.GifCache.Store(guildId, albumCreation.Data.ID)
+		albumHash = albumCreation.Data.ID
+	}
+
+	params := url.Values{}
+	params.Set("image", imgUrl)
+	params.Set("album", albumHash.(string))
+	params.Set("type", "url")
+	params.Set("title", userId)
+	req, _ := http.NewRequest("POST", fmt.Sprintf("%s/upload?%s",
+		config.ImgurEndpoint, params.Encode()), new(bytes.Buffer))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+
+	resp, _ := HttpClient.Do(req)
+	status := GifItem{}
+
+	err := json.NewDecoder(resp.Body).Decode(&status)
+
+	if err != nil {
+		return err
+	}
+
+	if !status.Success {
+		fmt.Println(status)
+		return errors.New("gif cannot be added")
+	}
+
+	return nil
+}
+
+func (db *GifCacheDatabase) SetAlbums() {
+	req, _ := http.NewRequest("GET", fmt.Sprintf("%s/account/%s/albums",
+		config.ImgurEndpoint, config.ImgurUsername), new(bytes.Buffer))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+	resp, _ := HttpClient.Do(req)
+	albums := GifItemList{}
+
+	_ = json.NewDecoder(resp.Body).Decode(&albums)
+
+	for _, i := range albums.Data {
+		db.GifCache.Store(i.Title, i.ID)
+	}
 }
