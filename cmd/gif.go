@@ -7,6 +7,7 @@ import (
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/h2non/filetype"
 	"github.com/mvdan/xurls"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -75,14 +76,14 @@ func Gif(ctx *exrouter.Context) {
 			continue
 		}
 
-		data, err := ioutil.ReadAll(resp.Body)
+		data, err := ioutil.ReadAll(io.LimitReader(resp.Body, config.MaxImgurByteSize))
 
 		if err != nil {
 			continue
 		}
 
 		kind, _ := filetype.Match(data)
-		if kind.Extension == "gif" && len(data) < config.MaxImgurByteSize {
+		if kind.Extension == "gif" {
 			err := framework.GBD.UploadGif(ctx.Msg.GuildID, ctx.Msg.Author.ID, v)
 			if err == nil {
 				count++
