@@ -18,38 +18,10 @@ var Router = exrouter.New()
 func init() {
 	// Utility Group
 	Router.Group(func(r *exrouter.Route) {
-		r.Cat("Utility")
-
-		// Help
-		Router.Default = Router.OnMatch("help", dgrouter.NewRegexMatcher("^(?i)(help|h)$"), func(ctx *exrouter.Context) {
-			command := strings.TrimSpace(ctx.Args.After(1))
-			if command == "" {
-				var text = fmt.Sprintf("help: Type %shelp <command> for more info on a command.\n\n",
-					framework.PDB.GetPrefix(ctx.Msg.GuildID))
-				for _, v := range Router.Routes {
-					length := 16 - len(v.Name)
-					text += v.Name + strings.Repeat(" ", length) + "# " +
-						framework.GeneratePreviewDesc(v.Description) + "\n"
-				}
-				_, _ = ctx.Reply("```\n" + text + "```\n")
-				return
-			}
-
-			for _, v := range Router.Routes {
-				if command == v.Name {
-					_, _ = ctx.Reply("```\n" + v.Description + "```\n")
-					return
-				}
-			}
-			_, _ = ctx.Reply("Command not found.")
-		}).Desc("help: Prints this help menu\n\n" +
-			"Alias: h\n\n" +
-			"Usage: help <command>")
-
 		// Info
 		Router.OnMatch("info", dgrouter.NewRegexMatcher("^(?i)info$"), cmd.Info).Desc(
 			"info: Get bot info\n\n" +
-				"This command takes no arguments")
+				"This command takes no arguments").Cat("Utility")
 
 		// Prefix
 		Router.OnMatch("prefix", dgrouter.NewRegexMatcher("^(?i)(prefix|p)$"), cmd.Prefix).Desc(
@@ -72,13 +44,11 @@ func init() {
 
 	// Anime Group
 	Router.Group(func(r *exrouter.Route) {
-		r.Cat("Anime")
-
 		// Anime
 		Router.OnMatch("anime", dgrouter.NewRegexMatcher("^(?i)(anime|a)$"), cmd.Anime).Desc(
 			"anime: Get anime info\n\n" +
 				"Alias: a\n\n" +
-				"Usage: anime <anime name>")
+				"Usage: anime <anime name>").Cat("Anime")
 
 		// Quiz
 		Router.OnMatch("musicquiz", dgrouter.NewRegexMatcher("^(?i)(musicquiz|mq)$"), cmd.MusicQuiz).Desc(
@@ -114,6 +84,37 @@ func init() {
 				"\tsauce <image url>\n" +
 				"\tsauce <image attachment>\n")
 	})
+
+	// Help
+	Router.Default = Router.OnMatch("help", dgrouter.NewRegexMatcher("^(?i)(help|h)$"), func(ctx *exrouter.Context) {
+		command := strings.TrimSpace(ctx.Args.After(1))
+		if command == "" {
+			var text = fmt.Sprintf("help: Type %shelp <command> for more info on a command.\n",
+				framework.PDB.GetPrefix(ctx.Msg.GuildID))
+			pastCategory := ""
+			for _, v := range Router.Routes {
+				if v.Category != pastCategory && len(v.Category) != 0 {
+					text += "\n" + v.Category + ":\n"
+					pastCategory = v.Category
+				}
+				length := 16 - len(v.Name)
+				text += "\t" + v.Name + strings.Repeat(" ", length) + "# " +
+					framework.GeneratePreviewDesc(v.Description) + "\n"
+			}
+			_, _ = ctx.Reply("```\n" + text + "```\n")
+			return
+		}
+
+		for _, v := range Router.Routes {
+			if command == v.Name {
+				_, _ = ctx.Reply("```\n" + v.Description + "```\n")
+				return
+			}
+		}
+		_, _ = ctx.Reply("Command not found.")
+	}).Desc("help: Prints this help menu\n\n" +
+		"Alias: h\n\n" +
+		"Usage: help <command>").Cat("Help")
 
 	// Query database on ready
 	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
