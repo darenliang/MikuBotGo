@@ -83,13 +83,16 @@ func init() {
 				"Usage:\n" +
 				"\tsauce <image url>\n" +
 				"\tsauce <image attachment>\n")
+	})
 
+	// Fun Group
+	Router.Group(func(r *exrouter.Route) {
 		// Gif
 		Router.OnMatch("gif", dgrouter.NewRegexMatcher("^(?i)gif$"), cmd.Gif).Desc(
 			"gif: Add or get previously stored gifs\n\n" +
 				"Usage:\n" +
 				fmt.Sprintf("\t%-24v# Get a random gif\n", "gif") +
-				fmt.Sprintf("\t%-24v# Store gifs\n", "gif <gif urls or attachments>"))
+				fmt.Sprintf("\t%-24v# Store gifs\n", "gif <gif urls or attachments>")).Cat("Fun")
 	})
 
 	// Help
