@@ -78,6 +78,11 @@
    │  │  │  └─ 0: https://animethemes.moe/video/Hachinan-OP1.webm
    │  │  └─ Tsukiakari no Monologue
    │  │     └─ 0: https://animethemes.moe/video/Hachinan-ED1.webm
+   │  ├─ Hakushon Daimaou
+   │  │  ├─ Satesu Hakushon
+   │  │  │  └─ 0: https://animethemes.moe/video/HakushonDaimaou2020-OP1.webm
+   │  │  └─ Akubi wo Sureba
+   │  │     └─ 0: https://animethemes.moe/video/HakushonDaimaou2020-ED1.webm
    │  ├─ Honzuki no Gekokujou: Shisho ni Naru Tame ni wa Shudan wo Erandeiraremasen 2nd Season
    │  │  ├─ Tsumujikaze
    │  │  │  └─ 0: https://animethemes.moe/video/HonzukiNoGekokujouS2-OP1.webm
@@ -147,6 +152,14 @@
    │  │  │  └─ 0: https://animethemes.moe/video/NamiYoKiitekure-OP1.webm
    │  │  └─ Pride
    │  │     └─ 0: https://animethemes.moe/video/NamiYoKiitekure-ED1.webm
+   │  ├─ Norimono Man: Mobile Land no Car-kun
+   │  │  └─ Kattobi Mobile Land
+   │  │     └─ 0: https://animethemes.moe/video/NorimonoMan-OP1.webm
+   │  ├─ Olympia Kyklos
+   │  │  ├─ William Tell Jokyoku
+   │  │  │  └─ 0: https://animethemes.moe/video/OlympiaKyklos-OP1.webm
+   │  │  └─ Kimi wa Helenes
+   │  │     └─ 0: https://animethemes.moe/video/OlympiaKyklos-ED1.webm
    │  ├─ Otome Game no Hametsu Flag shika Nai Akuyaku Reijou ni Tensei shiteshimatta...
    │  │  ├─ Otome no Route wa Hitotsu ja Nai!
    │  │  │  └─ 0: https://animethemes.moe/video/Hamefura-OP1.webm

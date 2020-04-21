@@ -260,11 +260,6 @@
    │  │  │  └─ 0: https://animethemes.moe/video/KubikiriCycle-OP1.webm
    │  │  └─ Märchen
    │  │     └─ 0: https://animethemes.moe/video/KubikiriCycle-ED1v2.webm
-   │  ├─ Long Riders!
-   │  │  ├─ ♡㎞/h
-   │  │  │  └─ 0: https://animethemes.moe/video/LongRiders-OP1v2.webm
-   │  │  └─ Happy Ice Cream!
-   │  │     └─ 0: https://animethemes.moe/video/LongRiders-ED1.webm
    │  ├─ Lostorage incited WIXOSS
    │  │  ├─ Lostorage
    │  │  │  └─ 0: https://animethemes.moe/video/LostorageIncitedWIXOSS-OP1.webm
