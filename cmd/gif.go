@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
+	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/h2non/filetype"
@@ -75,6 +76,72 @@ func moderateGif(url string) (bool, error) {
 	return true, nil
 }
 
+func UploadGifs(content string, message *discordgo.Message) (int, int, int, int) {
+	count := 0
+	dupCount := 0
+	nsfwCount := 0
+
+	rxStrict := xurls.Strict
+	urls := rxStrict.FindAllString(content, -1)
+
+	gifUrls := make([]string, 0)
+	for _, v := range urls {
+		if strings.HasSuffix(v, ".gif") {
+			gifUrls = append(gifUrls, v)
+		}
+	}
+	for _, v := range message.Attachments {
+		if strings.HasSuffix(v.URL, ".gif") {
+			gifUrls = append(gifUrls, v.URL)
+		}
+	}
+
+	// Filter fakes
+	for _, v := range gifUrls {
+		resp, err := http.Get(v)
+
+		if err != nil {
+			continue
+		}
+
+		data, err := ioutil.ReadAll(io.LimitReader(resp.Body, config.MaxImgurByteSize+1))
+
+		// URL read is good
+		if err == nil {
+			// Size too big
+			if len(data) <= config.MaxImgurByteSize {
+				// Validate filetype
+				kind, _ := filetype.Match(data)
+				if kind.Extension == "gif" {
+					// Moderate file
+					ok, err := moderateGif(v)
+					if err == nil {
+						if ok {
+							// Check file hash for dups
+							hash := fmt.Sprintf("%x", sha256.Sum256(data))
+							if framework.GBD.CheckDup(message.GuildID, hash) {
+								dupCount++
+							} else {
+								// Update file
+								err := framework.GBD.UploadGif(message.GuildID, message.Author.ID, v, hash)
+								if err == nil {
+									count++
+								}
+							}
+						} else {
+							// If failed moderation
+							nsfwCount++
+						}
+					}
+				}
+			}
+		}
+		_ = resp.Body.Close()
+	}
+
+	return count, len(gifUrls), dupCount, nsfwCount
+}
+
 // Gif command
 func Gif(ctx *exrouter.Context) {
 	// Direct messages
@@ -108,79 +175,14 @@ func Gif(ctx *exrouter.Context) {
 		return
 	}
 
-	rxStrict := xurls.Strict
-	urls := rxStrict.FindAllString(content, -1)
-
-	gifUrls := make([]string, 0)
-	for _, v := range urls {
-		if strings.HasSuffix(v, ".gif") {
-			gifUrls = append(gifUrls, v)
-		}
-	}
-	for _, v := range ctx.Msg.Attachments {
-		if strings.HasSuffix(v.URL, ".gif") {
-			gifUrls = append(gifUrls, v.URL)
-		}
-	}
-
-	if len(gifUrls) == 0 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You did not attach any gifs in the message.")
-		return
-	}
-
-	count := 0
-	nsfwCount := 0
-	dupCount := 0
-
-	// Filter fakes
-	for _, v := range gifUrls {
-		resp, err := http.Get(v)
-
-		if err != nil {
-			continue
-		}
-
-		data, err := ioutil.ReadAll(io.LimitReader(resp.Body, config.MaxImgurByteSize+1))
-
-		// URL read is good
-		if err == nil {
-			// Size too big
-			if len(data) <= config.MaxImgurByteSize {
-				// Validate filetype
-				kind, _ := filetype.Match(data)
-				if kind.Extension == "gif" {
-					// Moderate file
-					ok, err := moderateGif(v)
-					if err == nil {
-						if ok {
-							// Check file hash for dups
-							hash := fmt.Sprintf("%x", sha256.Sum256(data))
-							if framework.GBD.CheckDup(ctx.Msg.GuildID, hash) {
-								dupCount++
-							} else {
-								// Update file
-								err := framework.GBD.UploadGif(ctx.Msg.GuildID, ctx.Msg.Author.ID, v, hash)
-								if err == nil {
-									count++
-								}
-							}
-						} else {
-							// If failed moderation
-							nsfwCount++
-						}
-					}
-				}
-			}
-		}
-		_ = resp.Body.Close()
-	}
+	count, total, dupCount, nsfwCount := UploadGifs(content, ctx.Msg)
 
 	msg := fmt.Sprintf("**%d** gif(s) added by %s#%s.",
 		count, ctx.Msg.Author.Username, ctx.Msg.Author.Discriminator)
 
-	if count != len(gifUrls) {
+	if count != total {
 		msg += fmt.Sprintf(" **%d** gif(s) failed to upload.",
-			len(gifUrls)-count)
+			total-count)
 	}
 
 	if dupCount != 0 {
