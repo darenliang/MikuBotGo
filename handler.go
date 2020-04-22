@@ -15,6 +15,9 @@ import (
 // multiplexer throughout the bot.
 var Router = exrouter.New()
 
+// floppyEmoji
+const floppyEmoji = "\xf0\x9f\x92\xbe"
+
 func init() {
 	// Utility Group
 	Router.Group(func(r *exrouter.Route) {
@@ -159,5 +162,47 @@ func init() {
 			prefix = framework.PDB.GetPrefix(m.GuildID)
 		}
 		_ = Router.FindAndExecute(Session, prefix, Session.State.User.ID, m.Message)
+	})
+
+	// Handle reaction add
+	Session.AddHandler(func(_ *discordgo.Session, reaction *discordgo.MessageReactionAdd) {
+		// If DM
+		if len(reaction.GuildID) == 0 {
+			return
+		}
+		// If the emoji is not floppy disk
+		if reaction.Emoji.Name != floppyEmoji {
+			return
+		}
+
+		// Get message
+		message, err := Session.ChannelMessage(reaction.ChannelID, reaction.MessageID)
+
+		if err != nil {
+			return
+		}
+
+		// Patch for ChannelMessage not returning guildID
+		message.GuildID = reaction.GuildID
+
+		// Get user
+		user, err := Session.User(reaction.UserID)
+		if err != nil {
+			return
+		}
+
+		// Iterate emojis
+		for _, emoji := range message.Reactions {
+			if emoji.Emoji.Name == floppyEmoji && !emoji.Me {
+				_ = Session.MessageReactionAdd(message.ChannelID, message.ID, floppyEmoji)
+				count, total, dupCount, nsfwCount := cmd.UploadGifs(message.Content, message)
+				if total == 0 {
+					return
+				}
+				msg := cmd.GenerateGifUploadMessage(user, count, total, dupCount, nsfwCount)
+				_, _ = Session.ChannelMessageSend(message.ChannelID, msg)
+				return
+			}
+		}
 	})
 }

@@ -142,6 +142,28 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 	return count, len(gifUrls), dupCount, nsfwCount
 }
 
+func GenerateGifUploadMessage(user *discordgo.User, count, total, dupCount, nsfwCount int) string {
+	msg := fmt.Sprintf("**%d** gif(s) added by %s#%s.",
+		count, user.Username, user.Discriminator)
+
+	if count != total {
+		msg += fmt.Sprintf(" **%d** gif(s) failed to upload.",
+			total-count)
+	}
+
+	if dupCount != 0 {
+		msg += fmt.Sprintf(" **%d** gif(s) was flagged as duplicate.",
+			dupCount)
+	}
+
+	if nsfwCount != 0 {
+		msg += fmt.Sprintf(" **%d** gif(s) was flagged as questionable.",
+			nsfwCount)
+	}
+
+	return msg
+}
+
 // Gif command
 func Gif(ctx *exrouter.Context) {
 	// Direct messages
@@ -177,23 +199,7 @@ func Gif(ctx *exrouter.Context) {
 
 	count, total, dupCount, nsfwCount := UploadGifs(content, ctx.Msg)
 
-	msg := fmt.Sprintf("**%d** gif(s) added by %s#%s.",
-		count, ctx.Msg.Author.Username, ctx.Msg.Author.Discriminator)
-
-	if count != total {
-		msg += fmt.Sprintf(" **%d** gif(s) failed to upload.",
-			total-count)
-	}
-
-	if dupCount != 0 {
-		msg += fmt.Sprintf(" **%d** gif(s) was flagged as duplicate.",
-			dupCount)
-	}
-
-	if nsfwCount != 0 {
-		msg += fmt.Sprintf(" **%d** gif(s) was flagged as questionable.",
-			nsfwCount)
-	}
+	msg := GenerateGifUploadMessage(ctx.Msg.Author, count, total, dupCount, nsfwCount)
 
 	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, msg)
 }
