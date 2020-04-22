@@ -309,7 +309,6 @@ func (db *DynamoDBPrefixDatabase) GetGuilds() map[string]string {
 
 func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
 	res, ok := db.GifCache.Load(guildId)
-	images := res.(GifItemList)
 
 	if !ok {
 		return "", ""
@@ -346,7 +345,6 @@ func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
 
 func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) error {
 	res, ok := db.GifCache.Load(guildId)
-	images := res.(GifItemList)
 
 	images := GifItemList{}
 
@@ -442,7 +440,6 @@ func (db *GifCacheDatabase) SetAlbums() {
 
 func (db *GifCacheDatabase) CheckDup(guildId, hash string) bool {
 	res, ok := db.GifCache.Load(guildId)
-	images := res.(GifItemList)
 
 	if !ok {
 		return false
