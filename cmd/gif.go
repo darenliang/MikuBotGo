@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -129,6 +130,7 @@ func Gif(ctx *exrouter.Context) {
 
 	count := 0
 	nsfwCount := 0
+	dupCount := 0
 
 	// Filter fakes
 	for _, v := range gifUrls {
@@ -138,26 +140,36 @@ func Gif(ctx *exrouter.Context) {
 			continue
 		}
 
-		data, err := ioutil.ReadAll(io.LimitReader(resp.Body, config.MaxImgurByteSize))
+		data, err := ioutil.ReadAll(io.LimitReader(resp.Body, config.MaxImgurByteSize+1))
 
-		if err != nil {
-			continue
-		}
-
-		kind, _ := filetype.Match(data)
-		if kind.Extension == "gif" {
-			ok, err := moderateGif(v)
-			if err != nil {
-				continue
-			}
-
-			if ok {
-				err := framework.GBD.UploadGif(ctx.Msg.GuildID, ctx.Msg.Author.ID, v)
-				if err == nil {
-					count++
+		// URL read is good
+		if err == nil {
+			// Size too big
+			if len(data) <= config.MaxImgurByteSize {
+				// Validate filetype
+				kind, _ := filetype.Match(data)
+				if kind.Extension == "gif" {
+					// Moderate file
+					ok, err := moderateGif(v)
+					if err == nil {
+						if ok {
+							// Check file hash for dups
+							hash := fmt.Sprintf("%x", sha256.Sum256(data))
+							if framework.GBD.CheckDup(ctx.Msg.GuildID, hash) {
+								dupCount++
+							} else {
+								// Update file
+								err := framework.GBD.UploadGif(ctx.Msg.GuildID, ctx.Msg.Author.ID, v, hash)
+								if err == nil {
+									count++
+								}
+							}
+						} else {
+							// If failed moderation
+							nsfwCount++
+						}
+					}
 				}
-			} else {
-				nsfwCount++
 			}
 		}
 		_ = resp.Body.Close()
@@ -169,6 +181,11 @@ func Gif(ctx *exrouter.Context) {
 	if count != len(gifUrls) {
 		msg += fmt.Sprintf(" **%d** gif(s) failed to upload.",
 			len(gifUrls)-count)
+	}
+
+	if dupCount != 0 {
+		msg += fmt.Sprintf(" **%d** gif(s) was flagged as duplicate.",
+			dupCount)
 	}
 
 	if nsfwCount != 0 {

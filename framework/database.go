@@ -35,12 +35,16 @@ type PrefixEntry struct {
 }
 
 type GifItemList struct {
-	Data []struct {
-		ID    string `json:"id"`
-		Title string `json:"title"`
-		Link  string `json:"link"`
-	} `json:"data"`
-	Success bool `json:"success"`
+	ID      string
+	Data    []GifImage `json:"data"`
+	Success bool       `json:"success"`
+}
+
+type GifImage struct {
+	ID          string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Link        string `json:"link"`
 }
 
 type GifItem struct {
@@ -48,6 +52,11 @@ type GifItem struct {
 		ID string `json:"id"`
 	} `json:"data"`
 	Success bool `json:"success"`
+}
+
+type GifUpload struct {
+	Data    GifImage `json:"data"`
+	Success bool     `json:"success"`
 }
 
 type MusicQuizDatabase interface {
@@ -69,8 +78,9 @@ type PrefixDatabase interface {
 
 type GifDatabase interface {
 	GetGif(string) (string, string)
-	UploadGif(string, string, string) error
+	UploadGif(string, string, string, string) error
 	SetAlbums()
+	CheckDup(string, string) bool
 }
 
 type DynamoDBMusicQuizDatabase struct {
@@ -298,14 +308,15 @@ func (db *DynamoDBPrefixDatabase) GetGuilds() map[string]string {
 }
 
 func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
-	albumHash, ok := db.GifCache.Load(guildId)
+	res, ok := db.GifCache.Load(guildId)
+	images := res.(GifItemList)
 
 	if !ok {
 		return "", ""
 	}
 
 	req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
-		config.ImgurEndpoint, albumHash), new(bytes.Buffer))
+		config.ImgurEndpoint, images.ID), new(bytes.Buffer))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
 
@@ -331,8 +342,9 @@ func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
 	return img.Title, img.Link
 }
 
-func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl string) error {
-	albumHash, ok := db.GifCache.Load(guildId)
+func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) error {
+	res, ok := db.GifCache.Load(guildId)
+	images := res.(GifItemList)
 
 	if !ok {
 		params := url.Values{}
@@ -356,21 +368,22 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl string) error {
 		}
 
 		db.GifCache.Store(guildId, albumCreation.Data.ID)
-		albumHash = albumCreation.Data.ID
+		images.ID = albumCreation.Data.ID
 	}
 
 	params := url.Values{}
 	params.Set("image", imgUrl)
-	params.Set("album", albumHash.(string))
+	params.Set("album", images.ID)
 	params.Set("type", "url")
 	params.Set("title", userId)
+	params.Set("description", hash)
 	req, _ := http.NewRequest("POST", fmt.Sprintf("%s/upload?%s",
 		config.ImgurEndpoint, params.Encode()), new(bytes.Buffer))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
 
 	resp, _ := HttpClient.Do(req)
-	status := GifItem{}
+	status := GifUpload{}
 
 	err := json.NewDecoder(resp.Body).Decode(&status)
 
@@ -382,6 +395,14 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl string) error {
 		fmt.Println(status)
 		return errors.New("gif cannot be added")
 	}
+
+	images.Data = append(images.Data, GifImage{
+		ID:          status.Data.ID,
+		Title:       status.Data.Title,
+		Description: status.Data.Description,
+		Link:        status.Data.Link,
+	})
+	db.GifCache.Store(guildId, images)
 
 	return nil
 }
@@ -397,6 +418,31 @@ func (db *GifCacheDatabase) SetAlbums() {
 	_ = json.NewDecoder(resp.Body).Decode(&albums)
 
 	for _, i := range albums.Data {
-		db.GifCache.Store(i.Title, i.ID)
+		req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
+			config.ImgurEndpoint, i.ID), new(bytes.Buffer))
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+		resp, _ := HttpClient.Do(req)
+		images := GifItemList{}
+		images.ID = i.ID
+		_ = json.NewDecoder(resp.Body).Decode(&images)
+		db.GifCache.Store(i.Title, images)
 	}
+}
+
+func (db *GifCacheDatabase) CheckDup(guildId, hash string) bool {
+	res, ok := db.GifCache.Load(guildId)
+	images := res.(GifItemList)
+
+	if !ok {
+		return false
+	}
+
+	for _, i := range images.Data {
+		if i.Description == hash {
+			return true
+		}
+	}
+
+	return false
 }
