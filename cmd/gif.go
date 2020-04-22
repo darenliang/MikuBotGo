@@ -63,7 +63,10 @@ func moderateGif(url string) bool {
 		return false
 	}
 	for _, frame := range clarifaiPredict.Outputs[0].Data.Frames {
-		if frame.Data.Concepts[0].Name == "nsfw" {
+		if frame.Data.Concepts[0].Name == "sfw" {
+			continue
+		}
+		if frame.Data.Concepts[0].Value > 0.9 {
 			return false
 		}
 	}
