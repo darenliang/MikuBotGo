@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/darenliang/MikuBotGo/config"
@@ -12,6 +14,61 @@ import (
 	"net/http"
 	"strings"
 )
+
+type ClarifaiPredict struct {
+	Status struct {
+		Code int `json:"code"`
+	} `json:"status"`
+	Outputs []struct {
+		Data struct {
+			Frames []struct {
+				Data struct {
+					Concepts []struct {
+						Name  string  `json:"name"`
+						Value float64 `json:"value"`
+					} `json:"concepts"`
+				} `json:"data"`
+			} `json:"frames"`
+		} `json:"data"`
+	} `json:"outputs"`
+}
+
+func moderateGif(url string) bool {
+	jsonStr := fmt.Sprintf(`{
+   "inputs":[
+      {
+         "data":{
+            "video":{
+               "url":"%s"
+            }
+         }
+      }
+   ],
+   "model":{
+      "output_info":{
+         "output_config":{
+            "sample_ms":100
+         }
+      }
+   }
+}`, url)
+	req, _ := http.NewRequest("POST", config.ClarifaiNSFWEndpoint, bytes.NewBuffer([]byte(jsonStr)))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Key "+config.ClarifaiToken)
+	resp, _ := framework.HttpClient.Do(req)
+
+	clarifaiPredict := ClarifaiPredict{}
+	_ = json.NewDecoder(resp.Body).Decode(&clarifaiPredict)
+	if clarifaiPredict.Status.Code != 10000 || len(clarifaiPredict.Outputs) == 0 {
+		return false
+	}
+	for _, frame := range clarifaiPredict.Outputs[0].Data.Frames {
+		if frame.Data.Concepts[0].Name == "nsfw" {
+			return false
+		}
+	}
+	return true
+}
 
 // Gif command
 func Gif(ctx *exrouter.Context) {
@@ -67,6 +124,7 @@ func Gif(ctx *exrouter.Context) {
 	}
 
 	count := 0
+	nsfwCount := 0
 
 	// Filter fakes
 	for _, v := range gifUrls {
@@ -84,9 +142,13 @@ func Gif(ctx *exrouter.Context) {
 
 		kind, _ := filetype.Match(data)
 		if kind.Extension == "gif" {
-			err := framework.GBD.UploadGif(ctx.Msg.GuildID, ctx.Msg.Author.ID, v)
-			if err == nil {
-				count++
+			if moderateGif(v) {
+				err := framework.GBD.UploadGif(ctx.Msg.GuildID, ctx.Msg.Author.ID, v)
+				if err == nil {
+					count++
+				}
+			} else {
+				nsfwCount++
 			}
 		}
 		_ = resp.Body.Close()
@@ -98,6 +160,11 @@ func Gif(ctx *exrouter.Context) {
 	if count != len(gifUrls) {
 		msg += fmt.Sprintf(" **%d** gif(s) failed to upload.",
 			len(gifUrls)-count)
+	}
+
+	if nsfwCount != 0 {
+		msg += fmt.Sprintf(" **%d** gif(s) was flagged as questionable.",
+			nsfwCount)
 	}
 
 	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, msg)

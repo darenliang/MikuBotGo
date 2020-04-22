@@ -11,13 +11,16 @@ import (
 )
 
 // Includes config variables for bot
-const BotInfo = "MikuBotGo v1.0.0"
-const EmbedColor = 0x2e98a6
-const Prefix = ";"
-const Timeout = 60
-const Timer = "\xe2\x8f\xb2\xef\xb8\x8f"
-const ImgurEndpoint = "https://api.imgur.com/3"
-const MaxImgurByteSize = 1000 * 1000 * 10
+const (
+	BotInfo              = "MikuBotGo v1.0.0"
+	EmbedColor           = 0x2e98a6
+	Prefix               = ";"
+	Timeout              = 60
+	Timer                = "\xe2\x8f\xb2\xef\xb8\x8f"
+	ImgurEndpoint        = "https://api.imgur.com/3"
+	MaxImgurByteSize     = 1000 * 1000 * 10
+	ClarifaiNSFWEndpoint = "https://api.clarifai.com/v2/models/e9576d86d2004ed1a38ba0cf39ecb4b1/outputs"
+)
 
 var (
 	StartTime     time.Time
@@ -26,6 +29,7 @@ var (
 	TraceMoeBase  string
 	ImgurToken    string
 	ImgurUsername string
+	ClarifaiToken string
 )
 
 type OpeningEntry struct {
@@ -65,4 +69,5 @@ func init() {
 
 	ImgurToken = os.Getenv("IMGUR_TOKEN")
 	ImgurUsername = os.Getenv("IMGUR_USERNAME")
+	ClarifaiToken = os.Getenv("CLARIFAI_TOKEN")
 }
