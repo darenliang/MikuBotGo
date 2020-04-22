@@ -315,6 +315,8 @@ func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
 		return "", ""
 	}
 
+	images := res.(GifItemList)
+
 	req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
 		config.ImgurEndpoint, images.ID), new(bytes.Buffer))
 	req.Header.Set("Content-Type", "application/json")
@@ -346,6 +348,8 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 	res, ok := db.GifCache.Load(guildId)
 	images := res.(GifItemList)
 
+	images := GifItemList{}
+
 	if !ok {
 		params := url.Values{}
 		params.Set("title", guildId)
@@ -367,8 +371,13 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 			return errors.New("database error")
 		}
 
-		db.GifCache.Store(guildId, albumCreation.Data.ID)
-		images.ID = albumCreation.Data.ID
+		images = GifItemList{
+			ID:      albumCreation.Data.ID,
+			Data:    make([]GifImage, 0),
+			Success: albumCreation.Success,
+		}
+	} else {
+		images = res.(GifItemList)
 	}
 
 	params := url.Values{}
@@ -402,6 +411,7 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 		Description: status.Data.Description,
 		Link:        status.Data.Link,
 	})
+
 	db.GifCache.Store(guildId, images)
 
 	return nil
@@ -437,6 +447,8 @@ func (db *GifCacheDatabase) CheckDup(guildId, hash string) bool {
 	if !ok {
 		return false
 	}
+
+	images := res.(GifItemList)
 
 	for _, i := range images.Data {
 		if i.Description == hash {
