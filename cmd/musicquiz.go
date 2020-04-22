@@ -57,10 +57,15 @@ func MusicQuiz(ctx *exrouter.Context) {
 					Color:  config.EmbedColor,
 					Fields: []*discordgo.MessageEmbedField{
 						{
+							Name:   "Type",
+							Value:  strings.ReplaceAll(anime.Format, "_", " "),
+							Inline: true,
+						},
+						{
 							Name: "Season",
 							Value: fmt.Sprintf("%s %d", strings.Title(strings.ToLower(anime.Season)),
 								anime.SeasonYear),
-							Inline: false,
+							Inline: true,
 						},
 						{
 							Name:   "Genres",
