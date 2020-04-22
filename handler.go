@@ -93,6 +93,7 @@ func init() {
 		// Gif
 		Router.OnMatch("gif", dgrouter.NewRegexMatcher("^(?i)gif$"), cmd.Gif).Desc(
 			"gif: Add or get previously stored gifs\n\n" +
+				"You can add gifs by reacting using the :floppy_disk: emoji\n\n" +
 				"Usage:\n" +
 				fmt.Sprintf("\t%-30v# Get a random gif\n", "gif") +
 				fmt.Sprintf("\t%-30v# Store gifs\n", "gif <urls or attachments>")).Cat("Fun")
