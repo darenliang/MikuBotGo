@@ -3,6 +3,7 @@ package cmd
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/darenliang/MikuBotGo/config"
@@ -33,7 +34,7 @@ type ClarifaiPredict struct {
 	} `json:"outputs"`
 }
 
-func moderateGif(url string) bool {
+func moderateGif(url string) (bool, error) {
 	jsonStr := fmt.Sprintf(`{
    "inputs":[
       {
@@ -60,17 +61,17 @@ func moderateGif(url string) bool {
 	clarifaiPredict := ClarifaiPredict{}
 	_ = json.NewDecoder(resp.Body).Decode(&clarifaiPredict)
 	if clarifaiPredict.Status.Code != 10000 || len(clarifaiPredict.Outputs) == 0 {
-		return false
+		return false, errors.New("invalid status code")
 	}
 	for _, frame := range clarifaiPredict.Outputs[0].Data.Frames {
 		if frame.Data.Concepts[0].Name == "sfw" {
 			continue
 		}
 		if frame.Data.Concepts[0].Value > 0.9 {
-			return false
+			return false, nil
 		}
 	}
-	return true
+	return true, nil
 }
 
 // Gif command
@@ -145,7 +146,12 @@ func Gif(ctx *exrouter.Context) {
 
 		kind, _ := filetype.Match(data)
 		if kind.Extension == "gif" {
-			if moderateGif(v) {
+			ok, err := moderateGif(v)
+			if err != nil {
+				continue
+			}
+
+			if ok {
 				err := framework.GBD.UploadGif(ctx.Msg.GuildID, ctx.Msg.Author.ID, v)
 				if err == nil {
 					count++
