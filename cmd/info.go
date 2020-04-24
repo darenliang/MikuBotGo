@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"runtime"
 	"strconv"
 	"time"
 )
@@ -27,9 +28,14 @@ func Info(ctx *exrouter.Context) {
 		prefix = framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	}
 
+	// Memory Stats
+	var mem runtime.MemStats
+	runtime.ReadMemStats(&mem)
+
 	embed := &discordgo.MessageEmbed{
-		Author: &discordgo.MessageEmbedAuthor{},
-		Color:  config.EmbedColor,
+		Author:      &discordgo.MessageEmbedAuthor{},
+		Color:       config.EmbedColor,
+		Description: "MikuBotGo is a Discord weeb bot written in go using the discordgo library.",
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name: "Links",
@@ -81,6 +87,21 @@ func Info(ctx *exrouter.Context) {
 			{
 				Name:   "Shard Count",
 				Value:  strconv.Itoa(ctx.Ses.ShardCount),
+				Inline: true,
+			},
+			{
+				Name:   "Memory Usage",
+				Value:  fmt.Sprintf("%v MiB", mem.Sys/1024/1024),
+				Inline: true,
+			},
+			{
+				Name:   "Available Cores",
+				Value:  fmt.Sprintf("%d", runtime.NumCPU()),
+				Inline: true,
+			},
+			{
+				Name:   "Go Version",
+				Value:  runtime.Version(),
 				Inline: true,
 			},
 		},
