@@ -52,6 +52,16 @@ func MusicQuiz(ctx *exrouter.Context) {
 					}
 				}
 
+				studios := "Unknown"
+				if len(properStudios) != 0 {
+					studios = strings.Join(properStudios, ", ")
+				}
+
+				genres := "Unknown"
+				if len(anime.Genres) != 0 {
+					genres = strings.Join(anime.Genres, ", ")
+				}
+
 				embed := &discordgo.MessageEmbed{
 					Author: &discordgo.MessageEmbedAuthor{},
 					Color:  config.EmbedColor,
@@ -69,12 +79,12 @@ func MusicQuiz(ctx *exrouter.Context) {
 						},
 						{
 							Name:   "Genres",
-							Value:  strings.Join(anime.Genres, ", "),
+							Value:  genres,
 							Inline: false,
 						},
 						{
 							Name:   "Studios",
-							Value:  strings.Join(properStudios, ", "),
+							Value:  studios,
 							Inline: false,
 						},
 					},
