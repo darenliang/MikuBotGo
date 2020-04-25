@@ -71,6 +71,9 @@ github.com/h2non/filetype/matchers/isobmff
 github.com/h2non/filetype/types
 # github.com/jmespath/go-jmespath v0.3.0
 github.com/jmespath/go-jmespath
+# github.com/layeh/gopus v0.0.0-20161224163843-0ebf989153aa
+## explicit
+github.com/layeh/gopus
 # github.com/mvdan/xurls v1.1.0
 ## explicit
 github.com/mvdan/xurls
