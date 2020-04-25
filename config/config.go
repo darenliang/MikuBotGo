@@ -15,7 +15,7 @@ import (
 const (
 	BotInfo              = "MikuBotGo v1.2.0"
 	EmbedColor           = 0x2e98a6
-	Prefix               = ";"
+	Prefix               = "!"
 	Timeout              = 60
 	Timer                = "\xe2\x8f\xb2\xef\xb8\x8f"
 	ImgurEndpoint        = "https://api.imgur.com/3"
