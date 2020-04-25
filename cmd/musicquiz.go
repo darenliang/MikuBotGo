@@ -28,11 +28,11 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	if len(guess) != 0 {
 		entryInterface, ok := config.OpeningsMap.Load(ctx.Msg.ChannelID)
-		entry := entryInterface.(config.OpeningEntry)
 		if !ok {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There is no currently active quiz in this channel.")
 			return
 		} else {
+			entry := entryInterface.(config.OpeningEntry)
 			if guess == "giveup" {
 				entry.Embed.Title = "Answer: " + entry.Embed.Title
 				entry.Embed.Color = 0xf44336
