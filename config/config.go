@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"github.com/darenliang/MikuBotGo/music"
 	"io/ioutil"
 	"os"
 	"sync"
@@ -26,6 +27,7 @@ var (
 	StartTime     time.Time
 	OpeningsData  Openings
 	OpeningsMap   = sync.Map{}
+	MusicSessions *music.SessionManager
 	TraceMoeBase  string
 	ImgurToken    string
 	ImgurUsername string

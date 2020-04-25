@@ -8,6 +8,7 @@ import (
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"github.com/darenliang/MikuBotGo/music"
 	"strings"
 )
 
@@ -99,6 +100,65 @@ func init() {
 				fmt.Sprintf("\t%-30v# Store gifs\n", "gif <urls or attachments>")).Cat("Fun")
 	})
 
+	// Music Group
+	Router.Group(func(r *exrouter.Route) {
+		// Add
+		Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic).Desc(
+			"add: add music to queue\n\n" +
+				"Usage:\n" +
+				"\tplay <urls>\n").Cat("Music")
+
+		// Clear
+		Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand).Desc(
+			"clear: clear music in queue\n\n" +
+				"This command takes no arguments")
+
+		// Current
+		Router.OnMatch("current", dgrouter.NewRegexMatcher("^(?i)current$"), cmd.CurrentCommand).Desc(
+			"current: get current music\n\n" +
+				"This command takes no arguments")
+
+		// Join
+		Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand).Desc(
+			"join: make bot join your voice channel\n\n" +
+				"This command takes no arguments")
+
+		// Leave
+		Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)leave$"), cmd.LeaveCommand).Desc(
+			"leave: make bot leave the voice channel\n\n" +
+				"This command takes no arguments")
+
+		// Pause
+		Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)pause$"), cmd.PauseCommand).Desc(
+			"pause: pause music\n\n" +
+				"This command takes no arguments")
+
+		// Play
+		Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)play$"), cmd.PlayCommand).Desc(
+			"play: play music in queue\n\n" +
+				"This command takes no arguments")
+
+		// Queue
+		Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)queue$"), cmd.QueueCommand).Desc(
+			"queue: get music queue\n\n" +
+				"This command takes no arguments")
+
+		// Shuffle
+		Router.OnMatch("shuffle", dgrouter.NewRegexMatcher("^(?i)shuffle$"), cmd.ShuffleCommand).Desc(
+			"shuffle: shuffle music queue\n\n" +
+				"This command takes no arguments")
+
+		// Skip
+		Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)skip$"), cmd.SkipCommand).Desc(
+			"skip: skip current music\n\n" +
+				"This command takes no arguments")
+
+		// Stop
+		Router.OnMatch("stop", dgrouter.NewRegexMatcher("^(?i)stop$"), cmd.StopCommand).Desc(
+			"stop: stop music\n\n" +
+				"This command takes no arguments")
+	})
+
 	// Help
 	Router.Default = Router.OnMatch("help", dgrouter.NewRegexMatcher("^(?i)(help|h)$"), func(ctx *exrouter.Context) {
 		command := strings.TrimSpace(ctx.Args.After(1))
@@ -136,6 +196,9 @@ func init() {
 		framework.PDB.SetGuilds()
 		framework.MQDB.SetScores()
 		framework.GBD.SetAlbums()
+
+		// Music sessions and youtube
+		config.MusicSessions = music.NewSessionManager()
 
 		// Load cache and check for new guilds
 		cache := framework.PDB.GetGuilds()
