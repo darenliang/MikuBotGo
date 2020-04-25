@@ -15,9 +15,9 @@ import (
 )
 
 const (
-	song_format    = "\n`%03d` %s"
-	current_format = "__Current song__\n%s\n"
-	invalid_page   = "Invalid page `%d`. Min: `1`, max: `%d`"
+	songFormat    = "\n`%03d` %s"
+	currentFormat = "__Current song__\n%s\n"
+	invalidPage   = "Invalid page `%d`. Min: `1`, max: `%d`"
 )
 
 // Add music command
@@ -226,7 +226,7 @@ func QueueCommand(ctx *exrouter.Context) {
 	}
 	buff := bytes.Buffer{}
 	if queue.Current() != nil {
-		buff.WriteString(fmt.Sprintf(current_format, queue.Current().Title))
+		buff.WriteString(fmt.Sprintf(currentFormat, queue.Current().Title))
 	}
 	queueLength := len(q)
 	if len(ctx.Args) == 0 {
@@ -246,7 +246,7 @@ func QueueCommand(ctx *exrouter.Context) {
 	}
 	pages := queueLength / 20
 	if page < 1 || page > (pages+1) {
-		_, _ = ctx.Reply(fmt.Sprintf(invalid_page, page, pages+1))
+		_, _ = ctx.Reply(fmt.Sprintf(invalidPage, page, pages+1))
 		return
 	}
 	var lowerBound int
@@ -265,7 +265,7 @@ func QueueCommand(ctx *exrouter.Context) {
 
 func display(queue []music.Song, buff bytes.Buffer, page, start int) string {
 	for index, song := range queue {
-		buff.WriteString(fmt.Sprintf(song_format, start+index+1, song.Title))
+		buff.WriteString(fmt.Sprintf(songFormat, start+index+1, song.Title))
 	}
 	buff.WriteString(fmt.Sprintf("\n\nView the next page: `queue %d`", page))
 	return buff.String()
