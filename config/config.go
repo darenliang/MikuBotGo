@@ -13,7 +13,7 @@ import (
 
 // Includes config variables for bot
 const (
-	BotInfo              = "MikuBotGo v1.1.0"
+	BotInfo              = "MikuBotGo v1.2.0"
 	EmbedColor           = 0x2e98a6
 	Prefix               = ";"
 	Timeout              = 60
@@ -24,10 +24,13 @@ const (
 )
 
 var (
-	StartTime     time.Time
-	OpeningsData  Openings
-	OpeningsMap   = sync.Map{}
+	StartTime    time.Time
+	OpeningsData Openings
+	OpeningsMap  = sync.Map{}
+
+	// TODO: Make thread safe
 	MusicSessions *music.SessionManager
+
 	TraceMoeBase  string
 	ImgurToken    string
 	ImgurUsername string
