@@ -13,8 +13,22 @@ import (
 func Leaderboard(ctx *exrouter.Context) {
 	scores := framework.MQDB.GetScores()
 
+	if len(ctx.Msg.GuildID) == 0 {
+		_, _ = ctx.Reply("The `leaderboard` command is guild-specific. Try calling the command in a guild.")
+		return
+	}
+
+	guild, _ := ctx.Guild(ctx.Msg.GuildID)
+	memberSet := make(map[string]bool)
+	for _, member := range guild.Members {
+		memberSet[member.User.ID] = true
+	}
+
 	scoresSlice := make([]framework.MusicQuizEntry, 0, len(scores))
 	for k, v := range scores {
+		if !memberSet[k] {
+			continue
+		}
 		scoresSlice = append(scoresSlice, framework.MusicQuizEntry{
 			UserId:        k,
 			MusicScore:    v.MusicScore,
