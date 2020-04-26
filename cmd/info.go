@@ -61,7 +61,7 @@ func Info(ctx *exrouter.Context) {
 				Inline: true,
 			},
 			{
-				Name:   "Guilds",
+				Name:   "Servers",
 				Value:  fmt.Sprintf("%d", len(ctx.Ses.State.Guilds)),
 				Inline: true,
 			},

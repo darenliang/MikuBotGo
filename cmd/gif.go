@@ -177,7 +177,7 @@ func Gif(ctx *exrouter.Context) {
 	if len(content) == 0 && len(ctx.Msg.Attachments) == 0 {
 		title, link := framework.GBD.GetGif(ctx.Msg.GuildID)
 		if title == "" && link == "" {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There are no gifs currently stored in this guild.")
+			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There are no gifs currently stored for this server.")
 			return
 		}
 		usr, err := ctx.Ses.User(title)
