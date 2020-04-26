@@ -20,6 +20,9 @@ var Router = exrouter.New()
 const floppyEmoji = "\xf0\x9f\x92\xbe"
 
 func init() {
+	waitReady := make(chan bool)
+	var joinGuilds = make(map[string]bool)
+
 	// Utility Group
 	Router.Group(func(r *exrouter.Route) {
 		// Info
@@ -203,20 +206,27 @@ func init() {
 		// Load cache and check for new guilds
 		cache := framework.PDB.GetGuilds()
 		for _, guild := range ready.Guilds {
+			joinGuilds[guild.ID] = true
 			if cache[guild.ID] == "" {
 				framework.PDB.CreateGuild(guild.ID, config.Prefix)
 			}
 		}
+		waitReady <- true
 	})
 
 	// Add guild on guild add
 	Session.AddHandler(func(_ *discordgo.Session, create *discordgo.GuildCreate) {
-		framework.PDB.CreateGuild(create.ID, config.Prefix)
+		<-waitReady
+		if !joinGuilds[create.ID] {
+			framework.PDB.CreateGuild(create.ID, config.Prefix)
+		}
 	})
 
 	// Remove guild on guild remote
 	Session.AddHandler(func(_ *discordgo.Session, delete *discordgo.GuildDelete) {
-		framework.PDB.RemoveGuild(delete.ID)
+		if !joinGuilds[delete.ID] {
+			framework.PDB.RemoveGuild(delete.ID)
+		}
 	})
 
 	// Handle incoming messages
