@@ -58,7 +58,7 @@ func Leaderboard(ctx *exrouter.Context) {
 		Author:      &discordgo.MessageEmbedAuthor{},
 		Color:       config.EmbedColor,
 		Description: leaderboard,
-		Title:       "Music Quiz Leaderboard",
+		Title:       fmt.Sprintf("Music Quiz Leaderboard for %s", guild.Name),
 	}
 
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
