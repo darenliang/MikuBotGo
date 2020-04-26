@@ -108,7 +108,7 @@ func init() {
 
 	// Remove guild on guild remote
 	Session.AddHandler(func(_ *discordgo.Session, delete *discordgo.GuildDelete) {
-		if !joinGuilds[delete.ID] {
+		if !joinGuilds[delete.ID] && !delete.Unavailable {
 			framework.PDB.RemoveGuild(delete.ID)
 		}
 	})
