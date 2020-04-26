@@ -27,6 +27,8 @@ func init() {
 
 	Router.OnMatch("pfp", dgrouter.NewRegexMatcher("^(?i)(pfp|avatar)$"), cmd.Pfp)
 
+	Router.OnMatch("cloc", dgrouter.NewRegexMatcher("^(?i)cloc$"), cmd.Cloc)
+
 	Router.OnMatch("anime", dgrouter.NewRegexMatcher("^(?i)(anime|a)$"), cmd.Anime)
 
 	Router.OnMatch("manga", dgrouter.NewRegexMatcher("^(?i)(manga|m)$"), cmd.Manga)
