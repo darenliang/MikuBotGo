@@ -79,6 +79,11 @@ func Anime(ctx *exrouter.Context) {
 		color = config.EmbedColor
 	}
 
+	malLink := "Unknown"
+	if anime.IDMal != 0 {
+		malLink = fmt.Sprintf("https://myanimelist.net/anime/%d", anime.IDMal)
+	}
+
 	embed := &discordgo.MessageEmbed{
 		Author:      &discordgo.MessageEmbedAuthor{},
 		Color:       int(color),
@@ -126,7 +131,7 @@ func Anime(ctx *exrouter.Context) {
 			},
 			{
 				Name:   "MAL Link",
-				Value:  fmt.Sprintf("https://myanimelist.net/anime/%d", anime.IDMal),
+				Value:  malLink,
 				Inline: false,
 			},
 		},
