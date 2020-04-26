@@ -33,9 +33,8 @@ func Info(ctx *exrouter.Context) {
 	runtime.ReadMemStats(&mem)
 
 	embed := &discordgo.MessageEmbed{
-		Author:      &discordgo.MessageEmbedAuthor{},
-		Color:       config.EmbedColor,
-		Description: "MikuBotGo is a Discord weeb bot written in go using the discordgo library.",
+		Author: &discordgo.MessageEmbedAuthor{},
+		Color:  config.EmbedColor,
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name: "Links",
