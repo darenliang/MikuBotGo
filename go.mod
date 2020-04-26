@@ -5,6 +5,7 @@ module github.com/darenliang/MikuBotGo
 go 1.14
 
 require (
+	github.com/DiscordBotList/go-dbl v0.0.0-20200314154711-a742304d6e1f
 	github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
 	github.com/animenotifier/anilist v0.2.6
 	github.com/animenotifier/kitsu v0.2.4

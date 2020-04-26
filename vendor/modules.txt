@@ -1,3 +1,6 @@
+# github.com/DiscordBotList/go-dbl v0.0.0-20200314154711-a742304d6e1f
+## explicit
+github.com/DiscordBotList/go-dbl
 # github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
 ## explicit
 github.com/Necroforger/dgrouter
@@ -92,3 +95,5 @@ golang.org/x/image/tiff
 golang.org/x/image/tiff/lzw
 # golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a
 golang.org/x/sys/cpu
+# golang.org/x/time v0.0.0-20191024005414-555d28b269f0
+golang.org/x/time/rate
