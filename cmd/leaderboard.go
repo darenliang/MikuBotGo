@@ -40,14 +40,14 @@ func Leaderboard(ctx *exrouter.Context) {
 		return scoresSlice[i].MusicScore > scoresSlice[j].MusicScore
 	})
 
-	leaderboard := "```\nRank | Score | User\n"
+	leaderboard := "```\nRank |  Score | User\n"
 
 	for idx, val := range scoresSlice {
 		if idx == 10 {
 			break
 		}
 		leaderboard += fmt.Sprintf("%4d |", idx+1)
-		leaderboard += fmt.Sprintf(" %5d |", val.MusicScore*100)
+		leaderboard += fmt.Sprintf(" %6d |", val.MusicScore*100)
 		user, _ := ctx.Ses.User(val.UserId)
 		leaderboard += fmt.Sprintf(" %s#%s\n", user.Username, user.Discriminator)
 	}
