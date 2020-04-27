@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/DiscordBotList/go-dbl"
+	"log"
 	"os"
 	"runtime"
 	"time"
@@ -38,6 +39,7 @@ func UpdatePresence() {
 func ScheduleGC() {
 	for {
 		runtime.GC()
+		log.Print("Undergoing GC...")
 		time.Sleep(time.Hour)
 	}
 }
