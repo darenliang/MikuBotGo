@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/Necroforger/dgrouter"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
@@ -74,7 +75,13 @@ func init() {
 	Router.OnMatch("stop", dgrouter.NewRegexMatcher("^(?i)stop$"), cmd.StopCommand)
 
 	Router.Default = Router.OnMatch("help", dgrouter.NewRegexMatcher("^(?i)(help|h)$"), func(ctx *exrouter.Context) {
-		_, _ = ctx.Reply("Please visit __https://darenliang.github.io/MikuBot-Docs__ for help on all the commands.")
+		msg := "Please visit __https://darenliang.github.io/MikuBot-Docs__ for help on all the commands."
+		if ctx.Msg.GuildID != "" {
+			msg = fmt.Sprintf("The current server prefix is %s\n", framework.PDB.GetPrefix(ctx.Msg.GuildID)) + msg
+		} else {
+			msg = fmt.Sprintf("The default prefix is %s\n", config.Prefix) + msg
+		}
+		_, _ = ctx.Reply(msg)
 	}).Cat("Help")
 
 	// Query database on ready
