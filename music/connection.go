@@ -48,6 +48,7 @@ func HandleMusicTimeout(sess *Session, callback func(string)) {
 			callback("Disconnected because of inactivity.")
 			return
 		}
-		time.Sleep(1)
+		// Poll every minute
+		time.Sleep(time.Minute)
 	}
 }
