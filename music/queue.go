@@ -50,7 +50,7 @@ func (queue *SongQueue) Start(sess *Session, callback func(string)) {
 	}
 
 	// Handle timeout
-	go HandleMusicTimeout(sess, callback)
+	// go HandleMusicTimeout(sess, callback)
 }
 
 func (queue *SongQueue) Current() *Song {

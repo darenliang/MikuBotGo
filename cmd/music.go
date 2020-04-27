@@ -162,9 +162,9 @@ func JoinCommand(ctx *exrouter.Context) {
 	_, _ = ctx.Reply("Joined <#" + sess.ChannelId + ">.")
 
 	// Handle timeout
-	go music.HandleMusicTimeout(sess, func(msg string) {
-		_, _ = ctx.Reply(msg)
-	})
+	// go music.HandleMusicTimeout(sess, func(msg string) {
+	// 	_, _ = ctx.Reply(msg)
+	// })
 }
 
 // Leave music command
@@ -197,9 +197,9 @@ func PauseCommand(ctx *exrouter.Context) {
 	_, _ = ctx.Reply(fmt.Sprintf("The queue has paused and will stop playing after this song. To resume the queue, use `%splay`.", prefix))
 
 	// Handle timeout
-	go music.HandleMusicTimeout(musicSession, func(msg string) {
-		_, _ = ctx.Reply(msg)
-	})
+	// go music.HandleMusicTimeout(musicSession, func(msg string) {
+	// 	_, _ = ctx.Reply(msg)
+	// })
 }
 
 // Play music command
@@ -341,7 +341,7 @@ func StopCommand(ctx *exrouter.Context) {
 	musicSession.Stop()
 
 	// Handle timeout
-	go music.HandleMusicTimeout(musicSession, func(msg string) {
-		_, _ = ctx.Reply(msg)
-	})
+	// go music.HandleMusicTimeout(musicSession, func(msg string) {
+	// 	_, _ = ctx.Reply(msg)
+	// })
 }
