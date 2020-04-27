@@ -52,7 +52,7 @@ func AddMusic(ctx *exrouter.Context) {
 			{
 				video, err := music.Youtube{}.Video(*inp)
 				if err != nil {
-					_, _ = ctx.Reply("An error occurred.")
+					_, _ = ctx.Reply("Cannot find music.")
 					return
 				}
 				song := music.NewSong(video.Media, video.Title, arg)
@@ -77,7 +77,7 @@ func AddMusic(ctx *exrouter.Context) {
 					}
 					video, err := music.Youtube{}.Video(*i)
 					if err != nil {
-						_, _ = ctx.Reply("An error occurred.")
+						_, _ = ctx.Reply("Cannot find music.")
 						return
 					}
 					song := music.NewSong(video.Media, video.Title, arg)

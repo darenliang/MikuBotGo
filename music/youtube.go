@@ -3,6 +3,7 @@ package music
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -78,6 +79,9 @@ func (youtube Youtube) Video(input string) (*VideoResult, error) {
 	err := json.Unmarshal([]byte(input), &resp)
 	if err != nil {
 		return nil, err
+	}
+	if len(resp.Formats) == 0 {
+		return nil, errors.New("no results found")
 	}
 	return &VideoResult{resp.Formats[0].Url, resp.Title}, nil
 }
