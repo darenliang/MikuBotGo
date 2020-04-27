@@ -92,7 +92,7 @@ func init() {
 		framework.GBD.SetAlbums()
 
 		// Music sessions and youtube
-		config.MusicSessions = music.NewSessionManager()
+		music.MusicSessions = music.NewSessionManager()
 
 		// Load cache and check for new guilds
 		cache := framework.PDB.GetGuilds()

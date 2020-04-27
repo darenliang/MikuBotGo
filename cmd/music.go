@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
-	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
 	"math/rand"
@@ -28,7 +27,7 @@ func AddMusic(ctx *exrouter.Context) {
 		_, _ = ctx.Reply("Please provide a query.")
 		return
 	}
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -94,7 +93,7 @@ func AddMusic(ctx *exrouter.Context) {
 // Clear music command
 func ClearCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -110,7 +109,7 @@ func ClearCommand(ctx *exrouter.Context) {
 // Current music command
 func CurrentCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -126,7 +125,7 @@ func CurrentCommand(ctx *exrouter.Context) {
 // Join music command
 func JoinCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	if config.MusicSessions.GetByGuild(ctx.Msg.GuildID) != nil {
+	if music.MusicSessions.GetByGuild(ctx.Msg.GuildID) != nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Already connected. Use `%sleave` for the bot to disconnect.", prefix))
 		return
 	}
@@ -150,7 +149,7 @@ func JoinCommand(ctx *exrouter.Context) {
 		return
 	}
 
-	sess, err := config.MusicSessions.Join(ctx.Ses, ctx.Msg.GuildID, voiceChannel.ID, music.JoinProperties{
+	sess, err := music.MusicSessions.Join(ctx.Ses, ctx.Msg.GuildID, voiceChannel.ID, music.JoinProperties{
 		Muted:    false,
 		Deafened: true,
 	})
@@ -161,24 +160,29 @@ func JoinCommand(ctx *exrouter.Context) {
 	}
 
 	_, _ = ctx.Reply("Joined <#" + sess.ChannelId + ">.")
+
+	// Handle timeout
+	go music.HandleMusicTimeout(sess, func(msg string) {
+		_, _ = ctx.Reply(msg)
+	})
 }
 
 // Leave music command
 func LeaveCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
 	}
-	config.MusicSessions.Leave(ctx.Ses, *musicSession)
+	music.MusicSessions.Leave(ctx.Ses, *musicSession)
 	_, _ = ctx.Reply("Left <#" + musicSession.ChannelId + ">.")
 }
 
 // Pause music command
 func PauseCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -189,13 +193,19 @@ func PauseCommand(ctx *exrouter.Context) {
 		return
 	}
 	queue.Pause()
+
 	_, _ = ctx.Reply(fmt.Sprintf("The queue has paused and will stop playing after this song. To resume the queue, use `%splay`.", prefix))
+
+	// Handle timeout
+	go music.HandleMusicTimeout(musicSession, func(msg string) {
+		_, _ = ctx.Reply(msg)
+	})
 }
 
 // Play music command
 func PlayCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -213,7 +223,7 @@ func PlayCommand(ctx *exrouter.Context) {
 // Queue music command
 func QueueCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -274,7 +284,7 @@ func display(queue []music.Song, buff bytes.Buffer, page, start int) string {
 // Shuffle music command
 func ShuffleCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -308,7 +318,7 @@ func shuffle(list []music.Song) []music.Song {
 // Skip music command
 func SkipCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -320,7 +330,7 @@ func SkipCommand(ctx *exrouter.Context) {
 // Stop music command
 func StopCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := config.MusicSessions.GetByGuild(ctx.Msg.GuildID)
+	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
 	if musicSession == nil {
 		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
 		return
@@ -329,4 +339,9 @@ func StopCommand(ctx *exrouter.Context) {
 		musicSession.Queue.Clear()
 	}
 	musicSession.Stop()
+
+	// Handle timeout
+	go music.HandleMusicTimeout(musicSession, func(msg string) {
+		_, _ = ctx.Reply(msg)
+	})
 }

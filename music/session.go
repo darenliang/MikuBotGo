@@ -8,7 +8,7 @@ type (
 	Session struct {
 		Queue              *SongQueue
 		guildId, ChannelId string
-		connection         *Connection
+		Connection         *Connection
 	}
 
 	SessionManager struct {
@@ -21,21 +21,24 @@ type (
 	}
 )
 
+// TODO: Make thread safe
+var MusicSessions *SessionManager
+
 func newSession(guildId, channelId string, connection *Connection) *Session {
 	session := new(Session)
 	session.Queue = newSongQueue()
 	session.guildId = guildId
 	session.ChannelId = channelId
-	session.connection = connection
+	session.Connection = connection
 	return session
 }
 
 func (sess Session) Play(song Song) error {
-	return sess.connection.Play(song.Ffmpeg())
+	return sess.Connection.Play(song.Ffmpeg())
 }
 
 func (sess *Session) Stop() {
-	sess.connection.Stop()
+	sess.Connection.Stop()
 }
 
 func NewSessionManager() *SessionManager {
@@ -68,7 +71,7 @@ func (manager *SessionManager) Join(discord *discordgo.Session, guildId, channel
 }
 
 func (manager *SessionManager) Leave(discord *discordgo.Session, session Session) {
-	session.connection.Stop()
-	session.connection.Disconnect()
+	session.Connection.Stop()
+	session.Connection.Disconnect()
 	delete(manager.sessions, session.ChannelId)
 }
