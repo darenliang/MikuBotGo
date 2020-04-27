@@ -44,6 +44,7 @@ func main() {
 	}
 
 	go UpdatePresence()
+	go ScheduleGC()
 
 	// Run and keep open
 	log.Printf("Now running.")

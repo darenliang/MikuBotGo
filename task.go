@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/DiscordBotList/go-dbl"
 	"os"
+	"runtime"
 	"time"
 )
 
@@ -30,5 +31,13 @@ func UpdatePresence() {
 		}
 		_ = Session.UpdateStatus(0, fmt.Sprintf("@%s help", Session.State.User.Username))
 		time.Sleep(time.Minute * 15)
+	}
+}
+
+// ScheduleGC forces a GC every 1 hour
+func ScheduleGC() {
+	for {
+		runtime.GC()
+		time.Sleep(time.Hour)
 	}
 }
