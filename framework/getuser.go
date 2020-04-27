@@ -18,7 +18,7 @@ func Getuser(ctx *exrouter.Context) *discordgo.User {
 	}
 
 	// Direct messages
-	if len(msg.GuildID) == 0 {
+	if msg.GuildID == "" {
 		// Recipients don't include the bot itself
 		if matchUser(ctx.Ses.State.User, user) {
 			return ctx.Ses.State.User

@@ -9,7 +9,7 @@ import (
 // Prefix command
 func Prefix(ctx *exrouter.Context) {
 	// Direct messages
-	if len(ctx.Msg.GuildID) == 0 {
+	if ctx.Msg.GuildID == "" {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You can't set a prefix in a DM.")
 		return
 	}

@@ -167,7 +167,7 @@ func GenerateGifUploadMessage(user *discordgo.User, count, total, dupCount, nsfw
 // Gif command
 func Gif(ctx *exrouter.Context) {
 	// Direct messages
-	if len(ctx.Msg.GuildID) == 0 {
+	if ctx.Msg.GuildID == "" {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The Gif command cannot be used in DMs.")
 		return
 	}

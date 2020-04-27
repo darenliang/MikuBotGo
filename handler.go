@@ -123,7 +123,7 @@ func init() {
 	// Handle incoming messages
 	Session.AddHandler(func(_ *discordgo.Session, m *discordgo.MessageCreate) {
 		prefix := config.Prefix
-		if len(m.GuildID) != 0 {
+		if m.GuildID != "" {
 			prefix = framework.PDB.GetPrefix(m.GuildID)
 		}
 		_ = Router.FindAndExecute(Session, prefix, Session.State.User.ID, m.Message)
@@ -132,7 +132,7 @@ func init() {
 	// Handle reaction add
 	Session.AddHandler(func(_ *discordgo.Session, reaction *discordgo.MessageReactionAdd) {
 		// If DM
-		if len(reaction.GuildID) == 0 {
+		if reaction.GuildID == "" {
 			return
 		}
 		// If the emoji is not floppy disk

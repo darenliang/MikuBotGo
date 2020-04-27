@@ -13,7 +13,7 @@ import (
 func Leaderboard(ctx *exrouter.Context) {
 	scores := framework.MQDB.GetScores()
 
-	if len(ctx.Msg.GuildID) == 0 {
+	if ctx.Msg.GuildID == "" {
 		_, _ = ctx.Reply("The `leaderboard` command is server-specific. Try calling the command in a server.")
 		return
 	}

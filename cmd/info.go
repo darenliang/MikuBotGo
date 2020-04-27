@@ -23,7 +23,7 @@ func Info(ctx *exrouter.Context) {
 
 	prefixMsg := "DM Prefix"
 	prefix := config.Prefix
-	if len(ctx.Msg.GuildID) != 0 {
+	if ctx.Msg.GuildID != "" {
 		prefixMsg = "Server Prefix"
 		prefix = framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	}
