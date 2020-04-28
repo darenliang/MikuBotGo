@@ -39,12 +39,12 @@ func UpdatePresence() {
 func ScheduleGC() {
 	var memRuntime runtime.MemStats
 	for {
+		time.Sleep(time.Hour)
 		runtime.ReadMemStats(&memRuntime)
 		log.Printf("Pre-GC heap mem usage: %v MiB", memRuntime.HeapAlloc/1024/1024)
 		runtime.GC()
 		log.Print("Undergoing GC...")
 		runtime.ReadMemStats(&memRuntime)
 		log.Printf("Post-GC heap mem usage: %v MiB", memRuntime.HeapAlloc/1024/1024)
-		time.Sleep(time.Hour)
 	}
 }
