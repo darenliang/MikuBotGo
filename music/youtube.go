@@ -64,7 +64,7 @@ func (youtube Youtube) getType(input string) int {
 }
 
 func (youtube Youtube) Get(input string) (int, *string, error) {
-	cmd := exec.Command("youtube-dl", "--force-ipv4", "--skip-download", "--print-json", "--flat-playlist", input)
+	cmd := exec.Command("youtube-dl", "--skip-download", "--print-json", "--flat-playlist", input)
 	var out bytes.Buffer
 	var stdErr bytes.Buffer
 	cmd.Stdout = &out
