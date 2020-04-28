@@ -44,7 +44,7 @@ func main() {
 	}
 
 	go UpdatePresence()
-	go ScheduleGC()
+	go ReportMem()
 
 	// Run and keep open
 	log.Printf("Now running.")
