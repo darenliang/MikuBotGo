@@ -51,7 +51,7 @@ func ParseDate(year, month, day int) string {
 // LoadImage from url
 func LoadImage(url string) (image.Image, error) {
 	// Get the data
-	resp, err := http.Get(url)
+	resp, err := HttpClient.Get(url)
 
 	if err != nil {
 		return nil, err

@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
+	"github.com/darenliang/MikuBotGo/framework"
 	"math/rand"
-	"net/http"
 	"time"
 )
 
@@ -16,8 +16,12 @@ func init() {
 func Waifu(ctx *exrouter.Context) {
 	imageID := rand.Int() % 100001
 
-	resp, err := http.Get(fmt.Sprintf(
+	resp, err := framework.HttpClient.Get(fmt.Sprintf(
 		"https://www.thiswaifudoesnotexist.net/example-%d.jpg", imageID))
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
 
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot generate an image.")
@@ -26,5 +30,4 @@ func Waifu(ctx *exrouter.Context) {
 
 	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Here's your waifu.")
 	_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, "waifu.jpg", resp.Body)
-	_ = resp.Body.Close()
 }

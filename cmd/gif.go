@@ -62,6 +62,8 @@ func moderateGif(url string) (bool, error) {
 
 	clarifaiPredict := ClarifaiPredict{}
 	_ = json.NewDecoder(resp.Body).Decode(&clarifaiPredict)
+	_ = resp.Body.Close()
+
 	if clarifaiPredict.Status.Code != 10000 || len(clarifaiPredict.Outputs) == 0 {
 		return false, errors.New("invalid status code")
 	}
@@ -98,7 +100,7 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 
 	// Filter fakes
 	for _, v := range gifUrls {
-		resp, err := http.Get(v)
+		resp, err := framework.HttpClient.Get(v)
 
 		if err != nil {
 			continue
@@ -185,15 +187,20 @@ func Gif(ctx *exrouter.Context) {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
 			return
 		}
-		resp, err := http.Get(link)
+		resp, err := framework.HttpClient.Get(link)
+
+		if resp != nil {
+			defer resp.Body.Close()
+		}
+
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get gif from database.")
 			return
 		}
+
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf("Here's a gif from %s#%s",
 			usr.Username, usr.Discriminator))
 		_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, usr.ID+".gif", resp.Body)
-		_ = resp.Body.Close()
 		return
 	}
 

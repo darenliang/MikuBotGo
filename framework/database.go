@@ -325,6 +325,7 @@ func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
 	AlbumEntry := GifItemList{}
 
 	err := json.NewDecoder(resp.Body).Decode(&AlbumEntry)
+	_ = resp.Body.Close()
 
 	if err != nil {
 		return "", ""
@@ -360,6 +361,7 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 
 		albumCreation := GifItem{}
 		err := json.NewDecoder(resp.Body).Decode(&albumCreation)
+		_ = resp.Body.Close()
 
 		if err != nil {
 			return err
@@ -393,6 +395,7 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 	status := GifUpload{}
 
 	err := json.NewDecoder(resp.Body).Decode(&status)
+	_ = resp.Body.Close()
 
 	if err != nil {
 		return err
@@ -422,18 +425,24 @@ func (db *GifCacheDatabase) SetAlbums() {
 	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
 	resp, _ := HttpClient.Do(req)
 	albums := GifItemList{}
-
 	_ = json.NewDecoder(resp.Body).Decode(&albums)
+	_ = resp.Body.Close()
 
 	for _, i := range albums.Data {
 		req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
 			config.ImgurEndpoint, i.ID), new(bytes.Buffer))
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
-		resp, _ := HttpClient.Do(req)
+		resp, err := HttpClient.Do(req)
+
+		if err != nil {
+			continue
+		}
+
 		images := GifItemList{}
 		images.ID = i.ID
 		_ = json.NewDecoder(resp.Body).Decode(&images)
+		_ = resp.Body.Close()
 		db.GifCache.Store(i.Title, images)
 	}
 }

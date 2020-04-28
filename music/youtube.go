@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
+	"github.com/darenliang/MikuBotGo/framework"
 	"net/url"
 	"os/exec"
 	"strings"
@@ -138,10 +138,11 @@ func (youtube Youtube) Search(query string) ([]YTSearchContent, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := http.Get(*addr)
+	resp, err := framework.HttpClient.Get(*addr)
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 	var apiResp ytApiResponse
 	json.NewDecoder(resp.Body).Decode(&apiResp)
 	return apiResp.Content, nil

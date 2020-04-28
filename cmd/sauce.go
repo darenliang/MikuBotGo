@@ -35,16 +35,16 @@ func getPostJson(data string, target interface{}) error {
 	}
 
 	r, err := framework.HttpClient.PostForm(config.TraceMoeBase, form)
+
+	if r != nil {
+		defer r.Body.Close()
+	}
+
 	if err != nil {
 		return err
 	}
 
 	err = json.NewDecoder(r.Body).Decode(target)
-	if err != nil {
-		return err
-	}
-
-	err = r.Body.Close()
 	if err != nil {
 		return err
 	}
