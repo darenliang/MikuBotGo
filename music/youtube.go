@@ -68,11 +68,11 @@ func (youtube Youtube) Get(input string) (int, *string, error) {
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
-	log.Print(out.String())
 	if err != nil {
 		return ERRORTYPE, nil, err
 	}
 	str := out.String()
+	log.Print(str)
 	return youtube.getType(str), &str, nil
 }
 
