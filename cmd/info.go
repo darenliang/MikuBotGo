@@ -98,8 +98,8 @@ func Info(ctx *exrouter.Context) {
 				Inline: true,
 			},
 			{
-				Name:   "Memory Usage",
-				Value:  fmt.Sprintf("%v MiB", memRuntime.Sys/1024/1024),
+				Name:   "Heap Memory Usage",
+				Value:  fmt.Sprintf("%v MiB", memRuntime.HeapAlloc/1024/1024),
 				Inline: true,
 			},
 			{

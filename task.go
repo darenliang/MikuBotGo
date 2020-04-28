@@ -35,16 +35,16 @@ func UpdatePresence() {
 	}
 }
 
-// ScheduleGC forces a GC every 1 hour
+// ScheduleGC forces GC to reap the heap every 1 hour
 func ScheduleGC() {
 	var memRuntime runtime.MemStats
 	for {
 		runtime.ReadMemStats(&memRuntime)
-		log.Printf("Pre-GC Sys mem usage: %v MiB", memRuntime.Sys/1024/1024)
+		log.Printf("Pre-GC heap mem usage: %v MiB", memRuntime.HeapAlloc/1024/1024)
 		runtime.GC()
 		log.Print("Undergoing GC...")
 		runtime.ReadMemStats(&memRuntime)
-		log.Printf("Post-GC Sys mem usage: %v MiB", memRuntime.Sys/1024/1024)
+		log.Printf("Post-GC heap mem usage: %v MiB", memRuntime.HeapAlloc/1024/1024)
 		time.Sleep(time.Hour)
 	}
 }

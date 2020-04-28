@@ -87,10 +87,9 @@ func Sauce(ctx *exrouter.Context) {
 
 	image = imaging.Resize(image, 0, 480, imaging.Lanczos)
 
-	buf := new(bytes.Buffer)
-	err = jpeg.Encode(buf, image, &jpeg.Options{Quality: 35})
-	imageBits := buf.Bytes()
-	photoBase64 := base64.StdEncoding.EncodeToString(imageBits)
+	var buf bytes.Buffer
+	err = jpeg.Encode(&buf, image, &jpeg.Options{Quality: 35})
+	photoBase64 := base64.StdEncoding.EncodeToString(buf.Bytes())
 
 	trace := TraceData{}
 	err = getPostJson(photoBase64, &trace)
