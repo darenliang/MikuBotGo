@@ -43,6 +43,7 @@ func AddMusic(ctx *exrouter.Context) {
 		if err != nil {
 			_, _ = ctx.Reply("An error occurred.")
 			log.Print("Error 1")
+			log.Print(err.Error())
 			return
 		}
 
