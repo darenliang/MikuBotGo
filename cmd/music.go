@@ -8,6 +8,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
+	"log"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -41,12 +42,14 @@ func AddMusic(ctx *exrouter.Context) {
 
 		if err != nil {
 			_, _ = ctx.Reply("An error occurred.")
+			log.Print("Error 1")
 			return
 		}
 
 		switch t {
 		case music.ERRORTYPE:
 			_, _ = ctx.Reply("An error occurred.")
+			log.Print("Error 2")
 			return
 		case music.VIDEOTYPE:
 			{
@@ -66,6 +69,7 @@ func AddMusic(ctx *exrouter.Context) {
 				videos, err := music.Youtube{}.Playlist(*inp)
 				if err != nil {
 					_, _ = ctx.Reply("An error occurred.")
+					log.Print("Error 3")
 					return
 				}
 				for _, v := range *videos {
@@ -73,6 +77,7 @@ func AddMusic(ctx *exrouter.Context) {
 					_, i, err := music.Youtube{}.Get(id)
 					if err != nil {
 						_, _ = ctx.Reply("An error occurred.")
+						log.Print("Error 4")
 						continue
 					}
 					video, err := music.Youtube{}.Video(*i)

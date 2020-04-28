@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/darenliang/MikuBotGo/framework"
+	"log"
 	"net/url"
 	"os/exec"
 	"strings"
@@ -71,6 +72,7 @@ func (youtube Youtube) Get(input string) (int, *string, error) {
 		return ERRORTYPE, nil, err
 	}
 	str := out.String()
+	log.Print(str)
 	return youtube.getType(str), &str, nil
 }
 
