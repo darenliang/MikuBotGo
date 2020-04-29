@@ -184,6 +184,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to convert media file.")
 			_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+			config.OpeningsMap.Delete(ctx.Msg.ChannelID)
 			log.Printf("musicquiz: file failed to convert: %s", song.URL)
 			return
 		}
