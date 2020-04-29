@@ -129,7 +129,10 @@ func (r *Route) FindAndExecute(s *discordgo.Session, prefix string, botID string
 
 	if rt, depth := r.FindFull(args...); depth > 0 {
 		args = append([]string{strings.Join(args[:depth], string(separator))}, args[depth:]...)
+
+		// Run counter for command
 		go RunCounter(rt.Name)
+
 		rt.Handler(NewContext(s, m, args, rt))
 	} else {
 		return dgrouter.ErrCouldNotFindRoute
