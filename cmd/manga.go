@@ -7,6 +7,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -27,6 +28,8 @@ func Manga(ctx *exrouter.Context) {
 
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Manga not found.")
+		log.Printf("manga: not found: %s", mangaName)
+		return
 	}
 
 	volumes := ""

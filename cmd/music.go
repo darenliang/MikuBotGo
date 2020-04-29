@@ -8,6 +8,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
+	"log"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -40,19 +41,22 @@ func AddMusic(ctx *exrouter.Context) {
 		t, inp, err := music.Youtube{}.Get(arg)
 
 		if err != nil {
-			_, _ = ctx.Reply("An error occurred.")
+			_, _ = ctx.Reply("The requested song(s) are not available.")
+			log.Printf("music: add song fail: %s", arg)
 			return
 		}
 
 		switch t {
 		case music.ERRORTYPE:
-			_, _ = ctx.Reply("An error occurred.")
+			_, _ = ctx.Reply("An error occurred when getting song info.")
+			log.Printf("music: add song error: %s", arg)
 			return
 		case music.VIDEOTYPE:
 			{
 				video, err := music.Youtube{}.Video(*inp)
 				if err != nil {
 					_, _ = ctx.Reply("Cannot find music.")
+					log.Printf("music: add song video fail: %s", arg)
 					return
 				}
 				song := music.NewSong(video.Media, video.Title, arg)
@@ -65,19 +69,22 @@ func AddMusic(ctx *exrouter.Context) {
 			{
 				videos, err := music.Youtube{}.Playlist(*inp)
 				if err != nil {
-					_, _ = ctx.Reply("An error occurred.")
+					_, _ = ctx.Reply("An error occurred when getting playlist info.")
+					log.Printf("music: add song playlist fail: %s", arg)
 					return
 				}
 				for _, v := range *videos {
 					id := v.Id
 					_, i, err := music.Youtube{}.Get(id)
 					if err != nil {
-						_, _ = ctx.Reply("An error occurred.")
+						_, _ = ctx.Reply("An error occurred when getting song(s) from playlist.")
+						log.Printf("music: add song playlist song fail: %s", id)
 						continue
 					}
 					video, err := music.Youtube{}.Video(*i)
 					if err != nil {
-						_, _ = ctx.Reply("Cannot find music.")
+						_, _ = ctx.Reply("Cannot find music in playlist.")
+						log.Printf("music: add song playlist song fail: %s", *i)
 						return
 					}
 					song := music.NewSong(video.Media, video.Title, arg)

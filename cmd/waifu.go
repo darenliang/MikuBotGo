@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/darenliang/MikuBotGo/framework"
+	"log"
 	"math/rand"
 	"time"
 )
@@ -25,6 +26,7 @@ func Waifu(ctx *exrouter.Context) {
 
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot generate an image.")
+		log.Printf("waifu: generate image error with id %d", imageID)
 		return
 	}
 

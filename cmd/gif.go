@@ -14,6 +14,7 @@ import (
 	"github.com/mvdan/xurls"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -58,11 +59,24 @@ func moderateGif(url string) (bool, error) {
 	req, _ := http.NewRequest("POST", config.ClarifaiNSFWEndpoint, bytes.NewBuffer([]byte(jsonStr)))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Key "+config.ClarifaiToken)
-	resp, _ := framework.HttpClient.Do(req)
+	resp, err := framework.HttpClient.Do(req)
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	if err != nil {
+		log.Printf("gif: clarifai api call failed")
+		return false, nil
+	}
 
 	clarifaiPredict := ClarifaiPredict{}
-	_ = json.NewDecoder(resp.Body).Decode(&clarifaiPredict)
-	_ = resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&clarifaiPredict)
+
+	if err != nil {
+		log.Printf("gif: clarifai response decode failed")
+		return false, err
+	}
 
 	if clarifaiPredict.Status.Code != 10000 || len(clarifaiPredict.Outputs) == 0 {
 		return false, errors.New("invalid status code")
@@ -137,6 +151,8 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 					}
 				}
 			}
+		} else {
+			log.Printf("gif: ioutil readall failed")
 		}
 		_ = resp.Body.Close()
 	}
@@ -185,6 +201,7 @@ func Gif(ctx *exrouter.Context) {
 		usr, err := ctx.Ses.User(title)
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+			log.Printf("gif: user not found")
 			return
 		}
 		resp, err := framework.HttpClient.Get(link)
@@ -195,6 +212,7 @@ func Gif(ctx *exrouter.Context) {
 
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get gif from database.")
+			log.Printf("gif: gif link errored out")
 			return
 		}
 

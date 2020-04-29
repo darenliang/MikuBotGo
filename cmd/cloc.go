@@ -5,6 +5,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"log"
 	"net/url"
 	"strings"
 )
@@ -31,11 +32,13 @@ func Cloc(ctx *exrouter.Context) {
 
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot find the GitHub repo you are looking for.")
+		log.Printf("cloc: repo not found: %s", repo)
 		return
 	}
 
 	if len(cloc) == 0 {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "No programming languages detected.")
+		log.Printf("cloc: repo not found: %s", repo)
 		return
 	}
 

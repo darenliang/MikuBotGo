@@ -1,10 +1,12 @@
 package exrouter
 
 import (
-	"strings"
-
+	"fmt"
 	"github.com/Necroforger/dgrouter"
 	"github.com/bwmarrin/discordgo"
+	"net/http"
+	"strings"
+	"time"
 )
 
 // HandlerFunc ...
@@ -18,10 +20,26 @@ type Route struct {
 	*dgrouter.Route
 }
 
+var HttpClient *http.Client
+
+func init() {
+	HttpClient = &http.Client{
+		Timeout: time.Second * 10,
+	}
+}
+
 // New returns a new router wrapper
 func New() *Route {
 	return &Route{
 		Route: dgrouter.New(),
+	}
+}
+
+// Increment counter on command route. Runs in a go routine
+func RunCounter(command string) {
+	resp, _ := HttpClient.Get(fmt.Sprintf("https://api.countapi.xyz/hit/mikubot/%s", command))
+	if resp != nil {
+		defer resp.Body.Close()
 	}
 }
 
@@ -111,6 +129,7 @@ func (r *Route) FindAndExecute(s *discordgo.Session, prefix string, botID string
 
 	if rt, depth := r.FindFull(args...); depth > 0 {
 		args = append([]string{strings.Join(args[:depth], string(separator))}, args[depth:]...)
+		go RunCounter(rt.Name)
 		rt.Handler(NewContext(s, m, args, rt))
 	} else {
 		return dgrouter.ErrCouldNotFindRoute

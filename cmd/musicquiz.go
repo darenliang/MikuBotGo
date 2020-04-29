@@ -8,6 +8,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"log"
 	"math/rand"
 	"net/url"
 	"os"
@@ -183,14 +184,21 @@ func MusicQuiz(ctx *exrouter.Context) {
 		if err != nil {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to convert media file.")
 			_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+			log.Printf("musicquiz: file failed to convert: %s", song.URL)
 			return
 		}
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
 			"`%smusicquiz <guess>` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", prefix, prefix, prefix))
 		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
-		_, err = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
-		_ = f.Close()
-		_ = os.Remove("./cache/" + fileNameOut + ".mp3")
+		if f != nil {
+			defer os.Remove("./cache/" + fileNameOut + ".mp3")
+			defer f.Close()
+		}
+		if err != nil {
+			log.Printf("musicquiz: open file error: %s", fileNameOut)
+			return
+		}
+		_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
 	case <-time.After(config.Timeout * 3 * time.Second):
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "This command timed out.")
 		config.OpeningsMap.Delete(ctx.Msg.ChannelID)
