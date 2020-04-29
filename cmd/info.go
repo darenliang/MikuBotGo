@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"github.com/shirou/gopsutil/mem"
 	"runtime"
 	"strconv"
 	"time"
@@ -31,6 +32,13 @@ func Info(ctx *exrouter.Context) {
 	// Memory Stats
 	var memRuntime runtime.MemStats
 	runtime.ReadMemStats(&memRuntime)
+
+	memVirtual, err := mem.VirtualMemory()
+	memVirtualStr := "Unknown"
+
+	if err == nil {
+		memVirtualStr = fmt.Sprintf("%v / %v MiB", memVirtual.Used/1024/1024, memVirtual.Total/1024/1024)
+	}
 
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
@@ -95,8 +103,8 @@ func Info(ctx *exrouter.Context) {
 				Inline: true,
 			},
 			{
-				Name:   "Number of Routines",
-				Value:  strconv.Itoa(runtime.NumGoroutine()),
+				Name:   "Total Memory",
+				Value:  memVirtualStr,
 				Inline: true,
 			},
 			{
