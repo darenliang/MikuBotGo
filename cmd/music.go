@@ -256,9 +256,9 @@ func QueueCommand(ctx *exrouter.Context) {
 		_, _ = ctx.Reply(resp)
 		return
 	}
-	page, err := strconv.Atoi(ctx.Args[0])
+	page, err := strconv.Atoi(ctx.Args.Get(1))
 	if err != nil {
-		_, _ = ctx.Reply("Invalid page `" + ctx.Args[0] + fmt.Sprintf("`. Usage: `%squeue <page>`", prefix))
+		_, _ = ctx.Reply("Invalid page `" + ctx.Args.Get(1) + fmt.Sprintf("`. Usage: `%squeue <page>`", prefix))
 		return
 	}
 	pages := queueLength / 20
