@@ -43,7 +43,7 @@ func Leaderboard(ctx *exrouter.Context) {
 	leaderboard := "```\nRank |  Score | User\n"
 
 	for idx, val := range scoresSlice {
-		if idx == 10 {
+		if idx == 25 {
 			break
 		}
 		leaderboard += fmt.Sprintf("%4d |", idx+1)
