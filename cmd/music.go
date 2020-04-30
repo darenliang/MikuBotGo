@@ -166,7 +166,7 @@ func JoinCommand(ctx *exrouter.Context) {
 		return
 	}
 
-	_, _ = ctx.Reply("Joined <#" + sess.ChannelId + ">.")
+	_, _ = ctx.Reply(fmt.Sprintf("Joined <#%s>. Use `%sleave` for the bot to disconnect.", sess.ChannelId, prefix))
 
 	// Handle timeout
 	// go music.HandleMusicTimeout(sess, func(msg string) {
@@ -222,6 +222,7 @@ func PlayCommand(ctx *exrouter.Context) {
 		_, _ = ctx.Reply(fmt.Sprintf("Queue is empty. Add songs with `%sadd`.", prefix))
 		return
 	}
+	_, _ = ctx.Reply(fmt.Sprintf("Playing music. Use `%sleave` for the bot to disconnect.", prefix))
 	go queue.Start(musicSession, func(msg string) {
 		_, _ = ctx.Reply(msg)
 	})
@@ -346,6 +347,7 @@ func StopCommand(ctx *exrouter.Context) {
 		musicSession.Queue.Clear()
 	}
 	musicSession.Stop()
+	_, _ = ctx.Reply(fmt.Sprintf("Music stopped. Use `%sleave` for the bot to disconnect.", prefix))
 
 	// Handle timeout
 	// go music.HandleMusicTimeout(musicSession, func(msg string) {

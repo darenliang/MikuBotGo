@@ -80,7 +80,7 @@ func init() {
 
 	Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
 
-	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)leave$"), cmd.LeaveCommand)
+	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)leave|disconnect$"), cmd.LeaveCommand)
 
 	Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)pause$"), cmd.PauseCommand)
 
