@@ -99,7 +99,7 @@ func init() {
 		if ctx.Msg.GuildID != "" {
 			msg = fmt.Sprintf("The current server prefix is %s\n", framework.PDB.GetPrefix(ctx.Msg.GuildID)) + msg
 		} else {
-			msg = fmt.Sprintf("The default prefix is %s\n", config.Prefix) + msg
+			msg = fmt.Sprintf("The DM prefix is %s\n", config.Prefix) + msg
 		}
 		_, _ = ctx.Reply(msg)
 	}).Cat("Help")
