@@ -9,6 +9,7 @@ import (
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
+	"sync"
 )
 
 // Router is registered as a global variable to allow easy access to the
@@ -18,8 +19,27 @@ var Router = exrouter.New()
 // floppyEmoji
 const floppyEmoji = "\xf0\x9f\x92\xbe"
 
+type waitReady struct {
+	ready bool
+	mux   sync.Mutex
+}
+
+func (c *waitReady) setReady() {
+	c.mux.Lock()
+	c.ready = true
+	c.mux.Unlock()
+}
+
+func (c *waitReady) getReady() bool {
+	c.mux.Lock()
+	defer c.mux.Unlock()
+	return c.ready
+}
+
 func init() {
-	waitReady := make(chan bool)
+	status := waitReady{
+		ready: false,
+	}
 	var joinGuilds = make(map[string]bool)
 
 	Router.OnMatch("info", dgrouter.NewRegexMatcher("^(?i)info$"), cmd.Info)
@@ -102,20 +122,19 @@ func init() {
 				framework.PDB.CreateGuild(guild.ID, config.Prefix)
 			}
 		}
-		waitReady <- true
+		status.setReady()
 	})
 
 	// Add guild on guild add
 	Session.AddHandler(func(_ *discordgo.Session, create *discordgo.GuildCreate) {
-		<-waitReady
-		if !joinGuilds[create.ID] {
+		if status.getReady() && !framework.PDB.CheckGuild(create.ID) {
 			framework.PDB.CreateGuild(create.ID, config.Prefix)
 		}
 	})
 
 	// Remove guild on guild remote
 	Session.AddHandler(func(_ *discordgo.Session, delete *discordgo.GuildDelete) {
-		if !joinGuilds[delete.ID] && !delete.Unavailable {
+		if status.getReady() && framework.PDB.CheckGuild(delete.ID) && !delete.Unavailable {
 			framework.PDB.RemoveGuild(delete.ID)
 		}
 	})

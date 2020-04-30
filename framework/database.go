@@ -72,6 +72,7 @@ type PrefixDatabase interface {
 	UpdateGuild(string, string)
 	RemoveGuild(string)
 	GetPrefix(string) string
+	CheckGuild(string) bool
 	SetGuilds()
 	GetGuilds() map[string]string
 }
@@ -277,6 +278,14 @@ func (db *DynamoDBPrefixDatabase) GetPrefix(id string) string {
 		return res.(string)
 	}
 	return config.Prefix
+}
+
+func (db *DynamoDBPrefixDatabase) CheckGuild(id string) bool {
+	_, ok := db.PrefixCache.Load(id)
+	if ok {
+		return true
+	}
+	return false
 }
 
 func (db *DynamoDBPrefixDatabase) SetGuilds() {
