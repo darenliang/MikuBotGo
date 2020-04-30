@@ -45,6 +45,6 @@ func CatGirl(ctx *exrouter.Context) {
 		return
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Here's your catgirl(s).")
+	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Here's your catgirl.")
 	_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fmt.Sprintf("catgirl%s", path.Ext(danbooru[0].LargeFileURL)), resp.Body)
 }
