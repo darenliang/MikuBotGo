@@ -27,10 +27,12 @@ var (
 	OpeningsData Openings
 	OpeningsMap  = sync.Map{}
 
-	TraceMoeBase  string
-	ImgurToken    string
-	ImgurUsername string
-	ClarifaiToken string
+	TraceMoeBase     string
+	ImgurToken       string
+	ImgurUsername    string
+	ClarifaiToken    string
+	DanbooruUsername string
+	DanbooruToken    string
 )
 
 type OpeningEntry struct {
@@ -71,4 +73,6 @@ func init() {
 	ImgurToken = os.Getenv("IMGUR_TOKEN")
 	ImgurUsername = os.Getenv("IMGUR_USERNAME")
 	ClarifaiToken = os.Getenv("CLARIFAI_TOKEN")
+	DanbooruUsername = os.Getenv("DANBOORU_USERNAME")
+	DanbooruToken = os.Getenv("DANBOORU_TOKEN")
 }

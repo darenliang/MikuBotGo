@@ -72,6 +72,8 @@ func init() {
 
 	Router.OnMatch("kaomoji", dgrouter.NewRegexMatcher("^(?i)kaomoji$"), cmd.Kaomoji)
 
+	Router.OnMatch("catgirl", dgrouter.NewRegexMatcher("^(?i)catgirl$"), cmd.CatGirl)
+
 	Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic)
 
 	Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
