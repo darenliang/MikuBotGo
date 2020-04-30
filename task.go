@@ -31,7 +31,7 @@ func UpdatePresence() {
 			})
 		}
 		_ = Session.UpdateStatus(0, fmt.Sprintf("@%s help", Session.State.User.Username))
-		time.Sleep(time.Minute * 15)
+		time.Sleep(time.Minute * 5)
 	}
 }
 
