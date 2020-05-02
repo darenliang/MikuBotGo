@@ -41,7 +41,7 @@ func ReportMem() {
 	for {
 		time.Sleep(time.Minute * 30)
 		runtime.ReadMemStats(&memRuntime)
-		log.Printf("Heap mem usage: %v MiB", memRuntime.HeapAlloc/1024/1024)
+		log.Printf("Heap mem usage: %v MiB", memRuntime.HeapInuse/1024/1024)
 		log.Printf("Sys mem usage: %v MiB", memRuntime.Sys/1024/1024)
 		log.Printf("Number of goroutines: %d", runtime.NumGoroutine())
 	}
