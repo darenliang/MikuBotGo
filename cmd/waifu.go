@@ -3,6 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
+	"github.com/bwmarrin/discordgo"
+	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"log"
 	"math/rand"
@@ -30,6 +32,23 @@ func Waifu(ctx *exrouter.Context) {
 		return
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Here's your waifu.")
-	_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, "waifu.jpg", resp.Body)
+	fileName := fmt.Sprintf("waifu.jpg")
+
+	ms := &discordgo.MessageSend{
+		Embed: &discordgo.MessageEmbed{
+			Title: "Here's your waifu.",
+			Color: config.EmbedColor,
+			Image: &discordgo.MessageEmbedImage{
+				URL: "attachment://" + fileName,
+			},
+		},
+		Files: []*discordgo.File{
+			{
+				Name:   fileName,
+				Reader: resp.Body,
+			},
+		},
+	}
+
+	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }

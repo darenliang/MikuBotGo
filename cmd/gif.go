@@ -216,9 +216,27 @@ func Gif(ctx *exrouter.Context) {
 			return
 		}
 
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf("Here's a gif from %s#%s",
-			usr.Username, usr.Discriminator))
-		_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, usr.ID+".gif", resp.Body)
+		fileName := usr.ID + ".gif"
+
+		ms := &discordgo.MessageSend{
+			Embed: &discordgo.MessageEmbed{
+				Title: fmt.Sprintf("Here's a gif from %s#%s.",
+					usr.Username, usr.Discriminator),
+				Color: config.EmbedColor,
+				Image: &discordgo.MessageEmbedImage{
+					URL: "attachment://" + fileName,
+				},
+			},
+			Files: []*discordgo.File{
+				{
+					Name:   fileName,
+					Reader: resp.Body,
+				},
+			},
+		}
+
+		_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+
 		return
 	}
 
