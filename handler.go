@@ -74,6 +74,24 @@ func init() {
 
 	Router.OnMatch("catgirl", dgrouter.NewRegexMatcher("^(?i)catgirl$"), cmd.CatGirl)
 
+	Router.OnMatch("headpat", dgrouter.NewRegexMatcher("^(?i)(headpat|pat)$"), cmd.HeadPat)
+
+	Router.OnMatch("kiss", dgrouter.NewRegexMatcher("^(?i)kiss$"), cmd.Kiss)
+
+	Router.OnMatch("tickle", dgrouter.NewRegexMatcher("^(?i)tickle$"), cmd.Tickle)
+
+	Router.OnMatch("feed", dgrouter.NewRegexMatcher("^(?i)(feed|food|eat)$"), cmd.Feed)
+
+	Router.OnMatch("slap", dgrouter.NewRegexMatcher("^(?i)slap$"), cmd.Slap)
+
+	Router.OnMatch("cuddle", dgrouter.NewRegexMatcher("^(?i)cuddle$"), cmd.Cuddle)
+
+	Router.OnMatch("hug", dgrouter.NewRegexMatcher("^(?i)hug$"), cmd.Hug)
+
+	Router.OnMatch("smug", dgrouter.NewRegexMatcher("^(?i)smug$"), cmd.Smug)
+
+	Router.OnMatch("baka", dgrouter.NewRegexMatcher("^(?i)(baka|idiot)$"), cmd.Baka)
+
 	Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic)
 
 	Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
