@@ -1,6 +1,6 @@
 # MikuBot
 
-[![Discord Bots](https://top.gg/api/widget/status/512354713602228265.svg)](https://top.gg/bot/512354713602228265)
+Invite: https://discordapp.com/oauth2/authorize?client_id=512354713602228265&scope=bot
 
 Documentation can found at https://darenliang.github.io/MikuBot-Docs
 
