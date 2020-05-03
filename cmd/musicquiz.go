@@ -89,7 +89,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 							Inline: false,
 						},
 					},
-					Title: "Hints for musicquiz",
+					Title: "Hints for Music Quiz",
 				}
 				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 				return
