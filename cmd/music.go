@@ -247,7 +247,7 @@ func QueueCommand(ctx *exrouter.Context) {
 		buff.WriteString(fmt.Sprintf(currentFormat, queue.Current().Title))
 	}
 	queueLength := len(q)
-	if len(ctx.Args) == 0 {
+	if len(ctx.Args) == 1 {
 		var resp string
 		if queueLength > 20 {
 			resp = display(q[:20], buff, 2, 0)
