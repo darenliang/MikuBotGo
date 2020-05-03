@@ -1442,9 +1442,6 @@
       │  │  └─ 0: https://animethemes.moe/video/KonosubaS2-OP1.webm
       │  └─ Ouchi ni Kaeritai
       │     └─ 0: https://animethemes.moe/video/KonosubaS2-ED1.webm
-      ├─ Koro-sensei Quest!
-      │  └─ Mata Kimi ni Aeru Hi
-      │     └─ 0: https://animethemes.moe/video/KoroSenseiQuest-ED2.webm
       ├─ Koutetsujou no Kabaneri Movie 2: Moeru Inochi
       │  └─ ninelie <cry-v>
       │     └─ 0: https://animethemes.moe/video/KoutetsujouNoKabaneriMovie2-ED1.webm

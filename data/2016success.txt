@@ -1356,21 +1356,21 @@
       │     └─ 0: https://animethemes.moe/video/MusaigenNoPhantomWorld-ED1.webm
       ├─ Nijiiro Days
       │  ├─ Best Friend
-      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-OP1-NCBD1080.webm
+      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-OP1.webm
       │  ├─ ONE-SIDED LOVE
-      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-OP2-NCBD1080.webm
+      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-OP2.webm
       │  ├─ Rainbow Days
-      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED1-NCBD1080.webm
+      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED1.webm
       │  ├─ Arch
-      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED2-NCBD1080.webm
+      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED2.webm
       │  ├─ I wanna be your knight
-      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED3-NCBD1080.webm
+      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED3.webm
       │  ├─ Catch me if you can!
-      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED4-NCBD1080.webm
+      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED4.webm
       │  ├─ Soba ni Iru kara
-      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED5-NCBD1080.webm
+      │  │  └─ 0: https://animethemes.moe/video/NijiiroDays-ED5.webm
       │  └─ Hallelujah! Shinin' Days
-      │     └─ 0: https://animethemes.moe/video/NijiiroDays-ED6-NCBD1080.webm
+      │     └─ 0: https://animethemes.moe/video/NijiiroDays-ED6.webm
       ├─ Norn9: Norn+Nonet
       │  ├─ Kazakiri
       │  │  └─ 0: https://animethemes.moe/video/Norn9-OP1-NCBD1080.webm

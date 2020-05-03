@@ -688,32 +688,8 @@
    │  │  └─ REALIZE ~Hajimari no Toki~
    │  │     └─ 0: https://animethemes.moe/video/DanMachi-ED2.webm
    │  ├─ Etotama
-   │  │  ├─ Retry☆Rendezvous
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-OP1-NCBD1080.webm
-   │  │  ├─ blue moment" (Nyaa-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED1-NCBD1080.webm
-   │  │  ├─ blue moment" (Nyaa-tan and Moo-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED2-NCBD1080.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan and Uri-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED3-NCBD1080.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED4-NCBD1080.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED5.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan, Shima-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED6.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan, Shima-tan, Shar-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED7.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan, Shima-tan, Shar-tan, Uma-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED8.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan, Shima-tan, Shar-tan, Uma-tan, Piyo-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED9.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan, Shima-tan, Shar-tan, Uma-tan, Piyo-tan, Key-tan, Inu-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED10.webm
-   │  │  ├─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan, Shima-tan, Shar-tan, Uma-tan, Piyo-tan, Key-tan, Inu-tan, Dora-tan
-   │  │  │  └─ 0: https://animethemes.moe/video/Etotama-ED11.webm
-   │  │  └─ blue moment" (Nyaa-tan, Moo-tan, Uri-tan, Usa-tan, Mei-tan, Shima-tan, Shar-tan, Uma-tan, Piyo-tan, Key-tan, Inu-tan, Dora-tan, Chuu-tan
-   │  │     └─ 0: https://animethemes.moe/video/Etotama-ED12.webm
+   │  │  └─ Retry☆Rendezvous
+   │  │     └─ 0: https://animethemes.moe/video/Etotama-OP1.webm
    │  ├─ Fate/stay night: Unlimited Blade Works 2nd Season
    │  │  ├─ Brave Shine
    │  │  │  └─ 0: https://animethemes.moe/video/FateStayNightUBWS2-OP1.webm

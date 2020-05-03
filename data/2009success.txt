@@ -444,9 +444,9 @@
    │  │     └─ 0: https://animethemes.moe/video/IsekaiNoSeikishiMonogatari-ED1.webm
    │  ├─ K-On!
    │  │  ├─ Cagayake! GIRLS
-   │  │  │  └─ 0: https://animethemes.moe/video/KOn-OP1v2.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/KOn-OP1.webm
    │  │  └─ Don't say 'lazy'
-   │  │     └─ 0: https://animethemes.moe/video/KOn-ED1-NCBD1080.webm
+   │  │     └─ 0: https://animethemes.moe/video/KOn-ED1.webm
    │  ├─ Koihime†Musou: Gunyuu, Seitoukaichou no Za wo Neratte Aiarasou no Koto - Ato, Porori mo Aru yo!
    │  │  ├─ flower of bravery
    │  │  │  └─ 0: https://animethemes.moe/video/KoihimeMusouOVA-OP1.webm

@@ -79,13 +79,13 @@
    │  │     └─ 0: https://animethemes.moe/video/AzurLane-ED1v3.webm
    │  ├─ Babylon
    │  │  ├─ Live and let die
-   │  │  │  └─ 0: https://animethemes.moe/video/Babylon-ED1.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/Babylon-ED1-NCBD1080.webm
    │  │  ├─ Inochi Hamu Tamashii
-   │  │  │  └─ 0: https://animethemes.moe/video/Babylon-ED2.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/Babylon-ED2-NCBD1080.webm
    │  │  ├─ Inochi Hamu Tamashii (requiem ver.)
    │  │  │  └─ 0: https://animethemes.moe/video/Babylon-ED3.webm
    │  │  └─ The next new world that no one knows (blood stained ver.)
-   │  │     └─ 0: https://animethemes.moe/video/Babylon-ED4.webm
+   │  │     └─ 0: https://animethemes.moe/video/Babylon-ED4-NCBD1080.webm
    │  ├─ Baja no Studio: Baja no Mita Umi
    │  │  └─ Te to Te to Te
    │  │     └─ 0: https://animethemes.moe/video/BajaNoStudio2-ED1.webm
@@ -326,7 +326,7 @@
    │  │     └─ 0: https://animethemes.moe/video/SuperShiro-ED1.webm
    │  ├─ Sword Art Online: Alicization - War of Underworld
    │  │  ├─ Resolution
-   │  │  │  └─ 0: https://animethemes.moe/video/SwordArtOnlineAlicizationS2-OP1v2.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/SwordArtOnlineAlicizationS2-OP1v2-NCBD1080.webm
    │  │  └─ unlasting
    │  │     └─ 0: https://animethemes.moe/video/SwordArtOnlineAlicizationS2-ED1.webm
    │  ├─ Sword Art Online: Alicization - War of Underworld Reflection

@@ -8,8 +8,10 @@
    │  ├─ Argonavis from BanG Dream!
    │  │  ├─ Hoshi ga Hajimaru
    │  │  │  └─ 0: https://animethemes.moe/video/Argonavis-OP1.webm
-   │  │  └─ Ameagari no Sakamichi
-   │  │     └─ 0: https://animethemes.moe/video/Argonavis-ED1.webm
+   │  │  ├─ Ameagari no Sakamichi
+   │  │  │  └─ 0: https://animethemes.moe/video/Argonavis-ED1.webm
+   │  │  └─ Goal Line
+   │  │     └─ 0: https://animethemes.moe/video/Argonavis-ED2.webm
    │  ├─ Arte
    │  │  ├─ Clover
    │  │  │  └─ 0: https://animethemes.moe/video/Arte-OP1.webm
@@ -65,14 +67,21 @@
    │  │  │  └─ 0: https://animethemes.moe/video/GalToKyouryuu-OP1.webm
    │  │  └─ Peaceful Days
    │  │     └─ 0: https://animethemes.moe/video/GalToKyouryuu-ED1.webm
+   │  ├─ Ghost in the Shell: SAC_2045
+   │  │  ├─ Fly with me
+   │  │  │  └─ 0: https://animethemes.moe/video/GhostInTheShellSAC2045-OP1.webm
+   │  │  └─ sustain++;
+   │  │     └─ 0: https://animethemes.moe/video/GhostInTheShellSAC2045-ED1.webm
    │  ├─ Gleipnir
    │  │  ├─ Altern-ate-
    │  │  │  └─ 0: https://animethemes.moe/video/Gleipnir-OP1.webm
    │  │  └─ Ame to Taieki to Nioi
    │  │     └─ 0: https://animethemes.moe/video/Gleipnir-ED1.webm
    │  ├─ Gundam Build Divers Re:Rise 2nd Season
-   │  │  └─ HATENA
-   │  │     └─ 0: https://animethemes.moe/video/GundamBuildDiversReRiseS2-OP1.webm
+   │  │  ├─ HATENA
+   │  │  │  └─ 0: https://animethemes.moe/video/GundamBuildDiversReRiseS2-OP1v2.webm
+   │  │  └─ Twinkle
+   │  │     └─ 0: https://animethemes.moe/video/GundamBuildDiversReRiseS2-ED1.webm
    │  ├─ Hachi-nan tte, Sore wa Nai deshou!
    │  │  ├─ Jikuu no Mayoi Hito
    │  │  │  └─ 0: https://animethemes.moe/video/Hachinan-OP1.webm
@@ -104,7 +113,7 @@
    │  │  ├─ DADDY! DADDY! DO! feat. Airi Suzuki
    │  │  │  └─ 0: https://animethemes.moe/video/KaguyaSamaWaKokurasetaiS2-OP1.webm
    │  │  └─ Kaze ni Fukarete
-   │  │     └─ 0: https://animethemes.moe/video/KaguyaSamaWaKokurasetaiS2-ED1.webm
+   │  │     └─ 0: https://animethemes.moe/video/KaguyaSamaWaKokurasetaiS2-ED1v2.webm
    │  ├─ Kakushigoto
    │  │  ├─ Chiisana Hibi
    │  │  │  └─ 0: https://animethemes.moe/video/Kakushigoto-OP1.webm
@@ -135,8 +144,12 @@
    │  │  │  └─ 0: https://animethemes.moe/video/Listeners-OP1.webm
    │  │  ├─ Muse
    │  │  │  └─ 0: https://animethemes.moe/video/Listeners-ED1.webm
-   │  │  └─ Borders
-   │  │     └─ 0: https://animethemes.moe/video/Listeners-ED2.webm
+   │  │  ├─ Borders
+   │  │  │  └─ 0: https://animethemes.moe/video/Listeners-ED2.webm
+   │  │  ├─ Slip out!
+   │  │  │  └─ 0: https://animethemes.moe/video/Listeners-ED3.webm
+   │  │  └─ Rainy lain
+   │  │     └─ 0: https://animethemes.moe/video/Listeners-ED4.webm
    │  ├─ Major 2nd 2nd Season
    │  │  ├─ Answer
    │  │  │  └─ 0: https://animethemes.moe/video/Major2ndS2-OP1.webm
@@ -150,16 +163,20 @@
    │  ├─ Nami yo Kiitekure
    │  │  ├─ aranami
    │  │  │  └─ 0: https://animethemes.moe/video/NamiYoKiitekure-OP1.webm
-   │  │  └─ Pride
-   │  │     └─ 0: https://animethemes.moe/video/NamiYoKiitekure-ED1.webm
+   │  │  ├─ Pride
+   │  │  │  └─ 0: https://animethemes.moe/video/NamiYoKiitekure-ED1.webm
+   │  │  └─ Believe In Myself
+   │  │     └─ 0: https://animethemes.moe/video/NamiYoKiitekure-ED2.webm
    │  ├─ Norimono Man: Mobile Land no Car-kun
    │  │  └─ Kattobi Mobile Land
    │  │     └─ 0: https://animethemes.moe/video/NorimonoMan-OP1.webm
    │  ├─ Olympia Kyklos
    │  │  ├─ William Tell Jokyoku
    │  │  │  └─ 0: https://animethemes.moe/video/OlympiaKyklos-OP1.webm
-   │  │  └─ Kimi wa Helenes
-   │  │     └─ 0: https://animethemes.moe/video/OlympiaKyklos-ED1.webm
+   │  │  ├─ Kimi wa Helenes
+   │  │  │  └─ 0: https://animethemes.moe/video/OlympiaKyklos-ED1.webm
+   │  │  └─ ZE.N.RA
+   │  │     └─ 0: https://animethemes.moe/video/OlympiaKyklos-ED2.webm
    │  ├─ Otome Game no Hametsu Flag shika Nai Akuyaku Reijou ni Tensei shiteshimatta...
    │  │  ├─ Otome no Route wa Hitotsu ja Nai!
    │  │  │  └─ 0: https://animethemes.moe/video/Hamefura-OP1.webm
@@ -174,7 +191,7 @@
    │  │  ├─ Hurry Love
    │  │  │  └─ 0: https://animethemes.moe/video/Shachibato-OP1.webm
    │  │  └─ Oyasumi
-   │  │     └─ 0: https://animethemes.moe/video/Shachibato-ED1.webm
+   │  │     └─ 0: https://animethemes.moe/video/Shachibato-ED1v2.webm
    │  ├─ Shadowverse
    │  │  ├─ Kirifuda
    │  │  │  └─ 0: https://animethemes.moe/video/Shadowverse-OP1.webm
@@ -369,7 +386,7 @@
       │  ├─ Kyuukyoku Unbalance!
       │  │  └─ 0: https://animethemes.moe/video/Bofuri-OP1-NCBD1080.webm
       │  └─ Play the world
-      │     └─ 0: https://animethemes.moe/video/Bofuri-ED1.webm
+      │     └─ 0: https://animethemes.moe/video/Bofuri-ED1-NCBD1080.webm
       ├─ Jibaku Shounen Hanako-kun
       │  ├─ No.7
       │  │  └─ 0: https://animethemes.moe/video/JibakuShounenHanakoKun-OP1v6.webm
