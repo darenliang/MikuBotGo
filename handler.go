@@ -64,6 +64,8 @@ func init() {
 
 	Router.OnMatch("sauce", dgrouter.NewRegexMatcher("^(?i)sauce$"), cmd.Sauce)
 
+	Router.OnMatch("identify", dgrouter.NewRegexMatcher("^(?i)identify$"), cmd.Identify)
+
 	Router.OnMatch("gif", dgrouter.NewRegexMatcher("^(?i)gif$"), cmd.Gif)
 
 	Router.OnMatch("owofy", dgrouter.NewRegexMatcher("^(?i)owofy$"), cmd.Owofy)

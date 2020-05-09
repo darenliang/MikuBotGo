@@ -33,6 +33,7 @@ var (
 	ClarifaiToken    string
 	DanbooruUsername string
 	DanbooruToken    string
+	SauceNaoToken    string
 )
 
 type OpeningEntry struct {
@@ -75,4 +76,5 @@ func init() {
 	ClarifaiToken = os.Getenv("CLARIFAI_TOKEN")
 	DanbooruUsername = os.Getenv("DANBOORU_USERNAME")
 	DanbooruToken = os.Getenv("DANBOORU_TOKEN")
+	SauceNaoToken = os.Getenv("SAUCENAO_TOKEN")
 }
