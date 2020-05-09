@@ -7,7 +7,6 @@ github.com/Necroforger/dgrouter
 github.com/Necroforger/dgrouter/exrouter
 # github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d
 ## explicit
-github.com/StackExchange/wmi
 # github.com/aerogo/http v1.1.0
 github.com/aerogo/http/ciphers
 github.com/aerogo/http/client
@@ -67,10 +66,12 @@ github.com/bwmarrin/discordgo
 # github.com/disintegration/imaging v1.6.2
 ## explicit
 github.com/disintegration/imaging
+# github.com/gabriel-vasile/mimetype v1.0.4
+github.com/gabriel-vasile/mimetype
+github.com/gabriel-vasile/mimetype/internal/json
+github.com/gabriel-vasile/mimetype/internal/matchers
 # github.com/go-ole/go-ole v1.2.4
 ## explicit
-github.com/go-ole/go-ole
-github.com/go-ole/go-ole/oleutil
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
 # github.com/h2non/filetype v1.0.12
@@ -81,6 +82,9 @@ github.com/h2non/filetype/matchers/isobmff
 github.com/h2non/filetype/types
 # github.com/jmespath/go-jmespath v0.3.0
 github.com/jmespath/go-jmespath
+# github.com/jozsefsallai/gophersauce v1.0.1
+## explicit
+github.com/jozsefsallai/gophersauce
 # github.com/layeh/gopus v0.0.0-20161224163843-0ebf989153aa
 ## explicit
 github.com/layeh/gopus
@@ -92,8 +96,6 @@ github.com/mvdan/xurls
 github.com/paul-mannino/go-fuzzywuzzy
 # github.com/shirou/gopsutil v2.20.3+incompatible
 ## explicit
-github.com/shirou/gopsutil/internal/common
-github.com/shirou/gopsutil/mem
 # golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
 golang.org/x/crypto/internal/subtle
 golang.org/x/crypto/nacl/secretbox
@@ -106,7 +108,5 @@ golang.org/x/image/tiff
 golang.org/x/image/tiff/lzw
 # golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a
 golang.org/x/sys/cpu
-golang.org/x/sys/unix
-golang.org/x/sys/windows
 # golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 golang.org/x/time/rate
