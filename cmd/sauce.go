@@ -83,6 +83,7 @@ func Sauce(ctx *exrouter.Context) {
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Theres an issue with your image.")
 		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		return
 	}
 
 	image = imaging.Resize(image, 0, 480, imaging.Lanczos)
