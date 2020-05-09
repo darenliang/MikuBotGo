@@ -92,19 +92,34 @@ func Trivia(ctx *exrouter.Context) {
 		}
 	})()
 
+	embed = &discordgo.MessageEmbed{
+		Author: &discordgo.MessageEmbedAuthor{},
+		Fields: []*discordgo.MessageEmbedField{
+			{
+				Name:   "Answer",
+				Value:  question.CorrectAnswer,
+				Inline: true,
+			},
+		},
+	}
+
 	select {
 	case <-callback:
 		if answers[idx] == question.CorrectAnswer {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are correct!")
+			embed.Title = "Correct"
+			embed.Color = 0x4caf50
+			_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 			return
 		} else {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID,
-				fmt.Sprintf("You are incorrect. The answer is %s.", html.UnescapeString(question.CorrectAnswer)))
+			embed.Title = "Incorrect"
+			embed.Color = 0xf44336
+			_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 			return
 		}
 	case <-time.After(config.Timeout * time.Second):
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"The trivia question timed out. The answer is %s.", html.UnescapeString(question.CorrectAnswer)))
+		embed.Title = "Timed out"
+		embed.Color = 0xfdd835
+		_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 		return
 	}
 }
