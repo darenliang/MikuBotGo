@@ -97,7 +97,7 @@ func Trivia(ctx *exrouter.Context) {
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name:   "Answer",
-				Value:  question.CorrectAnswer,
+				Value:  html.UnescapeString(question.CorrectAnswer),
 				Inline: true,
 			},
 		},
