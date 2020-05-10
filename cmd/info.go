@@ -32,6 +32,9 @@ func Info(ctx *exrouter.Context) {
 	var memRuntime runtime.MemStats
 	runtime.ReadMemStats(&memRuntime)
 
+	// Last GC
+	lastGC := time.Since(time.Unix(0, int64(memRuntime.LastGC)))
+
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
 		Color:  config.EmbedColor,
@@ -90,12 +93,29 @@ func Info(ctx *exrouter.Context) {
 				Inline: true,
 			},
 			{
-				Name:   "Memory Usage",
-				Value:  fmt.Sprintf("%v MiB", memRuntime.HeapInuse/1024/1024),
+				Name:   "Memory Alloc",
+				Value:  fmt.Sprintf("%v MiB", memRuntime.HeapAlloc/1024/1024),
 				Inline: true,
 			},
 			{
-				Name:   "Routines",
+				Name:   "Memory Target",
+				Value:  fmt.Sprintf("%v MiB", memRuntime.NextGC/1024/1024),
+				Inline: true,
+			},
+			{
+				Name: "Last GC",
+				Value: fmt.Sprintf("%dm, %ds",
+					int(lastGC.Minutes())%60,
+					int(lastGC.Seconds())%60),
+				Inline: true,
+			},
+			{
+				Name:   "Available Cores",
+				Value:  fmt.Sprintf("%v", runtime.NumCPU()),
+				Inline: true,
+			},
+			{
+				Name:   "Subroutines",
 				Value:  fmt.Sprintf("%v", runtime.NumGoroutine()),
 				Inline: true,
 			},
