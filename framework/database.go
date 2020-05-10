@@ -411,7 +411,6 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 	}
 
 	if !status.Success {
-		fmt.Println(status)
 		return errors.New("gif cannot be added")
 	}
 

@@ -142,6 +142,8 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 								err := framework.GBD.UploadGif(message.GuildID, message.Author.ID, v, hash)
 								if err == nil {
 									count++
+								} else {
+									log.Printf("gif: %s", err)
 								}
 							}
 						} else {
