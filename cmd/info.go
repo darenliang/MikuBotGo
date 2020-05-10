@@ -36,8 +36,9 @@ func Info(ctx *exrouter.Context) {
 	lastGC := time.Since(time.Unix(0, int64(memRuntime.LastGC)))
 
 	embed := &discordgo.MessageEmbed{
-		Author: &discordgo.MessageEmbedAuthor{},
-		Color:  config.EmbedColor,
+		Author:      &discordgo.MessageEmbedAuthor{},
+		Color:       config.EmbedColor,
+		Description: "(づ｡◕‿‿◕｡)づ Made with :heart: and discordgo.",
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name: "Links",
