@@ -1,4 +1,5 @@
 import json
+import os
 import pickle
 import re
 
@@ -60,8 +61,11 @@ if __name__ == "__main__":
                     else:
                         search = re.search("^.{12}└─ 0: (.+)\n$", line)
                         if search:
-                            Aninx.Data[-1]["songs"][-1]["url"] = search[1]
+                            Aninx.Data[-1]["songs"][-1]["url"] = os.path.splitext(os.path.basename(search[1]))[
+                                                                     0] + ".mp3"
                 line = f.readline()
+
+    print(Aninx.Data)
 
     # filter_set = get_top_500()
     # print(len(filter_set))

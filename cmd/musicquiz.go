@@ -11,8 +11,6 @@ import (
 	"log"
 	"math/rand"
 	"net/url"
-	"os"
-	"os/exec"
 	"strings"
 	"time"
 )
@@ -169,39 +167,23 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	fileNameOut := framework.RandomString(16)
 
-	cmd := exec.Command("youtube-dl", "--extract-audio", "--audio-format", "mp3", "--output",
-		"./cache/"+fileNameOut+".webm", "--external-downloader", "aria2c", "--external-downloader-args",
-		`-x 5 -s 5 -k 1M`, song.URL)
+	resp, err := framework.HttpClient.Get(fmt.Sprintf(
+		"https://gitlab.com/darenliang/mq/-/raw/master/data/%s", song.URL))
 
-	ch := make(chan error)
-	go func() {
-		ch <- cmd.Run()
-	}()
-
-	select {
-	case err := <-ch:
-		if err != nil {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to convert media file.")
-			_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
-			config.OpeningsMap.Delete(ctx.Msg.ChannelID)
-			log.Printf("musicquiz: file failed to convert: %s", song.URL)
-			return
-		}
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
-			"`%smusicquiz <guess>` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", prefix, prefix, prefix))
-		f, err := os.Open("./cache/" + fileNameOut + ".mp3")
-		if f != nil {
-			defer os.Remove("./cache/" + fileNameOut + ".mp3")
-			defer f.Close()
-		}
-		if err != nil {
-			log.Printf("musicquiz: open file error: %s", fileNameOut)
-			return
-		}
-		_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", f)
-	case <-time.After(config.Timeout * 3 * time.Second):
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "This command timed out.")
-		config.OpeningsMap.Delete(ctx.Msg.ChannelID)
+	if resp != nil {
+		defer resp.Body.Close()
 	}
+
+	if err != nil {
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to get media file.")
+		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		log.Printf("musicquiz: file failed to convert: %s", song.URL)
+		config.OpeningsMap.Delete(ctx.Msg.ChannelID)
+		return
+	}
+
+	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
+		"`%smusicquiz <guess>` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", prefix, prefix, prefix))
+	_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", resp.Body)
 	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 }
