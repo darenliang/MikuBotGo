@@ -70,7 +70,7 @@ func init() {
 
 	Router.OnMatch("owofy", dgrouter.NewRegexMatcher("^(?i)owofy$"), cmd.Owofy)
 
-	Router.OnMatch("8ball", dgrouter.NewRegexMatcher("^(?i)8ball|8b|eightball$"), cmd.EightBall)
+	Router.OnMatch("8ball", dgrouter.NewRegexMatcher("^(?i)(8ball|8b|eightball)$"), cmd.EightBall)
 
 	Router.OnMatch("kaomoji", dgrouter.NewRegexMatcher("^(?i)kaomoji$"), cmd.Kaomoji)
 
@@ -102,7 +102,7 @@ func init() {
 
 	Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
 
-	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)leave|disconnect$"), cmd.LeaveCommand)
+	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)(leave|disconnect)$"), cmd.LeaveCommand)
 
 	Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)pause$"), cmd.PauseCommand)
 
