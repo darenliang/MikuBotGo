@@ -41,8 +41,8 @@ func CatGirl(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
-		log.Print("catgirl: failed to get image")
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to get image. Please try again.")
+		log.Printf("catgirl: failed to get image: %s", danbooru[0].LargeFileURL)
 		return
 	}
 
