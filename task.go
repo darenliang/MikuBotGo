@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/DiscordBotList/go-dbl"
-	"log"
 	"os"
-	"runtime"
 	"time"
 )
 
@@ -22,7 +20,7 @@ func init() {
 	}
 }
 
-// UpdatePresence updates the presence every 15 minutes
+// UpdatePresence updates the presence every 1 minute
 func UpdatePresence() {
 	for {
 		if dblToken != "" {
@@ -31,18 +29,6 @@ func UpdatePresence() {
 			})
 		}
 		_ = Session.UpdateStatus(0, fmt.Sprintf("@%s help", Session.State.User.Username))
-		time.Sleep(time.Minute * 5)
-	}
-}
-
-// ReportMem reports mem usage every hour
-func ReportMem() {
-	var memRuntime runtime.MemStats
-	for {
-		time.Sleep(time.Minute * 30)
-		runtime.ReadMemStats(&memRuntime)
-		log.Printf("Heap mem usage: %v MiB", memRuntime.HeapInuse/1024/1024)
-		log.Printf("Sys mem usage: %v MiB", memRuntime.Sys/1024/1024)
-		log.Printf("Number of goroutines: %d", runtime.NumGoroutine())
+		time.Sleep(time.Minute)
 	}
 }

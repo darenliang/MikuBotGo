@@ -43,8 +43,8 @@ func main() {
 		return
 	}
 
+	// Update presence
 	go UpdatePresence()
-	go ReportMem()
 
 	// Run and keep open
 	log.Printf("Now running.")
