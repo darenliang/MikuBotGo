@@ -139,8 +139,6 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	song := config.OpeningsData[idx].Songs[rand.Int()%len(config.OpeningsData[idx].Songs)]
 
-	// This is whack-----------------------------------------------
-
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
 		Color:  config.EmbedColor,
@@ -157,8 +155,6 @@ func MusicQuiz(ctx *exrouter.Context) {
 		Title: response.Data.Media.Title.UserPreferred,
 		URL:   fmt.Sprintf("https://myanimelist.net/anime/%d", response.Data.Media.IDMal),
 	}
-
-	// This is whack-----------------------------------------------
 
 	config.OpeningsMap.Store(ctx.Msg.ChannelID, config.OpeningEntry{
 		Name:  response.Data.Media.Title.UserPreferred,
