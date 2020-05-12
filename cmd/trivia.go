@@ -88,7 +88,7 @@ func Trivia(ctx *exrouter.Context) {
 		idx = framework.Index(emojis, reaction.Emoji.Name)
 
 		if reaction.MessageID == embedMsg.ID && reaction.UserID != ctx.Ses.State.User.ID && idx != -1 {
-			close(callback)
+			callback <- struct{}{}
 		}
 	})()
 
