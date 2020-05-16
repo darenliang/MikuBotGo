@@ -2,7 +2,7 @@ package config
 
 // Includes config variables for bot
 const (
-	BotInfo       = "MikuBot v1.7.3"
+	BotInfo       = "MikuBot v1.7.4"
 	EmbedColor    = 0x2e98a6
 	Prefix        = "!"
 	Timeout       = 60
