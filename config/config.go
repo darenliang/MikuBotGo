@@ -12,7 +12,7 @@ import (
 
 // Includes config variables for bot
 const (
-	BotInfo              = "MikuBot v1.7.2"
+	BotInfo              = "MikuBot v1.7.3"
 	EmbedColor           = 0x2e98a6
 	Prefix               = "!"
 	Timeout              = 60
