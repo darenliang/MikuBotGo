@@ -7,26 +7,42 @@ import (
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"sort"
+	"strings"
 )
 
 // Leaderboard command
 func Leaderboard(ctx *exrouter.Context) {
+	query := strings.TrimSpace(ctx.Args.After(1))
 	scores := framework.MQDB.GetScores()
 
-	if ctx.Msg.GuildID == "" {
-		_, _ = ctx.Reply("The `leaderboard` command is server-specific. Try calling the command in a server.")
-		return
-	}
-
-	guild, _ := ctx.Guild(ctx.Msg.GuildID)
 	memberSet := make(map[string]bool)
-	for _, member := range guild.Members {
-		memberSet[member.User.ID] = true
+	var memberFilter func(id string) bool
+
+	title := ""
+
+	if query == "global" || query == "g" || ctx.Msg.GuildID == "" {
+		title = "Global Music Quiz Leaderboard"
+
+		memberFilter = func(id string) bool {
+			return true
+		}
+	} else {
+		guild, _ := ctx.Guild(ctx.Msg.GuildID)
+
+		title = fmt.Sprintf("Music Quiz Leaderboard for %s", guild.Name)
+
+		for _, member := range guild.Members {
+			memberSet[member.User.ID] = true
+		}
+
+		memberFilter = func(id string) bool {
+			return memberSet[id]
+		}
 	}
 
 	scoresSlice := make([]framework.MusicQuizEntry, 0, len(scores))
 	for k, v := range scores {
-		if !memberSet[k] {
+		if !memberFilter(k) {
 			continue
 		}
 		scoresSlice = append(scoresSlice, framework.MusicQuizEntry{
@@ -58,7 +74,7 @@ func Leaderboard(ctx *exrouter.Context) {
 		Author:      &discordgo.MessageEmbedAuthor{},
 		Color:       config.EmbedColor,
 		Description: leaderboard,
-		Title:       fmt.Sprintf("Music Quiz Leaderboard for %s", guild.Name),
+		Title:       title,
 	}
 
 	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
