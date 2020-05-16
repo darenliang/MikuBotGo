@@ -1,6 +1,9 @@
 package framework
 
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+)
 
 type AniListAnimeSearchResponse struct {
 	Data struct {
@@ -172,7 +175,7 @@ func AnilistAnimeSearchQuery(query string) map[string]string {
     siteUrl
   }
 }
-`, query)}
+`, url.QueryEscape(query))}
 	return jsonQuery
 }
 
@@ -246,6 +249,6 @@ func AnilistMangaSearchQuery(query string) map[string]string {
     }
     siteUrl
   }
-}`, query)}
+}`, url.QueryEscape(query))}
 	return jsonQuery
 }
