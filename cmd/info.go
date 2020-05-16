@@ -11,10 +11,17 @@ import (
 	"time"
 )
 
+var StartTime time.Time
+
+func init() {
+	// Set start time
+	StartTime = time.Now()
+}
+
 // Info command
 func Info(ctx *exrouter.Context) {
 	client, _ := ctx.Ses.Application("@me")
-	currTime := time.Since(config.StartTime)
+	currTime := time.Since(StartTime)
 
 	userCount := 0
 	for _, guild := range ctx.Ses.State.Guilds {

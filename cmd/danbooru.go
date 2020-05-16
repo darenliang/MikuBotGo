@@ -8,6 +8,7 @@ import (
 	"github.com/darenliang/MikuBotGo/framework"
 	"log"
 	"net/url"
+	"os"
 	"path"
 )
 
@@ -15,12 +16,22 @@ type DanbooruResponse []struct {
 	LargeFileURL string `json:"large_file_url"`
 }
 
+var (
+	DanbooruUsername string
+	DanbooruToken    string
+)
+
+func init() {
+	DanbooruUsername = os.Getenv("DANBOORU_USERNAME")
+	DanbooruToken = os.Getenv("DANBOORU_TOKEN")
+}
+
 // Cat girl command
 func CatGirl(ctx *exrouter.Context) {
 	danbooru := DanbooruResponse{}
 
 	err := framework.UrlToStruct(fmt.Sprintf("https://danbooru.donmai.us/posts.json?login=%s&api_key=%s&random=true&limit=1&tags=%s",
-		config.DanbooruUsername, config.DanbooruToken, url.QueryEscape("cat_girl score:>=35 rating:safe")), &danbooru)
+		DanbooruUsername, DanbooruToken, url.QueryEscape("cat_girl score:>=35 rating:safe")), &danbooru)
 
 	if err != nil {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")

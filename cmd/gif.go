@@ -16,8 +16,22 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
+
+const (
+	// 10 MB is the max imgur size
+	maxImgurByteSize = 1000 * 1000 * 10
+	// Clarifai API Endpoint
+	clarifaiNSFWEndpoint = "https://api.clarifai.com/v2/models/e9576d86d2004ed1a38ba0cf39ecb4b1/outputs"
+)
+
+var clarifaiToken string
+
+func init() {
+	clarifaiToken = os.Getenv("CLARIFAI_TOKEN")
+}
 
 type ClarifaiPredict struct {
 	Status struct {
@@ -56,9 +70,9 @@ func moderateGif(url string) (bool, error) {
       }
    }
 }`, url)
-	req, _ := http.NewRequest("POST", config.ClarifaiNSFWEndpoint, bytes.NewBuffer([]byte(jsonStr)))
+	req, _ := http.NewRequest("POST", clarifaiNSFWEndpoint, bytes.NewBuffer([]byte(jsonStr)))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Key "+config.ClarifaiToken)
+	req.Header.Set("Authorization", "Key "+clarifaiToken)
 	resp, err := framework.HttpClient.Do(req)
 
 	if resp != nil {
@@ -121,12 +135,12 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 			continue
 		}
 
-		data, err := ioutil.ReadAll(io.LimitReader(resp.Body, config.MaxImgurByteSize+1))
+		data, err := ioutil.ReadAll(io.LimitReader(resp.Body, maxImgurByteSize+1))
 
 		// URL read is good
 		if err == nil {
 			// Size too big
-			if len(data) <= config.MaxImgurByteSize {
+			if len(data) <= maxImgurByteSize {
 				// Validate filetype
 				kind, _ := filetype.Match(data)
 				if kind.Extension == "gif" {

@@ -13,9 +13,12 @@ import (
 	"github.com/disintegration/imaging"
 	"image/jpeg"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 )
+
+var TraceMoeBase string
 
 type TraceData struct {
 	Docs []struct {
@@ -29,12 +32,21 @@ type TraceData struct {
 	} `json:"docs"`
 }
 
+func init() {
+	TraceMoeKey := os.Getenv("TRACEMOE")
+	if TraceMoeKey != "" {
+		TraceMoeBase = fmt.Sprintf("https://trace.moe/api/search?token=%s", TraceMoeKey)
+	} else {
+		TraceMoeBase = "https://trace.moe/api/search"
+	}
+}
+
 func getPostJson(data string, target interface{}) error {
 	form := url.Values{
 		"image": {data},
 	}
 
-	r, err := framework.HttpClient.PostForm(config.TraceMoeBase, form)
+	r, err := framework.HttpClient.PostForm(TraceMoeBase, form)
 
 	if r != nil {
 		defer r.Body.Close()

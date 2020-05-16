@@ -14,6 +14,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"sync"
 )
@@ -98,12 +99,16 @@ type GifCacheDatabase struct {
 	GifCache *sync.Map
 }
 
+const ImgurEndpoint = "https://api.imgur.com/3"
+
 var (
 	AwsSession       *session.Session
 	DynamoDBInstance *dynamodb.DynamoDB
 	MQDB             MusicQuizDatabase
 	PDB              PrefixDatabase
 	GBD              GifDatabase
+	ImgurToken       string
+	ImgurUsername    string
 )
 
 func init() {
@@ -129,6 +134,10 @@ func init() {
 	GBD = &GifCacheDatabase{
 		GifCache: &sync.Map{},
 	}
+
+	// Setup Imgur vars
+	ImgurToken = os.Getenv("IMGUR_TOKEN")
+	ImgurUsername = os.Getenv("IMGUR_USERNAME")
 }
 
 func (db *DynamoDBMusicQuizDatabase) GetScore(id string) (int, int) {
@@ -326,9 +335,9 @@ func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
 	images := res.(GifItemList)
 
 	req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
-		config.ImgurEndpoint, images.ID), new(bytes.Buffer))
+		ImgurEndpoint, images.ID), new(bytes.Buffer))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+	req.Header.Set("Authorization", "Bearer "+ImgurToken)
 
 	resp, _ := HttpClient.Do(req)
 	AlbumEntry := GifItemList{}
@@ -363,9 +372,9 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 		params.Set("title", guildId)
 		params.Set("privacy", "secret")
 		req, _ := http.NewRequest("POST", fmt.Sprintf("%s/album?%s",
-			config.ImgurEndpoint, params.Encode()), new(bytes.Buffer))
+			ImgurEndpoint, params.Encode()), new(bytes.Buffer))
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+		req.Header.Set("Authorization", "Bearer "+ImgurToken)
 		resp, _ := HttpClient.Do(req)
 
 		albumCreation := GifItem{}
@@ -396,9 +405,9 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 	params.Set("title", userId)
 	params.Set("description", hash)
 	req, _ := http.NewRequest("POST", fmt.Sprintf("%s/upload?%s",
-		config.ImgurEndpoint, params.Encode()), new(bytes.Buffer))
+		ImgurEndpoint, params.Encode()), new(bytes.Buffer))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+	req.Header.Set("Authorization", "Bearer "+ImgurToken)
 
 	resp, _ := HttpClient.Do(req)
 	status := GifUpload{}
@@ -428,9 +437,9 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 
 func (db *GifCacheDatabase) SetAlbums() {
 	req, _ := http.NewRequest("GET", fmt.Sprintf("%s/account/%s/albums",
-		config.ImgurEndpoint, config.ImgurUsername), new(bytes.Buffer))
+		ImgurEndpoint, ImgurUsername), new(bytes.Buffer))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+	req.Header.Set("Authorization", "Bearer "+ImgurToken)
 	resp, _ := HttpClient.Do(req)
 	albums := GifItemList{}
 	_ = json.NewDecoder(resp.Body).Decode(&albums)
@@ -438,9 +447,9 @@ func (db *GifCacheDatabase) SetAlbums() {
 
 	for _, i := range albums.Data {
 		req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
-			config.ImgurEndpoint, i.ID), new(bytes.Buffer))
+			ImgurEndpoint, i.ID), new(bytes.Buffer))
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("Authorization", "Bearer "+config.ImgurToken)
+		req.Header.Set("Authorization", "Bearer "+ImgurToken)
 		resp, err := HttpClient.Do(req)
 
 		if err != nil {

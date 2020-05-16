@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/animenotifier/anilist"
@@ -8,16 +9,47 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/url"
 	"strings"
+	"sync"
 	"time"
 )
+
+var (
+	OpeningsData Openings
+	OpeningsMap  = sync.Map{}
+)
+
+type OpeningEntry struct {
+	Name  string
+	Embed *discordgo.MessageEmbed
+}
+
+type Openings []struct {
+	Name  string `json:"name"`
+	Songs []struct {
+		Songname string `json:"songname"`
+		URL      string `json:"url"`
+	} `json:"songs"`
+}
 
 func init() {
 	// Generate random seed
 	rand.Seed(time.Now().UnixNano())
+
+	// Setup openings
+	OpeningsData = GetOpenings()
+}
+
+// Return openings
+func GetOpenings() Openings {
+	file, _ := ioutil.ReadFile("data/dataset_filtered.json")
+	tmp := Openings{}
+	_ = json.Unmarshal(file, &tmp)
+	return tmp
 }
 
 // MusicQuiz command
@@ -26,17 +58,17 @@ func MusicQuiz(ctx *exrouter.Context) {
 	guess := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(guess) != 0 {
-		entryInterface, ok := config.OpeningsMap.Load(ctx.Msg.ChannelID)
+		entryInterface, ok := OpeningsMap.Load(ctx.Msg.ChannelID)
 		if !ok {
 			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There is no currently active quiz in this channel.")
 			return
 		} else {
-			entry := entryInterface.(config.OpeningEntry)
+			entry := entryInterface.(OpeningEntry)
 			if guess == "giveup" {
 				entry.Embed.Title = "Answer: " + entry.Embed.Title
 				entry.Embed.Color = 0xf44336
 				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, entry.Embed)
-				config.OpeningsMap.Delete(ctx.Msg.ChannelID)
+				OpeningsMap.Delete(ctx.Msg.ChannelID)
 				return
 			} else if guess == "hint" {
 				response := framework.AniListAnimeSearchResponse{}
@@ -107,7 +139,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 					} else {
 						framework.MQDB.UpdateScore(ctx.Msg.Author.ID, score+1, attempts)
 					}
-					config.OpeningsMap.Delete(ctx.Msg.ChannelID)
+					OpeningsMap.Delete(ctx.Msg.ChannelID)
 					return
 				} else {
 					_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are incorrect. Please try again.")
@@ -117,7 +149,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		}
 	}
 
-	_, ok := config.OpeningsMap.Load(ctx.Msg.ChannelID)
+	_, ok := OpeningsMap.Load(ctx.Msg.ChannelID)
 	if ok {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You haven't gave an answer to the previous quiz.")
 		return
@@ -132,12 +164,12 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
 
-	idx := rand.Int() % len(config.OpeningsData)
+	idx := rand.Int() % len(OpeningsData)
 
 	response := framework.AniListAnimeSearchResponse{}
-	_ = anilist.Query(framework.AnilistAnimeSearchQuery(config.OpeningsData[idx].Name), &response)
+	_ = anilist.Query(framework.AnilistAnimeSearchQuery(OpeningsData[idx].Name), &response)
 
-	song := config.OpeningsData[idx].Songs[rand.Int()%len(config.OpeningsData[idx].Songs)]
+	song := OpeningsData[idx].Songs[rand.Int()%len(OpeningsData[idx].Songs)]
 
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
@@ -156,7 +188,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		URL:   fmt.Sprintf("https://myanimelist.net/anime/%d", response.Data.Media.IDMal),
 	}
 
-	config.OpeningsMap.Store(ctx.Msg.ChannelID, config.OpeningEntry{
+	OpeningsMap.Store(ctx.Msg.ChannelID, OpeningEntry{
 		Name:  response.Data.Media.Title.UserPreferred,
 		Embed: embed,
 	})
@@ -174,7 +206,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to get media file.")
 		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 		log.Printf("musicquiz: file failed to convert: %s", song.URL)
-		config.OpeningsMap.Delete(ctx.Msg.ChannelID)
+		OpeningsMap.Delete(ctx.Msg.ChannelID)
 		return
 	}
 

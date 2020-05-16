@@ -7,8 +7,15 @@ import (
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/jozsefsallai/gophersauce"
 	"net/url"
+	"os"
 	"strings"
 )
+
+var SauceNaoToken string
+
+func init() {
+	SauceNaoToken = os.Getenv("SAUCENAO_TOKEN")
+}
 
 // Sauce command
 func Sauce(ctx *exrouter.Context) {
@@ -36,7 +43,7 @@ func Sauce(ctx *exrouter.Context) {
 
 	client, err := gophersauce.NewClient(&gophersauce.Settings{
 		MaxResults: 1,
-		APIKey:     config.SauceNaoToken,
+		APIKey:     SauceNaoToken,
 	})
 
 	if err != nil {
