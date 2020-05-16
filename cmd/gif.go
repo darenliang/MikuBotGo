@@ -117,6 +117,7 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 		resp, err := framework.HttpClient.Get(v)
 
 		if err != nil {
+			log.Printf("gif: url fail: %s", v)
 			continue
 		}
 
@@ -131,30 +132,34 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 				if kind.Extension == "gif" {
 					// Moderate file
 					ok, err := moderateGif(v)
-					if err == nil {
-						if ok {
-							// Check file hash for dups
-							hash := fmt.Sprintf("%x", sha256.Sum256(data))
-							if framework.GBD.CheckDup(message.GuildID, hash) {
-								dupCount++
-							} else {
-								// Update file
-								err := framework.GBD.UploadGif(message.GuildID, message.Author.ID, v, hash)
-								if err == nil {
-									count++
-								} else {
-									log.Printf("gif: %s", err)
-								}
-							}
+
+					if err == nil && !ok {
+						log.Printf("gif: moderation fail: %s", v)
+						nsfwCount++
+					} else {
+						// Check file hash for dups
+						hash := fmt.Sprintf("%x", sha256.Sum256(data))
+						if framework.GBD.CheckDup(message.GuildID, hash) {
+							log.Print("gif: dup found")
+							dupCount++
 						} else {
-							// If failed moderation
-							nsfwCount++
+							// Update file
+							err := framework.GBD.UploadGif(message.GuildID, message.Author.ID, v, hash)
+							if err == nil {
+								count++
+							} else {
+								log.Printf("gif: upload fail: %s", v)
+							}
 						}
 					}
+				} else {
+					log.Printf("gif: filekind not supported: %s", v)
 				}
+			} else {
+				log.Printf("gif: too large: %s", v)
 			}
 		} else {
-			log.Printf("gif: ioutil readall failed")
+			log.Printf("gif: readall failed: %s", v)
 		}
 		_ = resp.Body.Close()
 	}
