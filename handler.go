@@ -9,6 +9,8 @@ import (
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
+	"github.com/foxbot/gavalink"
+	"log"
 	"sync"
 )
 
@@ -84,16 +86,17 @@ func init() {
 	Router.OnMatch("baka", dgrouter.NewRegexMatcher("^(?i)(baka|idiot)$"), cmd.Baka)
 
 	// Music
-	Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic)
-	Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
-	Router.OnMatch("current", dgrouter.NewRegexMatcher("^(?i)current$"), cmd.CurrentCommand)
-	Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
-	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)(leave|disconnect)$"), cmd.LeaveCommand)
+	// Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic)
+	// Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
+	// Router.OnMatch("current", dgrouter.NewRegexMatcher("^(?i)current$"), cmd.CurrentCommand)
+	// Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
+	// Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)(leave|disconnect)$"), cmd.LeaveCommand)
 	Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)pause$"), cmd.PauseCommand)
 	Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)play$"), cmd.PlayCommand)
-	Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)queue$"), cmd.QueueCommand)
-	Router.OnMatch("shuffle", dgrouter.NewRegexMatcher("^(?i)shuffle$"), cmd.ShuffleCommand)
-	Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)skip$"), cmd.SkipCommand)
+	Router.OnMatch("resume", dgrouter.NewRegexMatcher("^(?i)(resume|continue)$"), cmd.PlayCommand)
+	// Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)queue$"), cmd.QueueCommand)
+	// Router.OnMatch("shuffle", dgrouter.NewRegexMatcher("^(?i)shuffle$"), cmd.ShuffleCommand)
+	// Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)skip$"), cmd.SkipCommand)
 	Router.OnMatch("stop", dgrouter.NewRegexMatcher("^(?i)stop$"), cmd.StopCommand)
 
 	// Help
@@ -110,11 +113,17 @@ func init() {
 	}).Cat("Help")
 
 	// Query database on ready
-	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
+	Session.AddHandlerOnce(func(_ *discordgo.Session, ready *discordgo.Ready) {
 		// Query databases to temp
 		framework.PDB.SetGuilds()
 		framework.MQDB.SetScores()
 		framework.GBD.SetAlbums()
+
+		// Set BotID
+		config.BotID = Session.State.User.ID
+
+		// Set music
+		cmd.AudioInit()
 
 		// Music sessions and youtube
 		music.MusicSessions = music.NewSessionManager()
@@ -194,6 +203,34 @@ func init() {
 				_, _ = Session.ChannelMessageSend(message.ChannelID, msg)
 				return
 			}
+		}
+	})
+
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceServerUpdate) {
+		var err error
+
+		vsu := gavalink.VoiceServerUpdate{
+			Endpoint: event.Endpoint,
+			GuildID:  event.GuildID,
+			Token:    event.Token,
+		}
+
+		if cmd.AudioPlayers[event.GuildID], err = cmd.AudioLavalink.GetPlayer(event.GuildID); err == nil {
+			if err = cmd.AudioPlayers[event.GuildID].Forward(session.State.SessionID, vsu); err != nil {
+				log.Printf("handler: voice server update: %s", err)
+				return
+			}
+		}
+
+		cmd.AudioNode, err = cmd.AudioLavalink.BestNode()
+		if err != nil {
+			log.Printf("handler: failed to find node: %s", err)
+			return
+		}
+
+		if cmd.AudioPlayers[event.GuildID], err = cmd.AudioNode.CreatePlayer(event.GuildID, session.State.SessionID, vsu, new(gavalink.DummyEventHandler)); err != nil {
+			log.Printf("handler: failed to create player: %s", err)
+			return
 		}
 	})
 }

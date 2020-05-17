@@ -13,11 +13,13 @@ require (
 	github.com/aws/aws-sdk-go v1.30.7
 	github.com/bwmarrin/discordgo v0.20.0
 	github.com/disintegration/imaging v1.6.2
+	github.com/foxbot/gavalink v1.0.0
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/h2non/filetype v1.0.12
 	github.com/jozsefsallai/gophersauce v1.0.1
 	github.com/layeh/gopus v0.0.0-20161224163843-0ebf989153aa
 	github.com/mvdan/xurls v1.1.0
 	github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
+	github.com/robfig/cron v1.2.0
 	github.com/shirou/gopsutil v2.20.3+incompatible // indirect
 )
