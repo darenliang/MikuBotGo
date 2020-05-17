@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"path"
+	"strings"
 )
 
 type DanbooruResponse []struct {
@@ -30,7 +31,7 @@ func init() {
 func CatGirl(ctx *exrouter.Context) {
 	danbooru := DanbooruResponse{}
 
-	err := framework.UrlToStruct(fmt.Sprintf("https://danbooru.donmai.us/posts.json?login=%s&api_key=%s&random=true&limit=1&tags=%s",
+	err := framework.UrlToStruct(fmt.Sprintf("https://danbooru.donmai.us/posts.json?login=%s&api_key=%s&random=true&limit=10&tags=%s",
 		DanbooruUsername, DanbooruToken, url.QueryEscape("cat_girl score:>=35 rating:safe")), &danbooru)
 
 	if err != nil {
@@ -42,6 +43,21 @@ func CatGirl(ctx *exrouter.Context) {
 	if len(danbooru) == 0 {
 		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
 		log.Print("catgirl: response empty")
+		return
+	}
+
+	var fileUrl string
+
+	for _, v := range danbooru {
+		if strings.HasSuffix(v.LargeFileURL, ".jpg") || strings.HasSuffix(v.LargeFileURL, ".png") || strings.HasSuffix(v.LargeFileURL, ".gif") {
+			fileUrl = v.LargeFileURL
+			break
+		}
+	}
+
+	if fileUrl == "" {
+		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		log.Print("catgirl: no suitable image")
 		return
 	}
 
