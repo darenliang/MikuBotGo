@@ -1,107 +1,25 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
-	"github.com/foxbot/gavalink"
+	"github.com/darenliang/MikuBotGo/music"
 	"log"
-	"os"
+	"net/url"
 	"strings"
 	"time"
 )
-
-type GuildPlayer struct {
-	Player *gavalink.Player
-	Queue  []gavalink.Track
-}
-
-var (
-	AudioLavalink *gavalink.Lavalink
-	AudioNode     *gavalink.Node
-	AudioPlayers  map[string]*GuildPlayer
-	lavalinkRest  string
-	lavalinkWS    string
-	lavalinkPass  string
-)
-
-func init() {
-	lavalinkRest = os.Getenv("LAVALINK_REST")
-	lavalinkWS = os.Getenv("LAVALINK_WS")
-	lavalinkPass = os.Getenv("LAVALINK_PASS")
-}
-
-func AudioInit(botID string) {
-	AudioLavalink = gavalink.NewLavalink("1", botID)
-	AudioPlayers = make(map[string]*GuildPlayer)
-
-	err := AudioLavalink.AddNodes(gavalink.NodeConfig{
-		REST:      lavalinkRest,
-		WebSocket: lavalinkWS,
-		Password:  lavalinkPass,
-	})
-
-	if err != nil {
-		log.Println(err)
-	}
-}
-
-func JoinChannel(ctx *exrouter.Context) (bool, error) {
-	if ctx.Msg.GuildID == "" {
-		_, _ = ctx.Reply("Cannot play music in DMs.")
-		return false, errors.New("music in dms")
-	}
-
-	g, err := ctx.Ses.State.Guild(ctx.Msg.GuildID)
-
-	if err != nil {
-		return false, err
-	}
-
-	var as *discordgo.VoiceState
-	var bs *discordgo.VoiceState
-	var moveTo string
-
-	for _, vs := range g.VoiceStates {
-		if vs.UserID == ctx.Msg.Author.ID {
-			as = vs
-		} else if vs.UserID == ctx.Ses.State.User.ID {
-			bs = vs
-		}
-	}
-
-	if as == nil {
-		_, err := ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You must be in a voice channel.")
-		if err != nil {
-			return false, err
-		}
-		return false, nil
-	} else if bs != nil && bs.ChannelID != as.ChannelID {
-		// TODO: check permissions
-		moveTo = as.ChannelID
-	} else if bs == nil {
-		moveTo = as.ChannelID
-	}
-
-	if len(moveTo) > 0 {
-		err = ctx.Ses.ChannelVoiceJoinManual(ctx.Msg.GuildID, moveTo, false, false)
-		if err != nil {
-			return false, err
-		}
-	}
-
-	return true, nil
-}
 
 func PlayCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
+	// Usage
 	if query == "" {
-		_, _ = ctx.Reply(fmt.Sprintf("Usage: `%splay <url>`", prefix))
+		_, _ = ctx.Reply(fmt.Sprintf("Usage: `%splay <song url or playlist url>`", prefix))
 		return
 	}
 
@@ -132,13 +50,14 @@ func PlayCommand(ctx *exrouter.Context) {
 		return
 	}
 
+	// Join voice
 	if err := ctx.Ses.ChannelVoiceJoinManual(ctx.Msg.GuildID, state.ChannelID, false, false); err != nil {
 		log.Printf("music: failed to join channel: %s", err)
 		_, _ = ctx.Reply("Failed to join the voice channel.")
 		return
 	}
 
-	for i := 0; AudioPlayers[ctx.Msg.GuildID] == nil; i++ {
+	for i := 0; music.AudioPlayers[ctx.Msg.GuildID] == nil; i++ {
 		if i > 4 {
 			_, _ = ctx.Reply("Connection failed.")
 			return
@@ -146,7 +65,7 @@ func PlayCommand(ctx *exrouter.Context) {
 		time.Sleep(time.Second * 1)
 	}
 
-	tracks, err := AudioNode.LoadTracks(query)
+	tracks, err := music.AudioNode.LoadTracks(url.QueryEscape(query))
 
 	if err != nil || len(tracks.Tracks) == 0 {
 		log.Printf("music: cannot load track(s): %s", query)
@@ -154,27 +73,28 @@ func PlayCommand(ctx *exrouter.Context) {
 		return
 	}
 
-	playing := false
-	for idx, val := range tracks.Tracks {
-		if !playing {
-			if err = AudioPlayers[ctx.Msg.GuildID].Player.Play(tracks.Tracks[idx].Data); err != nil {
-				_, _ = ctx.Reply(fmt.Sprintf("Failed to play: %s", tracks.Tracks[idx].Info.Title))
-			} else {
-				playing = true
-			}
-		} else {
-			AudioPlayers[ctx.Msg.GuildID].Queue = append(AudioPlayers[ctx.Msg.GuildID].Queue, val)
-			_, _ = ctx.Reply(fmt.Sprintf("Added to Queue: %s", tracks.Tracks[idx].Info.Title))
-		}
+	if len(tracks.Tracks) == 1 {
+		_, _ = ctx.Reply(fmt.Sprintf("Adding song: %s", tracks.Tracks[0].Info.Title))
+	} else if len(tracks.Tracks) > 1 {
+		_, _ = ctx.Reply(fmt.Sprintf("Added playlist: %s", tracks.PlaylistInfo.Name))
 	}
 
-	if playing {
-		_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
-			Color:       config.EmbedColor,
-			Title:       "Now playing",
-			Description: tracks.Tracks[0].Info.Title,
-			URL:         tracks.Tracks[0].Info.URI,
-		})
+	for idx, val := range tracks.Tracks {
+		if !music.AudioPlayers[ctx.Msg.GuildID].Playing {
+			if err = music.AudioPlayers[ctx.Msg.GuildID].Player.Play(tracks.Tracks[idx].Data); err != nil {
+				_, _ = ctx.Reply(fmt.Sprintf("Failed to play: %s", tracks.Tracks[idx].Info.Title))
+			} else {
+				music.AudioPlayers[ctx.Msg.GuildID].Playing = true
+				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
+					Color:       config.EmbedColor,
+					Title:       "Now playing",
+					Description: tracks.Tracks[idx].Info.Title,
+					URL:         tracks.Tracks[idx].Info.URI,
+				})
+			}
+		} else {
+			music.AudioPlayers[ctx.Msg.GuildID].Queue = append(music.AudioPlayers[ctx.Msg.GuildID].Queue, val)
+		}
 	}
 }
 

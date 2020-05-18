@@ -8,6 +8,7 @@ import (
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"github.com/darenliang/MikuBotGo/music"
 	"github.com/foxbot/gavalink"
 	"log"
 	"sync"
@@ -51,7 +52,7 @@ func init() {
 	var readyGuilds = make(map[string]bool)
 
 	// Query database on ready
-	Session.AddHandlerOnce(func(_ *discordgo.Session, ready *discordgo.Ready) {
+	Session.AddHandlerOnce(func(ses *discordgo.Session, ready *discordgo.Ready) {
 		// Query databases to temp
 		framework.PDB.SetGuilds()
 		framework.MQDB.SetScores()
@@ -70,7 +71,8 @@ func init() {
 		status.setReady()
 
 		// Set music
-		cmd.AudioInit(ready.User.ID)
+		music.AudioInit(ready.User.ID)
+		music.Session = ses
 	})
 
 	// Add command handlers
@@ -216,28 +218,28 @@ func init() {
 			Token:    event.Token,
 		}
 
-		if player, err := cmd.AudioLavalink.GetPlayer(event.GuildID); err == nil {
-			cmd.AudioPlayers[event.GuildID] = &cmd.GuildPlayer{
+		if player, err := music.AudioLavalink.GetPlayer(event.GuildID); err == nil {
+			music.AudioPlayers[event.GuildID] = &music.GuildPlayer{
 				Player: player,
 				Queue:  make([]gavalink.Track, 0),
 			}
-			if err = cmd.AudioPlayers[event.GuildID].Player.Forward(session.State.SessionID, vsu); err != nil {
+			if err = music.AudioPlayers[event.GuildID].Player.Forward(session.State.SessionID, vsu); err != nil {
 				log.Printf("handler: voice server update: %s", err)
 			}
 			return
 		}
 
-		cmd.AudioNode, err = cmd.AudioLavalink.BestNode()
+		music.AudioNode, err = music.AudioLavalink.BestNode()
 		if err != nil {
 			log.Printf("handler: failed to find node: %s", err)
 			return
 		}
 
-		if player, err := cmd.AudioNode.CreatePlayer(event.GuildID, session.State.SessionID, vsu, new(gavalink.DummyEventHandler)); err != nil {
+		if player, err := music.AudioNode.CreatePlayer(event.GuildID, session.State.SessionID, vsu, new(music.EventHandler)); err != nil {
 			log.Printf("handler: failed to create player: %s", err)
 			return
 		} else {
-			cmd.AudioPlayers[event.GuildID] = &cmd.GuildPlayer{
+			music.AudioPlayers[event.GuildID] = &music.GuildPlayer{
 				Player: player,
 				Queue:  make([]gavalink.Track, 0),
 			}
