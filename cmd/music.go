@@ -73,11 +73,17 @@ func AddMusic(ctx *exrouter.Context) {
 					log.Printf("music: add song playlist fail: %s", arg)
 					return
 				}
-				for _, v := range *videos {
+				if len(*videos) > 10 {
+					_, _ = ctx.Reply("Playlist is greater than 10 tracks. Only the first 10 tracks will be used.")
+				}
+				for idx, v := range *videos {
+					if idx == 10 {
+						break
+					}
 					id := v.Id
 					_, i, err := music.Youtube{}.Get(id)
 					if err != nil {
-						_, _ = ctx.Reply("An error occurred when getting song(s) from playlist.")
+						_, _ = ctx.Reply("An error occurred when getting a song from playlist.")
 						log.Printf("music: add song playlist song fail: %s", id)
 						continue
 					}
@@ -89,6 +95,7 @@ func AddMusic(ctx *exrouter.Context) {
 					}
 					song := music.NewSong(video.Media, video.Title, arg)
 					musicSession.Queue.Add(*song)
+					_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Added `"+song.Title+"` to the song queue.")
 				}
 				_, _ = ctx.Reply(fmt.Sprintf("Finished adding songs to the playlist. Use `%splay` to start playing the songs. To see the song queue, use `%squeue`.", prefix, prefix))
 				break
