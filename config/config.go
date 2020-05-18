@@ -1,7 +1,5 @@
 package config
 
-var BotID string
-
 // Includes config variables for bot
 const (
 	BotInfo    = "MikuBot v1.7.4"
