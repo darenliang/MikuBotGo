@@ -1,10 +1,12 @@
 package music
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/foxbot/gavalink"
+	"github.com/robfig/cron"
 	"log"
 	"os"
 )
@@ -108,6 +110,27 @@ func init() {
 }
 
 func AudioInit(botID string) {
+	var (
+		buf      = bytes.NewBuffer([]byte{})
+		c        = cron.New()
+		prevcont = buf.String()
+	)
+
+	gavalink.Log = log.New(buf, "[gavalink] ", 0)
+
+	if err := c.AddFunc("@every 500ms", func() {
+		if buf.String() == prevcont {
+			return
+		}
+
+		log.Printf("%s", buf.String())
+		buf.Reset()
+	}); err != nil {
+		log.Printf("Initializing a logger for gavalink failed: \"%s\".", err.Error())
+	}
+
+	c.Start()
+
 	AudioLavalink = gavalink.NewLavalink("1", botID)
 	AudioPlayers = make(map[string]*GuildPlayer)
 

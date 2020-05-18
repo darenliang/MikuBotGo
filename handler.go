@@ -12,7 +12,6 @@ import (
 	"github.com/foxbot/gavalink"
 	"log"
 	"sync"
-	"time"
 )
 
 // Router is registered as a global variable to allow easy access to the
@@ -202,14 +201,6 @@ func init() {
 	})
 
 	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceServerUpdate) {
-		// Quick and dirty wait for ready
-		for i := 0; !status.getReady(); i++ {
-			if i > 4 {
-				return
-			}
-			time.Sleep(time.Second * 1)
-		}
-
 		var err error
 
 		vsu := gavalink.VoiceServerUpdate{
