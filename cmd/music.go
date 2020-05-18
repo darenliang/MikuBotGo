@@ -85,18 +85,19 @@ func PlayCommand(ctx *exrouter.Context) {
 		_, _ = ctx.Reply(fmt.Sprintf("Added playlist: %s", tracks.PlaylistInfo.Name))
 	}
 
-	for idx, val := range tracks.Tracks {
+	for _, val := range tracks.Tracks {
 		if !music.AudioPlayers[ctx.Msg.GuildID].Playing {
-			if err = music.AudioPlayers[ctx.Msg.GuildID].Player.Play(tracks.Tracks[idx].Data); err != nil {
-				_, _ = ctx.Reply(fmt.Sprintf("Failed to play: %s", tracks.Tracks[idx].Info.Title))
+			if err = music.AudioPlayers[ctx.Msg.GuildID].Player.Play(val.Data); err != nil {
+				_, _ = ctx.Reply(fmt.Sprintf("Failed to play: %s", val.Info.Title))
 			} else {
 				music.AudioPlayers[ctx.Msg.GuildID].Playing = true
 				music.AudioPlayers[ctx.Msg.GuildID].ChannelID = ctx.Msg.ChannelID
+				music.AudioPlayers[ctx.Msg.GuildID].CurrTrack = val
 				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
 					Color:       config.EmbedColor,
 					Title:       "Now playing",
-					Description: tracks.Tracks[idx].Info.Title,
-					URL:         tracks.Tracks[idx].Info.URI,
+					Description: val.Info.Title,
+					URL:         val.Info.URI,
 				})
 			}
 		} else {
