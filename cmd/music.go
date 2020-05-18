@@ -17,7 +17,13 @@ func PlayCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
-	// Usage
+	// Check DMs
+	if ctx.Msg.GuildID == "" {
+		_, _ = ctx.Reply("Cannot play music in DMs.")
+		return
+	}
+
+	// Return usage
 	if query == "" {
 		_, _ = ctx.Reply(fmt.Sprintf("Usage: `%splay <song url or playlist url>`", prefix))
 		return
@@ -85,6 +91,7 @@ func PlayCommand(ctx *exrouter.Context) {
 				_, _ = ctx.Reply(fmt.Sprintf("Failed to play: %s", tracks.Tracks[idx].Info.Title))
 			} else {
 				music.AudioPlayers[ctx.Msg.GuildID].Playing = true
+				music.AudioPlayers[ctx.Msg.GuildID].ChannelID = ctx.Msg.ChannelID
 				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
 					Color:       config.EmbedColor,
 					Title:       "Now playing",
