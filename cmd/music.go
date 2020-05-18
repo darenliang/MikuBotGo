@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
+	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/foxbot/gavalink"
 	"log"
 	"os"
@@ -47,16 +49,59 @@ func AudioInit(botID string) {
 	}
 }
 
+func JoinChannel(ctx *exrouter.Context) (bool, error) {
+	if ctx.Msg.GuildID == "" {
+		_, _ = ctx.Reply("Cannot play music in DMs.")
+		return false, errors.New("music in dms")
+	}
+
+	g, err := ctx.Ses.State.Guild(ctx.Msg.GuildID)
+
+	if err != nil {
+		return false, err
+	}
+
+	var as *discordgo.VoiceState
+	var bs *discordgo.VoiceState
+	var moveTo string
+
+	for _, vs := range g.VoiceStates {
+		if vs.UserID == ctx.Msg.Author.ID {
+			as = vs
+		} else if vs.UserID == ctx.Ses.State.User.ID {
+			bs = vs
+		}
+	}
+
+	if as == nil {
+		_, err := ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You must be in a voice channel.")
+		if err != nil {
+			return false, err
+		}
+		return false, nil
+	} else if bs != nil && bs.ChannelID != as.ChannelID {
+		// TODO: check permissions
+		moveTo = as.ChannelID
+	} else if bs == nil {
+		moveTo = as.ChannelID
+	}
+
+	if len(moveTo) > 0 {
+		err = ctx.Ses.ChannelVoiceJoinManual(ctx.Msg.GuildID, moveTo, false, false)
+		if err != nil {
+			return false, err
+		}
+	}
+
+	return true, nil
+}
+
 func PlayCommand(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
 	if query == "" {
-		_, _ = ctx.Reply("Please provide a query.")
-		return
-	}
-
-	if ctx.Msg.GuildID == "" {
-		_, _ = ctx.Reply("Cannot play music in DMs.")
+		_, _ = ctx.Reply(fmt.Sprintf("Usage: `%splay <url>`", prefix))
 		return
 	}
 
@@ -124,7 +169,7 @@ func PlayCommand(ctx *exrouter.Context) {
 	}
 
 	if playing {
-		_, _ = ctx.ReplyEmbed(discordgo.MessageEmbed{
+		_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
 			Color:       config.EmbedColor,
 			Title:       "Now playing",
 			Description: tracks.Tracks[0].Info.Title,

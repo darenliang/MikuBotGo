@@ -11,6 +11,7 @@ import (
 	"github.com/foxbot/gavalink"
 	"log"
 	"sync"
+	"time"
 )
 
 // Router is registered as a global variable to allow easy access to the
@@ -48,6 +49,29 @@ func init() {
 
 	// Create map of existing guilds
 	var readyGuilds = make(map[string]bool)
+
+	// Query database on ready
+	Session.AddHandlerOnce(func(_ *discordgo.Session, ready *discordgo.Ready) {
+		// Query databases to temp
+		framework.PDB.SetGuilds()
+		framework.MQDB.SetScores()
+		framework.GBD.SetAlbums()
+
+		// Load cache and check for new guilds
+		cache := framework.PDB.GetGuilds()
+		for _, guild := range ready.Guilds {
+			readyGuilds[guild.ID] = true
+			if cache[guild.ID] == "" {
+				framework.PDB.CreateGuild(guild.ID, config.Prefix)
+			}
+		}
+
+		// Set ready
+		status.setReady()
+
+		// Set music
+		cmd.AudioInit(ready.User.ID)
+	})
 
 	// Add command handlers
 	// Utility
@@ -109,29 +133,6 @@ func init() {
 		}
 		_, _ = ctx.Reply(msg)
 	}).Cat("Help")
-
-	// Query database on ready
-	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
-		// Query databases to temp
-		framework.PDB.SetGuilds()
-		framework.MQDB.SetScores()
-		framework.GBD.SetAlbums()
-
-		// Load cache and check for new guilds
-		cache := framework.PDB.GetGuilds()
-		for _, guild := range ready.Guilds {
-			readyGuilds[guild.ID] = true
-			if cache[guild.ID] == "" {
-				framework.PDB.CreateGuild(guild.ID, config.Prefix)
-			}
-		}
-
-		// Set ready
-		status.setReady()
-
-		// Set music
-		cmd.AudioInit(ready.User.ID)
-	})
 
 	// Add guild on guild add
 	Session.AddHandler(func(_ *discordgo.Session, create *discordgo.GuildCreate) {
@@ -199,6 +200,14 @@ func init() {
 	})
 
 	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceServerUpdate) {
+		// Quick and dirty wait for ready
+		for i := 0; !status.getReady(); i++ {
+			if i > 4 {
+				return
+			}
+			time.Sleep(time.Second * 1)
+		}
+
 		var err error
 
 		vsu := gavalink.VoiceServerUpdate{
@@ -214,8 +223,8 @@ func init() {
 			}
 			if err = cmd.AudioPlayers[event.GuildID].Player.Forward(session.State.SessionID, vsu); err != nil {
 				log.Printf("handler: voice server update: %s", err)
-				return
 			}
+			return
 		}
 
 		cmd.AudioNode, err = cmd.AudioLavalink.BestNode()
