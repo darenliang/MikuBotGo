@@ -114,7 +114,7 @@ func init() {
 	// Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
 	// Router.OnMatch("current", dgrouter.NewRegexMatcher("^(?i)current$"), cmd.CurrentCommand)
 	// Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
-	// Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)(leave|disconnect)$"), cmd.LeaveCommand)
+	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)(leave|disconnect)$"), cmd.LeaveCommand)
 	// Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)pause$"), cmd.PauseCommand)
 	Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)play$"), cmd.PlayCommand)
 	// Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)queue$"), cmd.QueueCommand)
@@ -234,6 +234,18 @@ func init() {
 				Player: player,
 				Queue:  make([]gavalink.Track, 0),
 			}
+		}
+	})
+
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
+		// Client bot disconnect
+		if event.UserID == session.State.User.ID && event.ChannelID == "" {
+			// Clear current play
+			music.AudioPlayers[event.GuildID].Queue = make([]gavalink.Track, 0)
+
+			// Destroy player
+			music.AudioPlayers[event.GuildID].Player.Destroy()
+			_, _ = session.ChannelMessageSend(music.AudioPlayers[event.GuildID].ChannelID, "Bot disconnected and cleared queue.")
 		}
 	})
 }

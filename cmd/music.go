@@ -63,6 +63,7 @@ func PlayCommand(ctx *exrouter.Context) {
 		return
 	}
 
+	// Wait for 5 seconds
 	for i := 0; music.AudioPlayers[ctx.Msg.GuildID] == nil; i++ {
 		if i > 4 {
 			_, _ = ctx.Reply("Connection failed.")
@@ -75,12 +76,12 @@ func PlayCommand(ctx *exrouter.Context) {
 
 	if err != nil || len(tracks.Tracks) == 0 {
 		log.Printf("music: cannot load track(s): %s", query)
-		_, _ = ctx.Reply("Couldn't find anything for your query.")
+		_, _ = ctx.Reply("Couldn't find results for your query.")
 		return
 	}
 
 	if len(tracks.Tracks) == 1 {
-		_, _ = ctx.Reply(fmt.Sprintf("Adding song: %s", tracks.Tracks[0].Info.Title))
+		_, _ = ctx.Reply(fmt.Sprintf("Added song: %s", tracks.Tracks[0].Info.Title))
 	} else if len(tracks.Tracks) > 1 {
 		_, _ = ctx.Reply(fmt.Sprintf("Added playlist: %s", tracks.PlaylistInfo.Name))
 	}
@@ -104,6 +105,17 @@ func PlayCommand(ctx *exrouter.Context) {
 			music.AudioPlayers[ctx.Msg.GuildID].Queue = append(music.AudioPlayers[ctx.Msg.GuildID].Queue, val)
 		}
 	}
+}
+
+func LeaveCommand(ctx *exrouter.Context) {
+	// Check DMs
+	if ctx.Msg.GuildID == "" {
+		_, _ = ctx.Reply("Cannot play music in DMs.")
+		return
+	}
+
+	music.AudioPlayers[ctx.Msg.GuildID].Player.Destroy()
+	ctx.Ses.ChannelVoiceJoinManual(ctx.Msg.GuildID, "", false, false)
 }
 
 //

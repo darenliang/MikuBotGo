@@ -3,11 +3,11 @@ package gavalink
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/websocket"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-
-	"github.com/gorilla/websocket"
+	"time"
 )
 
 // NodeConfig configures a Lavalink Node
@@ -56,6 +56,9 @@ func (node *Node) open() error {
 	node.wsConn = ws
 	go node.listen()
 
+	// ping every
+	go node.ping()
+
 	Log.Println("node", node.config.WebSocket, "opened")
 
 	return nil
@@ -67,6 +70,13 @@ func (node *Node) stop() {
 		return
 	}
 	_ = node.wsConn.Close()
+}
+
+func (node *Node) ping() {
+	for {
+		time.Sleep(5 * time.Second)
+		node.wsConn.WriteMessage(websocket.PingMessage, []byte{})
+	}
 }
 
 func (node *Node) listen() {

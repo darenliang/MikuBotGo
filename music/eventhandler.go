@@ -1,12 +1,10 @@
 package music
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/foxbot/gavalink"
-	"github.com/robfig/cron"
 	"log"
 	"os"
 )
@@ -16,7 +14,7 @@ const stuckTimeout = 10 * 1000
 type EventHandler struct{}
 
 func (m EventHandler) OnTrackEnd(player *gavalink.Player, track string, reason string) error {
-	if IsEmptyQueue(player) {
+	if IsEmptyQueue(player, reason) {
 		return nil
 	}
 
@@ -25,7 +23,7 @@ func (m EventHandler) OnTrackEnd(player *gavalink.Player, track string, reason s
 }
 
 func (m EventHandler) OnTrackException(player *gavalink.Player, track string, reason string) error {
-	if IsEmptyQueue(player) {
+	if IsEmptyQueue(player, reason) {
 		return nil
 	}
 
@@ -35,7 +33,7 @@ func (m EventHandler) OnTrackException(player *gavalink.Player, track string, re
 }
 
 func (m EventHandler) OnTrackStuck(player *gavalink.Player, track string, threshold int) error {
-	if IsEmptyQueue(player) {
+	if IsEmptyQueue(player, "") {
 		return nil
 	}
 
@@ -73,13 +71,14 @@ func PlayNextTrack(player *gavalink.Player) {
 	}
 }
 
-func IsEmptyQueue(player *gavalink.Player) bool {
+func IsEmptyQueue(player *gavalink.Player, reason string) bool {
 	// Set to not playing initially
 	AudioPlayers[player.GuildID()].Playing = false
 
 	if len(AudioPlayers[player.GuildID()].Queue) == 0 {
-		_, _ = Session.ChannelMessageSend(AudioPlayers[player.GuildID()].ChannelID, "Queue ended.")
-		AudioPlayers[player.GuildID()].Playing = false
+		if reason != "STOPPED" {
+			_, _ = Session.ChannelMessageSend(AudioPlayers[player.GuildID()].ChannelID, "Queue ended.")
+		}
 		return true
 	}
 	return false
@@ -98,47 +97,28 @@ var (
 	AudioLavalink *gavalink.Lavalink
 	AudioNode     *gavalink.Node
 	AudioPlayers  map[string]*GuildPlayer
-	lavalinkRest  string
-	lavalinkWS    string
-	lavalinkPass  string
+	LavalinkRest  string
+	LavalinkWS    string
+	LavalinkPass  string
 )
 
 func init() {
-	lavalinkRest = os.Getenv("LAVALINK_REST")
-	lavalinkWS = os.Getenv("LAVALINK_WS")
-	lavalinkPass = os.Getenv("LAVALINK_PASS")
+	LavalinkRest = os.Getenv("LAVALINK_REST")
+	LavalinkWS = os.Getenv("LAVALINK_WS")
+	LavalinkPass = os.Getenv("LAVALINK_PASS")
 }
 
 func AudioInit(botID string) {
-	var (
-		buf      = bytes.NewBuffer([]byte{})
-		c        = cron.New()
-		prevcont = buf.String()
-	)
-
-	gavalink.Log = log.New(buf, "[gavalink] ", 0)
-
-	if err := c.AddFunc("@every 500ms", func() {
-		if buf.String() == prevcont {
-			return
-		}
-
-		log.Printf("%s", buf.String())
-		buf.Reset()
-	}); err != nil {
-		log.Printf("Initializing a logger for gavalink failed: \"%s\".", err.Error())
-	}
-
-	c.Start()
-
 	AudioLavalink = gavalink.NewLavalink("1", botID)
 	AudioPlayers = make(map[string]*GuildPlayer)
 
 	err := AudioLavalink.AddNodes(gavalink.NodeConfig{
-		REST:      lavalinkRest,
-		WebSocket: lavalinkWS,
-		Password:  lavalinkPass,
+		REST:      LavalinkRest,
+		WebSocket: LavalinkWS,
+		Password:  LavalinkPass,
 	})
+
+	AudioLavalink.BestNode()
 
 	if err != nil {
 		log.Println(err)
