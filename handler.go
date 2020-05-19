@@ -9,6 +9,8 @@ import (
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
+	"github.com/foxbot/gavalink"
+	"log"
 	"sync"
 )
 
@@ -48,6 +50,30 @@ func init() {
 	// Create map of existing guilds
 	var readyGuilds = make(map[string]bool)
 
+	// Query database on ready
+	Session.AddHandlerOnce(func(ses *discordgo.Session, ready *discordgo.Ready) {
+		// Query databases to temp
+		framework.PDB.SetGuilds()
+		framework.MQDB.SetScores()
+		framework.GBD.SetAlbums()
+
+		// Load cache and check for new guilds
+		cache := framework.PDB.GetGuilds()
+		for _, guild := range ready.Guilds {
+			readyGuilds[guild.ID] = true
+			if cache[guild.ID] == "" {
+				framework.PDB.CreateGuild(guild.ID, config.Prefix)
+			}
+		}
+
+		// Set ready
+		status.setReady()
+
+		// Set music
+		music.AudioInit(ready.User.ID)
+		music.Session = ses
+	})
+
 	// Add command handlers
 	// Utility
 	Router.OnMatch("info", dgrouter.NewRegexMatcher("^(?i)info$"), cmd.Info)
@@ -84,12 +110,13 @@ func init() {
 	Router.OnMatch("baka", dgrouter.NewRegexMatcher("^(?i)(baka|idiot)$"), cmd.Baka)
 
 	// Music
-	Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic)
+	// Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic)
 	Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
-	Router.OnMatch("current", dgrouter.NewRegexMatcher("^(?i)current$"), cmd.CurrentCommand)
-	Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
+	// Router.OnMatch("current", dgrouter.NewRegexMatcher("^(?i)(np|nowplaying|current|curr)$"), cmd.CurrentCommand)
+	// Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
 	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)(leave|disconnect)$"), cmd.LeaveCommand)
 	Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)pause$"), cmd.PauseCommand)
+	Router.OnMatch("resume", dgrouter.NewRegexMatcher("^(?i)resume$"), cmd.ResumeCommand)
 	Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)play$"), cmd.PlayCommand)
 	Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)queue$"), cmd.QueueCommand)
 	Router.OnMatch("shuffle", dgrouter.NewRegexMatcher("^(?i)shuffle$"), cmd.ShuffleCommand)
@@ -108,29 +135,6 @@ func init() {
 		}
 		_, _ = ctx.Reply(msg)
 	}).Cat("Help")
-
-	// Query database on ready
-	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
-		// Query databases to temp
-		framework.PDB.SetGuilds()
-		framework.MQDB.SetScores()
-		framework.GBD.SetAlbums()
-
-		// Music sessions and youtube
-		music.MusicSessions = music.NewSessionManager()
-
-		// Load cache and check for new guilds
-		cache := framework.PDB.GetGuilds()
-		for _, guild := range ready.Guilds {
-			readyGuilds[guild.ID] = true
-			if cache[guild.ID] == "" {
-				framework.PDB.CreateGuild(guild.ID, config.Prefix)
-			}
-		}
-
-		// Set ready
-		status.setReady()
-	})
 
 	// Add guild on guild add
 	Session.AddHandler(func(_ *discordgo.Session, create *discordgo.GuildCreate) {
@@ -194,6 +198,55 @@ func init() {
 				_, _ = Session.ChannelMessageSend(message.ChannelID, msg)
 				return
 			}
+		}
+	})
+
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceServerUpdate) {
+		var err error
+
+		vsu := gavalink.VoiceServerUpdate{
+			Endpoint: event.Endpoint,
+			GuildID:  event.GuildID,
+			Token:    event.Token,
+		}
+
+		if player, err := music.AudioLavalink.GetPlayer(event.GuildID); err == nil {
+			music.AudioPlayers[event.GuildID] = &music.GuildPlayer{
+				Player: player,
+				Queue:  make([]gavalink.Track, 0),
+			}
+			if err = music.AudioPlayers[event.GuildID].Player.Forward(session.State.SessionID, vsu); err != nil {
+				log.Printf("handler: voice server update: %s", err)
+			}
+			return
+		}
+
+		music.AudioNode, err = music.AudioLavalink.BestNode()
+		if err != nil {
+			log.Printf("handler: failed to find node: %s", err)
+			return
+		}
+
+		if player, err := music.AudioNode.CreatePlayer(event.GuildID, session.State.SessionID, vsu, new(music.EventHandler)); err != nil {
+			log.Printf("handler: failed to create player: %s", err)
+			return
+		} else {
+			music.AudioPlayers[event.GuildID] = &music.GuildPlayer{
+				Player: player,
+				Queue:  make([]gavalink.Track, 0),
+			}
+		}
+	})
+
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
+		// Client bot disconnect
+		if event.UserID == session.State.User.ID && event.ChannelID == "" {
+			// Clear current play
+			music.AudioPlayers[event.GuildID].Queue = make([]gavalink.Track, 0)
+
+			// Destroy player
+			music.AudioPlayers[event.GuildID].Player.Destroy()
+			_, _ = session.ChannelMessageSend(music.AudioPlayers[event.GuildID].ChannelID, "Bot disconnected and cleared queue.")
 		}
 	})
 }

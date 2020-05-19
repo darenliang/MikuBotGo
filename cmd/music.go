@@ -1,363 +1,296 @@
-// Code taken from ducc/GoMusicBot
 package cmd
 
 import (
-	"bytes"
+	"errors"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
+	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
+	"github.com/foxbot/gavalink"
 	"log"
 	"math/rand"
-	"strconv"
+	"net/url"
 	"strings"
+	"time"
 )
 
-const (
-	songFormat    = "\n`%03d` %s"
-	currentFormat = "__Current song__\n%s\n"
-	invalidPage   = "Invalid page `%d`. Min: `1`, max: `%d`"
-)
+func musicPreprocessor(ctx *exrouter.Context) error {
+	generalError := errors.New("setup error")
 
-// Add music command
-func AddMusic(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	query := strings.TrimSpace(ctx.Args.After(1))
-	if len(query) == 0 {
-		_, _ = ctx.Reply("Please provide a query.")
-		return
+	// Check DMs
+	if ctx.Msg.GuildID == "" {
+		_, _ = ctx.Reply("Cannot play music in DMs.")
+		return generalError
 	}
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
-		return
-	}
-	msg, _ := ctx.Reply("Adding songs to queue...")
-	for idx, arg := range ctx.Args {
-		if idx == 0 {
-			continue
-		}
-		t, inp, err := music.Youtube{}.Get(arg)
 
-		if err != nil {
-			_, _ = ctx.Reply("The requested song(s) are not available.")
-			log.Printf("music: add song fail: %s", arg)
-			return
-		}
+	guild, err := ctx.Ses.Guild(ctx.Msg.GuildID)
 
-		switch t {
-		case music.ERRORTYPE:
-			_, _ = ctx.Reply("An error occurred when getting song info.")
-			log.Printf("music: add song error: %s", arg)
-			return
-		case music.VIDEOTYPE:
-			{
-				video, err := music.Youtube{}.Video(*inp)
-				if err != nil {
-					_, _ = ctx.Reply("Cannot find music.")
-					log.Printf("music: add song video fail: %s", arg)
-					return
-				}
-				song := music.NewSong(video.Media, video.Title, arg)
-				musicSession.Queue.Add(*song)
-				_, _ = ctx.Ses.ChannelMessageEdit(ctx.Msg.ChannelID, msg.ID, "Added `"+song.Title+"` to the song queue."+
-					fmt.Sprintf(" Use `%splay` to start playing the songs. To see the song queue, use `%squeue`.", prefix, prefix))
-				break
-			}
-		case music.PLAYLISTTYPE:
-			{
-				videos, err := music.Youtube{}.Playlist(*inp)
-				if err != nil {
-					_, _ = ctx.Reply("An error occurred when getting playlist info.")
-					log.Printf("music: add song playlist fail: %s", arg)
-					return
-				}
-				if len(*videos) > 10 {
-					_, _ = ctx.Reply("Playlist is greater than 10 tracks. Only the first 10 tracks will be used.")
-				}
-				for idx, v := range *videos {
-					if idx == 10 {
-						break
-					}
-					id := v.Id
-					_, i, err := music.Youtube{}.Get(id)
-					if err != nil {
-						_, _ = ctx.Reply("An error occurred when getting a song from playlist.")
-						log.Printf("music: add song playlist song fail: %s", id)
-						continue
-					}
-					video, err := music.Youtube{}.Video(*i)
-					if err != nil {
-						_, _ = ctx.Reply("Cannot find music in playlist.")
-						log.Printf("music: add song playlist song fail: %s", *i)
-						return
-					}
-					song := music.NewSong(video.Media, video.Title, arg)
-					musicSession.Queue.Add(*song)
-					_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Added `"+song.Title+"` to the song queue.")
-				}
-				_, _ = ctx.Reply(fmt.Sprintf("Finished adding songs to the playlist. Use `%splay` to start playing the songs. To see the song queue, use `%squeue`.", prefix, prefix))
-				break
-			}
-		}
-	}
-}
-
-// Clear music command
-func ClearCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
-		return
-	}
-	if !musicSession.Queue.HasNext() {
-		_, _ = ctx.Reply("Queue is already empty.")
-		return
-	}
-	musicSession.Queue.Clear()
-	_, _ = ctx.Reply("Cleared the song queue.")
-}
-
-// Current music command
-func CurrentCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
-		return
-	}
-	current := musicSession.Queue.Current()
-	if current == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("The song queue is empty. Add a song with `%sadd`.", prefix))
-		return
-	}
-	_, _ = ctx.Reply("Currently playing `" + current.Title + "`.")
-}
-
-// Join music command
-func JoinCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	if music.MusicSessions.GetByGuild(ctx.Msg.GuildID) != nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Already connected. Use `%sleave` for the bot to disconnect.", prefix))
-		return
-	}
-	guild, err := ctx.Guild(ctx.Msg.GuildID)
 	if err != nil {
-		_, _ = ctx.Reply("An error occurred.")
-		return
+		_, _ = ctx.Reply("An error has occurred when fetching information about your server.")
+		log.Printf("music: %s", err)
+		return generalError
 	}
 
-	var voiceChannel *discordgo.Channel
-	for _, state := range guild.VoiceStates {
-		if state.UserID == ctx.Msg.Author.ID {
-			channel, _ := ctx.Ses.State.Channel(state.ChannelID)
-			voiceChannel = channel
+	if len(guild.VoiceStates) == 0 {
+		_, _ = ctx.Reply("You are not in a voice channel.")
+		return generalError
+	}
+
+	var state *discordgo.VoiceState
+	for _, v := range guild.VoiceStates {
+		if v.UserID == ctx.Msg.Author.ID {
+			state = v
 			break
 		}
 	}
 
-	if voiceChannel == nil {
-		_, _ = ctx.Reply("You must be in a voice channel to use the bot.")
-		return
+	if state == nil {
+		_, _ = ctx.Reply("You are not in a voice channel.")
+		return generalError
 	}
 
-	sess, err := music.MusicSessions.Join(ctx.Ses, ctx.Msg.GuildID, voiceChannel.ID, music.JoinProperties{
-		Muted:    false,
-		Deafened: true,
-	})
-
-	if err != nil {
-		_, _ = ctx.Reply("An error occurred.")
-		return
+	var botState *discordgo.VoiceState
+	for _, v := range guild.VoiceStates {
+		if v.UserID == ctx.Ses.State.User.ID {
+			botState = v
+			break
+		}
 	}
 
-	_, _ = ctx.Reply(fmt.Sprintf("Joined <#%s>. Use `%sleave` for the bot to disconnect.", sess.ChannelId, prefix))
+	if botState == nil || music.AudioPlayers[guild.ID] == nil {
+		_, _ = ctx.Reply("The bot is currently not in a voice channel.")
+		return generalError
+	}
 
-	// Handle timeout
-	// go music.HandleMusicTimeout(sess, func(msg string) {
-	// 	_, _ = ctx.Reply(msg)
-	// })
+	if botState.ChannelID != state.ChannelID {
+		_, _ = ctx.Reply("The bot is currently not in the same voice channel.")
+		return generalError
+	}
+
+	return nil
 }
 
-// Leave music command
-func LeaveCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
-		return
-	}
-	music.MusicSessions.Leave(ctx.Ses, *musicSession)
-	_, _ = ctx.Reply("Left <#" + musicSession.ChannelId + ">.")
-}
-
-// Pause music command
-func PauseCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
-		return
-	}
-	queue := musicSession.Queue
-	if !queue.HasNext() {
-		_, _ = ctx.Reply(fmt.Sprintf("Queue is empty. Add songs with `%sadd`.", prefix))
-		return
-	}
-	queue.Pause()
-
-	_, _ = ctx.Reply(fmt.Sprintf("The queue has paused and will stop playing after this song. To resume the queue, use `%splay`.", prefix))
-
-	// Handle timeout
-	// go music.HandleMusicTimeout(musicSession, func(msg string) {
-	// 	_, _ = ctx.Reply(msg)
-	// })
-}
-
-// Play music command
 func PlayCommand(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
-		return
-	}
-	queue := musicSession.Queue
-	if !queue.HasNext() {
-		_, _ = ctx.Reply(fmt.Sprintf("Queue is empty. Add songs with `%sadd`.", prefix))
-		return
-	}
-	_, _ = ctx.Reply(fmt.Sprintf("Playing music. Use `%sleave` for the bot to disconnect.", prefix))
-	go queue.Start(musicSession, func(msg string) {
-		_, _ = ctx.Reply(msg)
-	})
-}
+	query := strings.TrimSpace(ctx.Args.After(1))
 
-// Queue music command
-func QueueCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
+	// Return usage
+	if query == "" {
+		_, _ = ctx.Reply(fmt.Sprintf("Usage: `%splay <song url or playlist url>`", prefix))
 		return
 	}
-	queue := musicSession.Queue
-	q := queue.Get()
-	if len(q) == 0 && queue.Current() == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Song queue is empty. Add a song with `%sadd`.", prefix))
+
+	// Check DMs
+	if ctx.Msg.GuildID == "" {
+		_, _ = ctx.Reply("Cannot play music in DMs.")
 		return
 	}
-	buff := bytes.Buffer{}
-	if queue.Current() != nil {
-		buff.WriteString(fmt.Sprintf(currentFormat, queue.Current().Title))
-	}
-	queueLength := len(q)
-	if len(ctx.Args) == 1 {
-		var resp string
-		if queueLength > 20 {
-			resp = display(q[:20], buff, 2, 0)
-		} else {
-			resp = display(q[:queueLength], buff, 2, 0)
-		}
-		_, _ = ctx.Reply(resp)
-		return
-	}
-	page, err := strconv.Atoi(ctx.Args.Get(1))
+
+	guild, err := ctx.Ses.Guild(ctx.Msg.GuildID)
+
 	if err != nil {
-		_, _ = ctx.Reply("Invalid page `" + ctx.Args.Get(1) + fmt.Sprintf("`. Usage: `%squeue <page>`", prefix))
+		_, _ = ctx.Reply("An error has occurred when fetching information about your server.")
+		log.Printf("music: %s", err)
 		return
 	}
-	pages := queueLength / 20
-	if page < 1 || page > (pages+1) {
-		_, _ = ctx.Reply(fmt.Sprintf(invalidPage, page, pages+1))
+
+	if len(guild.VoiceStates) == 0 {
+		_, _ = ctx.Reply("You are not in a voice channel.")
 		return
 	}
-	var lowerBound int
-	if page == 1 {
-		lowerBound = 0
-	} else {
-		lowerBound = (page - 1) * 20
-	}
-	upperBound := page * 20
-	if upperBound > queueLength {
-		upperBound = queueLength
-	}
-	slice := q[lowerBound:upperBound]
-	_, _ = ctx.Reply(display(slice, buff, page+1, lowerBound))
-}
 
-func display(queue []music.Song, buff bytes.Buffer, page, start int) string {
-	for index, song := range queue {
-		buff.WriteString(fmt.Sprintf(songFormat, start+index+1, song.Title))
-	}
-	buff.WriteString(fmt.Sprintf("\n\nView the next page: `queue %d`", page))
-	return buff.String()
-}
+	var state *discordgo.VoiceState
 
-// Shuffle music command
-func ShuffleCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
+	for _, v := range guild.VoiceStates {
+		if v.UserID == ctx.Msg.Author.ID {
+			state = v
+			break
+		}
+	}
+
+	if state == nil {
+		_, _ = ctx.Reply("You are not in a voice channel.")
 		return
 	}
-	queue := musicSession.Queue
-	if !queue.HasNext() {
-		_, _ = ctx.Reply(fmt.Sprintf("Queue is empty. Add songs with `%sadd`.", prefix))
+
+	// Join voice
+	if err := ctx.Ses.ChannelVoiceJoinManual(ctx.Msg.GuildID, state.ChannelID, false, false); err != nil {
+		log.Printf("music: failed to join channel: %s", err)
+		_, _ = ctx.Reply("Failed to join the voice channel.")
 		return
 	}
-	dest := shuffleLoop(queue.Get(), 3)
-	queue.Set(dest)
-	_, _ = ctx.Reply("Shuffled the song queue.")
-}
 
-func shuffleLoop(list []music.Song, i int) []music.Song {
-	for x := 0; x < i; x++ {
-		list = shuffle(list)
+	// Wait for 5 seconds
+	for i := 0; music.AudioPlayers[ctx.Msg.GuildID] == nil; i++ {
+		if i > 4 {
+			_, _ = ctx.Reply("Connection failed.")
+			return
+		}
+		time.Sleep(time.Second * 1)
 	}
-	return list
-}
 
-func shuffle(list []music.Song) []music.Song {
-	dest := make([]music.Song, len(list))
-	perm := rand.Perm(len(list))
-	for i, v := range perm {
-		dest[v] = list[i]
-	}
-	return dest
-}
+	tracks, err := music.AudioNode.LoadTracks(url.QueryEscape(query))
 
-// Skip music command
-func SkipCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
+	if err != nil || len(tracks.Tracks) == 0 {
+		log.Printf("music: cannot load track(s): %s", query)
+		_, _ = ctx.Reply("Couldn't find results for your query.")
 		return
 	}
-	musicSession.Stop()
-	_, _ = ctx.Reply("Skipped song.")
+
+	if len(tracks.Tracks) == 1 {
+		_, _ = ctx.Reply(fmt.Sprintf("Added song: %s", tracks.Tracks[0].Info.Title))
+	} else if len(tracks.Tracks) > 1 {
+		_, _ = ctx.Reply(fmt.Sprintf("Added playlist: %s", tracks.PlaylistInfo.Name))
+	}
+
+	for _, val := range tracks.Tracks {
+		if !music.AudioPlayers[ctx.Msg.GuildID].Playing {
+			if err = music.AudioPlayers[ctx.Msg.GuildID].Player.Play(val.Data); err != nil {
+				_, _ = ctx.Reply(fmt.Sprintf("Failed to play: %s", val.Info.Title))
+			} else {
+				music.AudioPlayers[ctx.Msg.GuildID].Playing = true
+				music.AudioPlayers[ctx.Msg.GuildID].ChannelID = ctx.Msg.ChannelID
+				music.AudioPlayers[ctx.Msg.GuildID].CurrTrack = val
+				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
+					Color:       config.EmbedColor,
+					Title:       "Playing",
+					Description: val.Info.Title,
+					URL:         val.Info.URI,
+				})
+			}
+		} else {
+			music.AudioPlayers[ctx.Msg.GuildID].Queue = append(music.AudioPlayers[ctx.Msg.GuildID].Queue, val)
+		}
+	}
 }
 
-// Stop music command
+func LeaveCommand(ctx *exrouter.Context) {
+	if musicPreprocessor(ctx) != nil {
+		return
+	}
+
+	music.Disconnect(ctx)
+}
+
+func ResumeCommand(ctx *exrouter.Context) {
+	if musicPreprocessor(ctx) != nil {
+		return
+	}
+
+	if !music.AudioPlayers[ctx.Msg.GuildID].Player.Paused() {
+		_, _ = ctx.Reply("Music is currently not paused.")
+		return
+	}
+
+	if err := music.AudioPlayers[ctx.Msg.GuildID].Player.Pause(false); err != nil {
+		log.Printf("music: resume fail: %s", err)
+		_, _ = ctx.Reply("Failed to resume.")
+		return
+	}
+
+	_, _ = ctx.Reply("Resumed music.")
+}
+
+func PauseCommand(ctx *exrouter.Context) {
+	if musicPreprocessor(ctx) != nil {
+		return
+	}
+
+	if music.AudioPlayers[ctx.Msg.GuildID].Player.Paused() {
+		_, _ = ctx.Reply("Music is currently paused.")
+		return
+	}
+
+	if err := music.AudioPlayers[ctx.Msg.GuildID].Player.Pause(true); err != nil {
+		log.Printf("music: pause fail: %s", err)
+		_, _ = ctx.Reply("Failed to pause.")
+		return
+	}
+
+	_, _ = ctx.Reply("Paused music.")
+}
+
 func StopCommand(ctx *exrouter.Context) {
-	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
-	musicSession := music.MusicSessions.GetByGuild(ctx.Msg.GuildID)
-	if musicSession == nil {
-		_, _ = ctx.Reply(fmt.Sprintf("Not in a voice channel. To make the bot join one, use `%sjoin`.", prefix))
+	if musicPreprocessor(ctx) != nil {
 		return
 	}
-	if musicSession.Queue.HasNext() {
-		musicSession.Queue.Clear()
-	}
-	musicSession.Stop()
-	_, _ = ctx.Reply(fmt.Sprintf("Music stopped. Use `%sleave` for the bot to disconnect.", prefix))
 
-	// Handle timeout
-	// go music.HandleMusicTimeout(musicSession, func(msg string) {
-	// 	_, _ = ctx.Reply(msg)
-	// })
+	if music.AudioPlayers[ctx.Msg.GuildID].Player.Position() == 0 {
+		_, _ = ctx.Reply("Music is currently not playing.")
+		return
+	}
+
+	if err := music.AudioPlayers[ctx.Msg.GuildID].Player.Stop(); err != nil {
+		log.Printf("music: stop fail: %s", err)
+		_, _ = ctx.Reply("Failed to stop.")
+		return
+	}
+
+	music.AudioPlayers[ctx.Msg.GuildID].Queue = make([]gavalink.Track, 0)
+
+	_, _ = ctx.Reply("Stopped music and cleared queue.")
+}
+
+func SkipCommand(ctx *exrouter.Context) {
+	if musicPreprocessor(ctx) != nil {
+		return
+	}
+
+	if err := music.AudioPlayers[ctx.Msg.GuildID].Player.Stop(); err != nil {
+		log.Printf("music: stop fail: %s", err)
+		_, _ = ctx.Reply("Failed to stop current track.")
+		return
+	}
+
+	_, _ = ctx.Reply("Skipped current track.")
+}
+
+func ClearCommand(ctx *exrouter.Context) {
+	if musicPreprocessor(ctx) != nil {
+		return
+	}
+
+	music.AudioPlayers[ctx.Msg.GuildID].Queue = make([]gavalink.Track, 0)
+
+	_, _ = ctx.Reply("Cleared current queue.")
+}
+
+func ShuffleCommand(ctx *exrouter.Context) {
+	if musicPreprocessor(ctx) != nil {
+		return
+	}
+
+	rand.Shuffle(len(music.AudioPlayers[ctx.Msg.GuildID].Queue),
+		func(i, j int) { music.AudioPlayers[ctx.Msg.GuildID].Queue[i], music.AudioPlayers[ctx.Msg.GuildID].Queue[j] = music.AudioPlayers[ctx.Msg.GuildID].Queue[j], music.AudioPlayers[ctx.Msg.GuildID].Queue[i] })
+
+	_, _ = ctx.Reply("Shuffled current queue.")
+}
+
+func QueueCommand(ctx *exrouter.Context) {
+	if musicPreprocessor(ctx) != nil {
+		return
+	}
+
+	queueText := "```"
+	for idx, val := range music.AudioPlayers[ctx.Msg.GuildID].Queue {
+		if idx == 25 {
+			break
+		}
+		queueText += fmt.Sprintf("%2d. %s\n", idx+1, val.Info.Title)
+	}
+	queueText += "```"
+
+	if len(music.AudioPlayers[ctx.Msg.GuildID].Queue) == 0 {
+		queueText = "```Current queue is empty.```"
+	}
+
+	embed := &discordgo.MessageEmbed{
+		Title:       "Current Queue",
+		Color:       config.EmbedColor,
+		Description: queueText,
+	}
+
+	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }
