@@ -56,7 +56,7 @@ func PlayNextTrack(player *gavalink.Player) {
 			AudioPlayers[player.GuildID()].CurrTrack = val
 			_, _ = Session.ChannelMessageSendEmbed(AudioPlayers[player.GuildID()].ChannelID, &discordgo.MessageEmbed{
 				Color:       config.EmbedColor,
-				Title:       "Now playing",
+				Title:       "Playing",
 				Description: val.Info.Title,
 				URL:         val.Info.URI,
 			})

@@ -155,7 +155,7 @@ func PlayCommand(ctx *exrouter.Context) {
 				music.AudioPlayers[ctx.Msg.GuildID].CurrTrack = val
 				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
 					Color:       config.EmbedColor,
-					Title:       "Now playing",
+					Title:       "Playing",
 					Description: val.Info.Title,
 					URL:         val.Info.URI,
 				})
@@ -273,5 +273,24 @@ func QueueCommand(ctx *exrouter.Context) {
 		return
 	}
 
-	_, _ = ctx.Reply(music.AudioPlayers[ctx.Msg.GuildID].Queue)
+	queueText := "```"
+	for idx, val := range music.AudioPlayers[ctx.Msg.GuildID].Queue {
+		if idx == 25 {
+			break
+		}
+		queueText += fmt.Sprintf("%2d. %s\n", idx+1, val.Info.Title)
+	}
+	queueText += "```"
+
+	if len(music.AudioPlayers[ctx.Msg.GuildID].Queue) == 0 {
+		queueText = "```Current queue is empty.```"
+	}
+
+	embed := &discordgo.MessageEmbed{
+		Title:       "Current Queue",
+		Color:       config.EmbedColor,
+		Description: queueText,
+	}
+
+	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }
