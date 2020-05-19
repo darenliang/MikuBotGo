@@ -116,8 +116,7 @@ func LeaveCommand(ctx *exrouter.Context) {
 		return
 	}
 
-	music.AudioPlayers[ctx.Msg.GuildID].Player.Destroy()
-	ctx.Ses.ChannelVoiceJoinManual(ctx.Msg.GuildID, "", false, false)
+	music.Disconnect(ctx)
 }
 
 func ResumeCommand(ctx *exrouter.Context) {
@@ -310,8 +309,6 @@ func StopCommand(ctx *exrouter.Context) {
 		return
 	}
 
-	ctx.Ses.VoiceConnections[guild.ID].Close()
-
 	music.AudioPlayers[guild.ID].Queue = make([]gavalink.Track, 0)
 
 	_, _ = ctx.Reply("Stopped music and cleared queue.")
@@ -367,11 +364,6 @@ func SkipCommand(ctx *exrouter.Context) {
 		return
 	}
 
-	if music.AudioPlayers[guild.ID].Player.Position() == 0 {
-		_, _ = ctx.Reply("Music is currently not playing.")
-		return
-	}
-
 	if err := music.AudioPlayers[guild.ID].Player.Stop(); err != nil {
 		log.Printf("music: stop fail: %s", err)
 		_, _ = ctx.Reply("Failed to stop current track.")
@@ -379,8 +371,6 @@ func SkipCommand(ctx *exrouter.Context) {
 	}
 
 	_, _ = ctx.Reply("Skipped current track.")
-
-	music.PlayNextTrack(music.AudioPlayers[guild.ID].Player)
 }
 
 func ClearCommand(ctx *exrouter.Context) {
@@ -492,4 +482,57 @@ func ShuffleCommand(ctx *exrouter.Context) {
 		func(i, j int) { music.AudioPlayers[guild.ID].Queue[i], music.AudioPlayers[guild.ID].Queue[j] = music.AudioPlayers[guild.ID].Queue[j], music.AudioPlayers[guild.ID].Queue[i] })
 
 	_, _ = ctx.Reply("Shuffled current queue.")
+}
+
+func QueueCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		_, _ = ctx.Reply("Cannot play music in DMs.")
+		return
+	}
+
+	guild, err := ctx.Ses.Guild(ctx.Msg.GuildID)
+
+	if err != nil {
+		_, _ = ctx.Reply("An error has occurred when fetching information about your server.")
+		log.Printf("music: %s", err)
+		return
+	}
+
+	if len(guild.VoiceStates) == 0 {
+		_, _ = ctx.Reply("You are not in a voice channel.")
+		return
+	}
+
+	var state *discordgo.VoiceState
+	for _, v := range guild.VoiceStates {
+		if v.UserID == ctx.Msg.Author.ID {
+			state = v
+			break
+		}
+	}
+
+	if state == nil {
+		_, _ = ctx.Reply("You are not in a voice channel.")
+		return
+	}
+
+	var botState *discordgo.VoiceState
+	for _, v := range guild.VoiceStates {
+		if v.UserID == ctx.Ses.State.User.ID {
+			botState = v
+			break
+		}
+	}
+
+	if botState == nil || music.AudioPlayers[guild.ID] == nil {
+		_, _ = ctx.Reply("The bot is currently not in a voice channel.")
+		return
+	}
+
+	if botState.ChannelID != state.ChannelID {
+		_, _ = ctx.Reply("The bot is currently not in the same voice channel.")
+		return
+	}
+
+	_, _ = ctx.Reply(music.AudioPlayers[guild.ID].Queue)
 }
