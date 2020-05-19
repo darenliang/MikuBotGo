@@ -64,7 +64,9 @@ func PlayNextTrack(player *gavalink.Player) {
 		}
 	}
 
-	AudioPlayers[player.GuildID()].Queue = AudioPlayers[player.GuildID()].Queue[idx+1:]
+	if len(AudioPlayers[player.GuildID()].Queue) != 0 {
+		AudioPlayers[player.GuildID()].Queue = AudioPlayers[player.GuildID()].Queue[idx+1:]
+	}
 
 	if !AudioPlayers[player.GuildID()].Playing {
 		_, _ = Session.ChannelMessageSend(AudioPlayers[player.GuildID()].ChannelID, "Queue ended.")
