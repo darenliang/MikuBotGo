@@ -241,6 +241,9 @@ func init() {
 	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
 		// Client bot disconnect
 		if event.UserID == session.State.User.ID && event.ChannelID == "" {
+			if music.AudioPlayers[event.GuildID] == nil {
+				return
+			}
 			// Clear current play
 			music.AudioPlayers[event.GuildID].Queue = make([]gavalink.Track, 0)
 
