@@ -17,9 +17,7 @@ require (
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/h2non/filetype v1.0.12
 	github.com/jozsefsallai/gophersauce v1.0.1
-	github.com/layeh/gopus v0.0.0-20161224163843-0ebf989153aa
 	github.com/mvdan/xurls v1.1.0
 	github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
-	github.com/robfig/cron v1.2.0
 	github.com/shirou/gopsutil v2.20.3+incompatible // indirect
 )

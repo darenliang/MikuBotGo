@@ -88,18 +88,12 @@ github.com/jmespath/go-jmespath
 # github.com/jozsefsallai/gophersauce v1.0.1
 ## explicit
 github.com/jozsefsallai/gophersauce
-# github.com/layeh/gopus v0.0.0-20161224163843-0ebf989153aa
-## explicit
-github.com/layeh/gopus
 # github.com/mvdan/xurls v1.1.0
 ## explicit
 github.com/mvdan/xurls
 # github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
 ## explicit
 github.com/paul-mannino/go-fuzzywuzzy
-# github.com/robfig/cron v1.2.0
-## explicit
-github.com/robfig/cron
 # github.com/shirou/gopsutil v2.20.3+incompatible
 ## explicit
 # golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
