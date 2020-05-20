@@ -23,6 +23,9 @@ type ClocResponse []struct {
 func Cloc(ctx *exrouter.Context) {
 	repo := strings.TrimSpace(ctx.Args.After(1))
 
+	ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+	defer ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+
 	if len(repo) == 0 {
 		repo = "darenliang/MikuBotGo"
 	}
