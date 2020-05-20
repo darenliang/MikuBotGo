@@ -8,7 +8,6 @@ import (
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
-	"github.com/darenliang/MikuBotGo/music"
 	"sync"
 )
 
@@ -191,16 +190,6 @@ func init() {
 				Session.ChannelMessageSend(message.ChannelID, msg)
 				return
 			}
-		}
-	})
-
-	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
-		if session.State.User.ID == event.UserID && event.ChannelID == "" {
-			conn, ok := music.MusicConnections[event.GuildID]
-			if !ok {
-				return
-			}
-			conn.Close()
 		}
 	})
 }

@@ -58,7 +58,7 @@ github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute
 github.com/aws/aws-sdk-go/service/dynamodb/expression
 github.com/aws/aws-sdk-go/service/sts
 github.com/aws/aws-sdk-go/service/sts/stsiface
-# github.com/bwmarrin/discordgo v0.20.3
+# github.com/bwmarrin/discordgo v0.20.3-0.20200520030659-a7305dd7b76f
 ## explicit
 github.com/bwmarrin/discordgo
 # github.com/disintegration/imaging v1.6.2

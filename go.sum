@@ -18,6 +18,8 @@ github.com/animenotifier/kitsu v0.2.4 h1:YFVUR0EPSbSljjgEWtf4Hz72cCFgGyxOpjPc+64
 github.com/animenotifier/kitsu v0.2.4/go.mod h1:9ymFP+JgXlIYJ+hvaZMut9M4jHXdteYG+7/dk4XggQY=
 github.com/aws/aws-sdk-go v1.31.1 h1:5tv3VtTS/IM1yZ6lxMQQVmH28SkkR3b3w+6u+9rcLx4=
 github.com/aws/aws-sdk-go v1.31.1/go.mod h1:5zCpMtNQVjRREroY7sYe8lOMRSxkhG6MZveU8YkpAk0=
+github.com/bwmarrin/discordgo v0.20.3-0.20200520030659-a7305dd7b76f h1:aEudLDtmeXnhrrh2sSRnVEAhISvaRi6bq4tnuIT1r34=
+github.com/bwmarrin/discordgo v0.20.3-0.20200520030659-a7305dd7b76f/go.mod h1:c1WtWUGN6nREDmzIpyTp/iD3VYt4Fpx+bVyfBG7JE+M=
 github.com/bwmarrin/discordgo v0.20.3 h1:AxjcHGbyBFSC0a3Zx5nDQwbOjU7xai5dXjRnZ0YB7nU=
 github.com/bwmarrin/discordgo v0.20.3/go.mod h1:O9S4p+ofTFwB02em7jkpkV8M3R0/PUVOwN61zSZ0r4Q=
 github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
