@@ -81,7 +81,7 @@ func Identify(ctx *exrouter.Context) {
 	}
 
 	if len(ctx.Msg.Attachments) == 0 && URL == "" {
-		ctx.Reply(fmt.Sprintf("Usage: `%sidentify <anime screenshot (attachment or url)>`", prefix))
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%sidentify <anime screenshot (attachment or url)>`", prefix))
 		return
 	}
 

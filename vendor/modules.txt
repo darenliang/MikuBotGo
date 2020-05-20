@@ -96,14 +96,6 @@ github.com/mvdan/xurls
 # github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
 ## explicit
 github.com/paul-mannino/go-fuzzywuzzy
-# github.com/rs/zerolog v1.16.0
-github.com/rs/zerolog
-github.com/rs/zerolog/internal/cbor
-github.com/rs/zerolog/internal/json
-github.com/rs/zerolog/log
-# github.com/rylio/ytdl v0.6.2
-## explicit
-github.com/rylio/ytdl
 # golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
 golang.org/x/crypto/internal/subtle
 golang.org/x/crypto/nacl/secretbox
@@ -114,7 +106,10 @@ golang.org/x/image/bmp
 golang.org/x/image/ccitt
 golang.org/x/image/tiff
 golang.org/x/image/tiff/lzw
-# golang.org/x/sys v0.0.0-20191104094858-e8c54fb511f6
+# golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a
 golang.org/x/sys/cpu
 # golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 golang.org/x/time/rate
+# gopkg.in/guregu/null.v4 v4.0.0
+## explicit
+gopkg.in/guregu/null.v4

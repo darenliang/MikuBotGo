@@ -226,7 +226,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		ctx.Reply("Failed to get media file.")
+		ctx.Reply(":information_source: Failed to get media file.")
 		log.Printf("musicquiz: file failed to convert: %s", song.URL)
 		OpeningsMap.Delete(ctx.Msg.ChannelID)
 		return

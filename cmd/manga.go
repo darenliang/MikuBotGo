@@ -18,7 +18,7 @@ func Manga(ctx *exrouter.Context) {
 	mangaName := strings.TrimSpace(ctx.Args.After(1))
 
 	if mangaName == "" {
-		ctx.Reply(fmt.Sprintf("Usage: `%smanga <manga name>`", prefix))
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%smanga <manga name>`", prefix))
 		return
 	}
 

@@ -14,7 +14,7 @@ func Owofy(ctx *exrouter.Context) {
 	query := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(query) == 0 {
-		ctx.Reply(fmt.Sprintf("Usage: `%sowofy <message>`", prefix))
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%sowofy <message>`", prefix))
 		return
 	}
 
