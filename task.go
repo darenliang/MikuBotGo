@@ -28,7 +28,7 @@ func UpdatePresence() {
 				Shards: []int{len(Session.State.Guilds)},
 			})
 		}
-		_ = Session.UpdateStatus(0, fmt.Sprintf("@%s help", Session.State.User.Username))
+		Session.UpdateStatus(0, fmt.Sprintf("@%s help", Session.State.User.Username))
 		time.Sleep(time.Minute)
 	}
 }

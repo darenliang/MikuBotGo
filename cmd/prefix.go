@@ -46,7 +46,7 @@ func Prefix(ctx *exrouter.Context) {
 	newPrefix := ctx.Args.After(1)
 
 	if newPrefix == "" {
-		ctx.Reply(fmt.Sprintf("Usage: `%sprefix <prefix>`", prefix))
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%sprefix <prefix>`", prefix))
 		return
 	}
 

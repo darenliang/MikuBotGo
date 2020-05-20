@@ -18,7 +18,7 @@ func Anime(ctx *exrouter.Context) {
 	animeName := strings.TrimSpace(ctx.Args.After(1))
 
 	if animeName == "" {
-		ctx.Reply(fmt.Sprintf("Usage: `%sanime <anime name>`", prefix))
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%sanime <anime name>`", prefix))
 		return
 	}
 

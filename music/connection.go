@@ -1,20 +1,11 @@
 package music
 
 import (
-	"io"
-	"net/url"
-	"sync"
-
 	"github.com/bwmarrin/discordgo"
 	"github.com/jonas747/dca"
-	"github.com/rylio/ytdl"
+	"io"
+	"sync"
 )
-
-// QueueItem is the item used for the queue.
-type QueueItem struct {
-	Info *ytdl.VideoInfo
-	URL  *url.URL
-}
 
 // Connection is the type for a music connection to Discord.
 type Connection struct {
@@ -22,8 +13,9 @@ type Connection struct {
 	ChannelID       string
 	EncodeOpts      *dca.EncodeOptions
 	VoiceConnection *discordgo.VoiceConnection
-	Playing         bool
-	Queue           []*QueueItem
+	Stream          *dca.StreamingSession
+	Done            chan error
+	Queue           []*SongResponse
 	Mutex           *sync.Mutex
 }
 
@@ -42,59 +34,35 @@ func NewConnection(voice *discordgo.VoiceConnection, opts *dca.EncodeOptions) *C
 // and stream that to the VoiceConnection.
 // Will block until queue is empty.
 func (c *Connection) StreamMusic() error {
-	length := len(c.Queue)
-	for i := 0; i < length; i++ {
+	for len(c.Queue) != 0 {
 		c.Mutex.Lock()
-		encodeSession, err := dca.EncodeFile(c.Queue[i].URL.String(), c.EncodeOpts)
+		encodeSession, err := dca.EncodeFile(c.Queue[0].URL, c.EncodeOpts)
+		c.Mutex.Unlock()
 		if err != nil {
 			return err
 		}
-		c.Mutex.Unlock()
-
-		done := make(chan error)
-		dca.NewStream(encodeSession, c.VoiceConnection, done)
 		c.Mutex.Lock()
-		c.Playing = true
+		c.Done = make(chan error)
+		c.Stream = dca.NewStream(encodeSession, c.VoiceConnection, c.Done)
 		c.Mutex.Unlock()
-		derr := <-done
+		derr := <-c.Done
 		if derr != nil && derr != io.EOF {
 			return derr
 		}
-
 		encodeSession.Cleanup()
 		c.Mutex.Lock()
-		length = len(c.Queue)
+		c.Queue = c.Queue[1:]
 		c.Mutex.Unlock()
 	}
-
-	c.Mutex.Lock()
-	c.Playing = false
-	c.Mutex.Unlock()
 
 	return nil
 }
 
 // AddYouTubeVideo will add the download URL for a YouTube video to the queue.
-func (c *Connection) AddYouTubeVideo(url string) (*ytdl.VideoInfo, error) {
-	vid, err := ytdl.GetVideoInfo(url)
-	if err != nil {
-		return nil, err
-	}
-
-	format := vid.Formats.Best(ytdl.FormatAudioEncodingKey)[0]
-	downloadURL, err := vid.GetDownloadURL(format)
-	if err != nil {
-		return nil, err
-	}
-
+func (c *Connection) AddYouTubeVideo(song *SongResponse) {
 	c.Mutex.Lock()
-	c.Queue = append(c.Queue, &QueueItem{
-		Info: vid,
-		URL:  downloadURL,
-	})
-	c.Mutex.Unlock()
-
-	return vid, nil
+	defer c.Mutex.Unlock()
+	c.Queue = append(c.Queue, song)
 }
 
 // Close closes the VoiceConnection, stops sending speaking packet, and closes

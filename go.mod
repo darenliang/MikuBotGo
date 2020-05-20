@@ -19,5 +19,5 @@ require (
 	github.com/jozsefsallai/gophersauce v1.0.1
 	github.com/mvdan/xurls v1.1.0
 	github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
-	github.com/rylio/ytdl v0.6.2
+	gopkg.in/guregu/null.v4 v4.0.0
 )

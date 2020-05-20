@@ -21,7 +21,7 @@ func EightBall(ctx *exrouter.Context) {
 	query := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(query) == 0 {
-		ctx.Reply(fmt.Sprintf("Usage: `%s8ball <question>`", prefix))
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%s8ball <question>`", prefix))
 		return
 	}
 

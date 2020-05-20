@@ -4,6 +4,6 @@
 
 package cpu
 
-const cacheLineSize = 32
+const cacheLineSize = 256
 
 func doinit() {}

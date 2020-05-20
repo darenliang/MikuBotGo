@@ -35,7 +35,7 @@ func Sauce(ctx *exrouter.Context) {
 	}
 
 	if len(ctx.Msg.Attachments) == 0 && URL == "" {
-		ctx.Reply(fmt.Sprintf("Usage: `%ssauce <artwork or screenshot (attachment or url)>`", prefix))
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%ssauce <artwork or screenshot (attachment or url)>`", prefix))
 		return
 	}
 
@@ -60,12 +60,12 @@ func Sauce(ctx *exrouter.Context) {
 	resp, err := client.FromURL(URL)
 
 	if err != nil {
-		ctx.Reply("There's an issue with your image.")
+		ctx.Reply(":warning: There's an issue with your image.")
 		return
 	}
 
 	if len(resp.First().Data.ExternalURLs) == 0 {
-		ctx.Reply("We can't find the sauce.")
+		ctx.Reply(":cry: We can't find the sauce.")
 		return
 	}
 
