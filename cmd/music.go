@@ -67,15 +67,22 @@ func PlayCommand(ctx *exrouter.Context) {
 		ctx.Ses.State.GuildAdd(guild)
 	}
 
+	botInVoice := false
 	musicChannelID := ""
 	for _, voiceState := range guild.VoiceStates {
 		if voiceState.UserID == ctx.Msg.Author.ID && musicChannelID == "" {
 			musicChannelID = voiceState.ChannelID
+		} else if voiceState.UserID == ctx.Ses.State.User.ID {
+			botInVoice = true
 		}
 	}
 
+	if !botInVoice {
+		delete(music.MusicConnections, guild.ID)
+	}
+
 	conn, ok := music.MusicConnections[channel.GuildID]
-	if ok {
+	if ok && conn.Playing {
 		if musicChannelID != conn.ChannelID {
 			ctx.Reply(":information_source: Please join a voice channel.")
 			return
@@ -133,6 +140,8 @@ func QueueCommand(ctx *exrouter.Context) {
 		title := queueItem.Info.Title
 		if i == 0 {
 			title = ":arrow_forward: " + title
+		} else {
+			title = ":arrow_up: " + title
 		}
 		queueList.Fields = append(queueList.Fields, &discordgo.MessageEmbedField{
 			Name:   fmt.Sprintf("Duration %d:%02d:%02d - Uploaded %s", int(queueItem.Info.Duration.Hours()), int(queueItem.Info.Duration.Minutes())%60, int(queueItem.Info.Duration.Seconds())%60, humanize.Time(queueItem.Info.DatePublished)),

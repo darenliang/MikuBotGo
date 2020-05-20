@@ -22,6 +22,7 @@ type Connection struct {
 	ChannelID       string
 	EncodeOpts      *dca.EncodeOptions
 	VoiceConnection *discordgo.VoiceConnection
+	Playing         bool
 	Queue           []*QueueItem
 	Mutex           *sync.Mutex
 }
@@ -52,6 +53,9 @@ func (c *Connection) StreamMusic() error {
 
 		done := make(chan error)
 		dca.NewStream(encodeSession, c.VoiceConnection, done)
+		c.Mutex.Lock()
+		c.Playing = true
+		c.Mutex.Unlock()
 		derr := <-done
 		if derr != nil && derr != io.EOF {
 			return derr
@@ -62,6 +66,10 @@ func (c *Connection) StreamMusic() error {
 		length = len(c.Queue)
 		c.Mutex.Unlock()
 	}
+
+	c.Mutex.Lock()
+	c.Playing = false
+	c.Mutex.Unlock()
 
 	return nil
 }
