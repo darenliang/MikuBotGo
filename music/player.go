@@ -34,18 +34,18 @@ func AddToQueue(ctx *exrouter.Context, conn *Connection, song string) {
 	vid, err := conn.AddYouTubeVideo(song)
 	if err != nil {
 		log.Printf("music: add song fail: %s", song)
-		ctx.Reply("The requested song(s) are not available.")
+		ctx.Reply(":warning: The requested song(s) are not available.")
 		return
 	}
 
-	ctx.Reply(fmt.Sprintf("Added %s to the queue.", vid.Title))
+	ctx.Reply(fmt.Sprintf(":white_check_mark: Added %s to the queue.", vid.Title))
 }
 
 func PlaySong(ctx *exrouter.Context, guildID, musicChannelID, song string) {
-	voice, err := ctx.Ses.ChannelVoiceJoin(guildID, musicChannelID, false, true)
+	voice, err := ctx.Ses.ChannelVoiceJoin(guildID, musicChannelID, false, false)
 	if err != nil {
 		log.Print("music: voice join fail")
-		ctx.Reply("Failed to join voice channel.")
+		ctx.Reply(":warning: Failed to join voice channel.")
 		return
 	}
 
@@ -57,7 +57,7 @@ func PlaySong(ctx *exrouter.Context, guildID, musicChannelID, song string) {
 	vid, err := conn.AddYouTubeVideo(song)
 	if err != nil {
 		log.Printf("music: add song fail: %s", song)
-		ctx.Reply("The requested song(s) are not available.")
+		ctx.Reply(":warning: The requested song(s) are not available.")
 		return
 	}
 
@@ -65,11 +65,11 @@ func PlaySong(ctx *exrouter.Context, guildID, musicChannelID, song string) {
 		runtime.Gosched()
 	}
 
-	ctx.Reply(fmt.Sprintf("Started playing %s", vid.Title))
+	ctx.Reply(fmt.Sprintf(":arrow_forward: Started playing %s", vid.Title))
 	err = conn.StreamMusic()
+
 	if err != nil {
 		log.Printf("music: start music fail: %s", vid.Title)
-		ctx.Reply("Failed to start music.")
 		return
 	}
 

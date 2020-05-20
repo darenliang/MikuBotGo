@@ -8,6 +8,7 @@ import (
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"github.com/darenliang/MikuBotGo/music"
 	"sync"
 )
 
@@ -105,7 +106,7 @@ func init() {
 		} else {
 			msg = fmt.Sprintf("The DM prefix is %s\n", config.Prefix) + msg
 		}
-		_, _ = ctx.Reply(msg)
+		ctx.Reply(":information_source: " + msg)
 	}).Cat("Help")
 
 	// Query database on ready
@@ -148,7 +149,7 @@ func init() {
 		if m.GuildID != "" {
 			prefix = framework.PDB.GetPrefix(m.GuildID)
 		}
-		_ = Router.FindAndExecute(Session, prefix, Session.State.User.ID, m.Message)
+		Router.FindAndExecute(Session, prefix, Session.State.User.ID, m.Message)
 	})
 
 	// Handle reaction add for gif command
@@ -181,15 +182,25 @@ func init() {
 		// Iterate emojis
 		for _, emoji := range message.Reactions {
 			if emoji.Emoji.Name == floppyEmoji && !emoji.Me {
-				_ = Session.MessageReactionAdd(message.ChannelID, message.ID, floppyEmoji)
+				Session.MessageReactionAdd(message.ChannelID, message.ID, floppyEmoji)
 				count, total, dupCount, nsfwCount := cmd.UploadGifs(message.Content, message)
 				if total == 0 {
 					return
 				}
 				msg := cmd.GenerateGifUploadMessage(user, count, total, dupCount, nsfwCount)
-				_, _ = Session.ChannelMessageSend(message.ChannelID, msg)
+				Session.ChannelMessageSend(message.ChannelID, msg)
 				return
 			}
+		}
+	})
+
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
+		if session.State.User.ID == event.UserID && event.ChannelID == "" {
+			conn, ok := music.MusicConnections[event.GuildID]
+			if !ok {
+				return
+			}
+			conn.Close()
 		}
 	})
 }

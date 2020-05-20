@@ -47,7 +47,7 @@ func Trivia(ctx *exrouter.Context) {
 	triviaReponse := &TriviaResponse{}
 	err := framework.UrlToStruct("https://opentdb.com/api.php?amount=1&category=31&type=multiple", triviaReponse)
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred")
+		ctx.Reply(":cry: An error has occurred")
 		return
 	}
 
@@ -78,7 +78,7 @@ func Trivia(ctx *exrouter.Context) {
 
 	embedMsg, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 	for i := 0; i < 4; i++ {
-		_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, embedMsg.ID, emojis[i])
+		ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, embedMsg.ID, emojis[i])
 	}
 
 	defer ctx.Ses.AddHandler(func(_ *discordgo.Session, reaction *discordgo.MessageReactionAdd) {
@@ -108,18 +108,18 @@ func Trivia(ctx *exrouter.Context) {
 		if answers[idx] == question.CorrectAnswer {
 			embed.Title = "Correct"
 			embed.Color = 0x4caf50
-			_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+			ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 			return
 		} else {
 			embed.Title = "Incorrect"
 			embed.Color = 0xf44336
-			_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+			ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 			return
 		}
 	case <-time.After(config.Timeout * time.Second):
 		embed.Title = "Timed out"
 		embed.Color = 0xfdd835
-		_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+		ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 		return
 	}
 }

@@ -31,13 +31,13 @@ func Cloc(ctx *exrouter.Context) {
 	err := framework.UrlToStruct("https://api.codetabs.com/v1/loc?github="+url.QueryEscape(repo), &cloc)
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot find the GitHub repo you are looking for.")
+		ctx.Reply(":cry: Cannot find the GitHub repo you are looking for.")
 		log.Printf("cloc: repo not found: %s", repo)
 		return
 	}
 
 	if len(cloc) == 0 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "No programming languages detected.")
+		ctx.Reply(":confused: No programming languages detected.")
 		log.Printf("cloc: repo not found: %s", repo)
 		return
 	}
@@ -68,5 +68,5 @@ func Cloc(ctx *exrouter.Context) {
 		Inline: false,
 	})
 
-	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

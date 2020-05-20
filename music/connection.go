@@ -1,7 +1,6 @@
 package music
 
 import (
-	"fmt"
 	"io"
 	"net/url"
 	"sync"
@@ -69,10 +68,8 @@ func (c *Connection) StreamMusic() error {
 
 // AddYouTubeVideo will add the download URL for a YouTube video to the queue.
 func (c *Connection) AddYouTubeVideo(url string) (*ytdl.VideoInfo, error) {
-	fmt.Println(url)
 	vid, err := ytdl.GetVideoInfo(url)
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 

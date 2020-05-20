@@ -33,7 +33,7 @@ func HeadPat(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("pat")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -44,7 +44,7 @@ func HeadPat(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -67,7 +67,7 @@ func HeadPat(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Kiss command
@@ -75,7 +75,7 @@ func Kiss(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("kiss")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -86,7 +86,7 @@ func Kiss(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -109,7 +109,7 @@ func Kiss(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Tickle command
@@ -117,7 +117,7 @@ func Tickle(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("tickle")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -128,7 +128,7 @@ func Tickle(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -151,7 +151,7 @@ func Tickle(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Feed command
@@ -159,7 +159,7 @@ func Feed(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("feed")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -170,7 +170,7 @@ func Feed(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -193,7 +193,7 @@ func Feed(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Slap command
@@ -201,7 +201,7 @@ func Slap(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("slap")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -212,7 +212,7 @@ func Slap(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -235,7 +235,7 @@ func Slap(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Cuddle command
@@ -243,7 +243,7 @@ func Cuddle(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("cuddle")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -254,7 +254,7 @@ func Cuddle(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -277,7 +277,7 @@ func Cuddle(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Hug command
@@ -285,7 +285,7 @@ func Hug(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("hug")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -296,7 +296,7 @@ func Hug(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -319,7 +319,7 @@ func Hug(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Smug command
@@ -327,7 +327,7 @@ func Smug(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("smug")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -338,7 +338,7 @@ func Smug(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -361,7 +361,7 @@ func Smug(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
 
 // Baka command
@@ -369,7 +369,7 @@ func Baka(ctx *exrouter.Context) {
 	imageUrl, err := getNekoLifeImage("baka")
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
@@ -380,7 +380,7 @@ func Baka(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get image.")
+		ctx.Reply(":cry: Cannot get image.")
 		log.Printf("nekolife: failed to get image %s", imageUrl)
 		return
 	}
@@ -403,5 +403,5 @@ func Baka(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }

@@ -1,17 +1,20 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
+	"github.com/darenliang/MikuBotGo/framework"
 	"regexp"
 	"strings"
 )
 
 // Owofy command. Ported from kyostra/owofy
 func Owofy(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(query) == 0 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Please provide a message to owofy.")
+		ctx.Reply(fmt.Sprintf("Usage: `%sowofy <message>`", prefix))
 		return
 	}
 
@@ -25,5 +28,5 @@ func Owofy(ctx *exrouter.Context) {
 	query = re.ReplaceAllString(query, "Ny$1")
 	query = strings.ReplaceAll(query, "ove", "uv")
 
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, query)
+	ctx.Reply(query)
 }

@@ -175,7 +175,7 @@ func UploadGifs(content string, message *discordgo.Message) (int, int, int, int)
 		} else {
 			log.Printf("gif: readall failed: %s", v)
 		}
-		_ = resp.Body.Close()
+		resp.Body.Close()
 	}
 
 	return count, len(gifUrls), dupCount, nsfwCount
@@ -205,9 +205,10 @@ func GenerateGifUploadMessage(user *discordgo.User, count, total, dupCount, nsfw
 
 // Gif command
 func Gif(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	// Direct messages
 	if ctx.Msg.GuildID == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The Gif command cannot be used in DMs.")
+		ctx.Reply(":warning: The Gif command cannot be used in DMs.")
 		return
 	}
 
@@ -216,12 +217,12 @@ func Gif(ctx *exrouter.Context) {
 	if len(content) == 0 && len(ctx.Msg.Attachments) == 0 {
 		title, link := framework.GBD.GetGif(ctx.Msg.GuildID)
 		if title == "" && link == "" {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There are no gifs currently stored for this server.")
+			ctx.Reply(fmt.Sprintf(":cry: There are no gifs currently stored for this server. To store gifs use the command `%sgif <gif attachment(s) or url(s)>`", prefix))
 			return
 		}
 		usr, err := ctx.Ses.User(title)
 		if err != nil {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+			ctx.Reply(":cry: Cannot get user data.")
 			log.Printf("gif: user not found")
 			return
 		}
@@ -232,7 +233,7 @@ func Gif(ctx *exrouter.Context) {
 		}
 
 		if err != nil {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot get gif from database.")
+			ctx.Reply(":cry: Cannot get gif from database.")
 			log.Printf("gif: gif link errored out")
 			return
 		}
@@ -256,7 +257,7 @@ func Gif(ctx *exrouter.Context) {
 			},
 		}
 
-		_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+		ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 
 		return
 	}
@@ -265,5 +266,5 @@ func Gif(ctx *exrouter.Context) {
 
 	msg := GenerateGifUploadMessage(ctx.Msg.Author, count, total, dupCount, nsfwCount)
 
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, msg)
+	ctx.Reply(msg)
 }

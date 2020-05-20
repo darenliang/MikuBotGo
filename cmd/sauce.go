@@ -5,6 +5,7 @@ import (
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
+	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/jozsefsallai/gophersauce"
 	"net/url"
 	"os"
@@ -19,6 +20,7 @@ func init() {
 
 // Sauce command
 func Sauce(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
 	URL := ""
@@ -26,14 +28,14 @@ func Sauce(ctx *exrouter.Context) {
 	if len(query) != 0 {
 		_, err := url.ParseRequestURI(query)
 		if err != nil {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The URL you have provided is not valid.")
+			ctx.Reply(":thinking: The URL you have provided is not valid.")
 			return
 		}
 		URL = query
 	}
 
 	if len(ctx.Msg.Attachments) == 0 && URL == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You did not attach any links or images.")
+		ctx.Reply(fmt.Sprintf("Usage: `%ssauce <artwork or screenshot (attachment or url)>`", prefix))
 		return
 	}
 
@@ -47,23 +49,23 @@ func Sauce(ctx *exrouter.Context) {
 	})
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
-	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+	ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+
+	defer ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 
 	resp, err := client.FromURL(URL)
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There's an issue with your image.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		ctx.Reply("There's an issue with your image.")
 		return
 	}
 
 	if len(resp.First().Data.ExternalURLs) == 0 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "We can't find the sauce.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		ctx.Reply("We can't find the sauce.")
 		return
 	}
 
@@ -88,7 +90,5 @@ func Sauce(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
-
-	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

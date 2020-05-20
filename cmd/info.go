@@ -135,5 +135,5 @@ func Info(ctx *exrouter.Context) {
 		},
 		Title: config.BotInfo,
 	}
-	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

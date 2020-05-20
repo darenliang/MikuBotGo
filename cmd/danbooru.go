@@ -35,13 +35,13 @@ func CatGirl(ctx *exrouter.Context) {
 		DanbooruUsername, DanbooruToken, url.QueryEscape("cat_girl score:>=35 rating:safe")), &danbooru)
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: Sorry, failed to get catgirl.")
 		log.Print("catgirl: response failed")
 		return
 	}
 
 	if len(danbooru) == 0 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: Sorry, failed to get catgirl.")
 		log.Print("catgirl: response empty")
 		return
 	}
@@ -56,7 +56,7 @@ func CatGirl(ctx *exrouter.Context) {
 	}
 
 	if fileUrl == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
+		ctx.Reply(":cry: Sorry, failed to get catgirl.")
 		log.Print("catgirl: no suitable image")
 		return
 	}
@@ -68,7 +68,7 @@ func CatGirl(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to get image. Please try again.")
+		ctx.Reply(":cry: Sorry, failed to get catgirl.")
 		log.Printf("catgirl: failed to get image: %s", danbooru[0].LargeFileURL)
 		return
 	}
@@ -91,5 +91,5 @@ func CatGirl(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }
