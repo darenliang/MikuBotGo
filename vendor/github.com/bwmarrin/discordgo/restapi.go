@@ -38,7 +38,7 @@ var (
 	ErrPruneDaysBounds         = errors.New("the number of days should be more than or equal to 1")
 	ErrGuildNoIcon             = errors.New("guild does not have an icon set")
 	ErrGuildNoSplash           = errors.New("guild does not have a splash set")
-	ErrUnauthorized            = errors.New("HTTP request was unauthorized. This could be because the provided token was not a bot token. Please add \"Bot \" to the start of your token. https://discordapp.com/developers/docs/reference#authentication-example-bot-token-authorization-header")
+	ErrUnauthorized            = errors.New("HTTP request was unauthorized. This could be because the provided token was not a bot token. Please add \"Bot \" to the start of your token. https://discord.com/developers/docs/reference#authentication-example-bot-token-authorization-header")
 )
 
 // Request is the same as RequestWithBucketID but the bucket id is the same as the urlStr
@@ -88,7 +88,12 @@ func (s *Session) RequestWithLockedBucket(method, urlStr, contentType string, b 
 		req.Header.Set("authorization", s.Token)
 	}
 
-	req.Header.Set("Content-Type", contentType)
+	// Discord's API returns a 400 Bad Request is Content-Type is set, but the
+	// request body is empty.
+	if b != nil {
+		req.Header.Set("Content-Type", contentType)
+	}
+
 	// TODO: Make a configurable static variable.
 	req.Header.Set("User-Agent", s.UserAgent)
 
@@ -501,7 +506,7 @@ func (s *Session) UserChannelPermissions(userID, channelID string) (apermissions
 }
 
 // Calculates the permissions for a member.
-// https://support.discordapp.com/hc/en-us/articles/206141927-How-is-the-permission-hierarchy-structured-
+// https://support.discord.com/hc/en-us/articles/206141927-How-is-the-permission-hierarchy-structured-
 func memberPermissions(guild *Guild, channel *Channel, member *Member) (apermissions int) {
 	userID := member.User.ID
 
@@ -578,14 +583,6 @@ func memberPermissions(guild *Guild, channel *Channel, member *Member) (apermiss
 // Guild returns a Guild structure of a specific Guild.
 // guildID   : The ID of a Guild
 func (s *Session) Guild(guildID string) (st *Guild, err error) {
-	if s.StateEnabled {
-		// Attempt to grab the guild from State first.
-		st, err = s.State.Guild(guildID)
-		if err == nil && !st.Unavailable {
-			return
-		}
-	}
-
 	body, err := s.RequestWithBucketID("GET", EndpointGuild(guildID), nil, EndpointGuild(guildID))
 	if err != nil {
 		return
@@ -1588,7 +1585,7 @@ func (s *Session) ChannelMessageSendComplex(channelID string, data *MessageSend)
 func (s *Session) ChannelMessageSendTTS(channelID string, content string) (*Message, error) {
 	return s.ChannelMessageSendComplex(channelID, &MessageSend{
 		Content: content,
-		Tts:     true,
+		TTS:     true,
 	})
 }
 
@@ -2127,7 +2124,9 @@ func (s *Session) MessageReactionsRemoveAll(channelID, messageID string) error {
 // messageID : The message ID.
 // emojiID   : Either the unicode emoji for the reaction, or a guild emoji identifier.
 // limit    : max number of users to return (max 100)
-func (s *Session) MessageReactions(channelID, messageID, emojiID string, limit int) (st []*User, err error) {
+// beforeID  : If provided all reactions returned will be before given ID.
+// afterID   : If provided all reactions returned will be after given ID.
+func (s *Session) MessageReactions(channelID, messageID, emojiID string, limit int, beforeID, afterID string) (st []*User, err error) {
 	// emoji such as  #⃣ need to have # escaped
 	emojiID = strings.Replace(emojiID, "#", "%23", -1)
 	uri := EndpointMessageReactions(channelID, messageID, emojiID)
@@ -2136,6 +2135,13 @@ func (s *Session) MessageReactions(channelID, messageID, emojiID string, limit i
 
 	if limit > 0 {
 		v.Set("limit", strconv.Itoa(limit))
+	}
+
+	if afterID != "" {
+		v.Set("after", afterID)
+	}
+	if beforeID != "" {
+		v.Set("before", beforeID)
 	}
 
 	if len(v) > 0 {

@@ -169,7 +169,7 @@ func (db *DynamoDBMusicQuizDatabase) UpdateScore(id string, score, attempts int)
 		UpdateExpression: aws.String("set MusicScore = :s, TotalAttempts = :t"),
 	}
 
-	_, _ = DynamoDBInstance.UpdateItem(input)
+	DynamoDBInstance.UpdateItem(input)
 	db.MusicQuizCache.Store(id, MusicQuizEntryTuple{
 		MusicScore:    score,
 		TotalAttempts: attempts,
@@ -190,7 +190,7 @@ func (db *DynamoDBMusicQuizDatabase) CreateScore(id string, score, attempts int)
 		TableName: aws.String(db.TableName),
 	}
 
-	_, _ = DynamoDBInstance.PutItem(input)
+	DynamoDBInstance.PutItem(input)
 	db.MusicQuizCache.Store(id, MusicQuizEntryTuple{
 		MusicScore:    score,
 		TotalAttempts: attempts,
@@ -212,7 +212,7 @@ func (db *DynamoDBMusicQuizDatabase) SetScores() {
 
 	for _, i := range result.Items {
 		item := MusicQuizEntry{}
-		_ = dynamodbattribute.UnmarshalMap(i, &item)
+		dynamodbattribute.UnmarshalMap(i, &item)
 		db.MusicQuizCache.Store(item.UserId, MusicQuizEntryTuple{
 			MusicScore:    item.MusicScore,
 			TotalAttempts: item.TotalAttempts,
@@ -242,7 +242,7 @@ func (db *DynamoDBPrefixDatabase) CreateGuild(id, prefix string) {
 		TableName: aws.String(db.TableName),
 	}
 
-	_, _ = DynamoDBInstance.PutItem(input)
+	DynamoDBInstance.PutItem(input)
 	db.PrefixCache.Store(id, prefix)
 }
 
@@ -263,7 +263,7 @@ func (db *DynamoDBPrefixDatabase) UpdateGuild(id, prefix string) {
 		UpdateExpression: aws.String("set Prefix = :s"),
 	}
 
-	_, _ = DynamoDBInstance.UpdateItem(input)
+	DynamoDBInstance.UpdateItem(input)
 	db.PrefixCache.Store(id, prefix)
 }
 
@@ -277,7 +277,7 @@ func (db *DynamoDBPrefixDatabase) RemoveGuild(id string) {
 		TableName: aws.String(db.TableName),
 	}
 
-	_, _ = DynamoDBInstance.DeleteItem(input)
+	DynamoDBInstance.DeleteItem(input)
 	db.PrefixCache.Delete(id)
 }
 
@@ -311,7 +311,7 @@ func (db *DynamoDBPrefixDatabase) SetGuilds() {
 
 	for _, i := range result.Items {
 		item := PrefixEntry{}
-		_ = dynamodbattribute.UnmarshalMap(i, &item)
+		dynamodbattribute.UnmarshalMap(i, &item)
 		db.PrefixCache.Store(item.GuildId, item.Prefix)
 	}
 }
@@ -343,7 +343,7 @@ func (db *GifCacheDatabase) GetGif(guildId string) (string, string) {
 	AlbumEntry := GifItemList{}
 
 	err := json.NewDecoder(resp.Body).Decode(&AlbumEntry)
-	_ = resp.Body.Close()
+	resp.Body.Close()
 
 	if err != nil {
 		return "", ""
@@ -379,7 +379,7 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 
 		albumCreation := GifItem{}
 		err := json.NewDecoder(resp.Body).Decode(&albumCreation)
-		_ = resp.Body.Close()
+		resp.Body.Close()
 
 		if err != nil {
 			return err
@@ -413,7 +413,7 @@ func (db *GifCacheDatabase) UploadGif(guildId, userId, imgUrl, hash string) erro
 	status := GifUpload{}
 
 	err := json.NewDecoder(resp.Body).Decode(&status)
-	_ = resp.Body.Close()
+	resp.Body.Close()
 
 	if err != nil {
 		return err
@@ -442,8 +442,8 @@ func (db *GifCacheDatabase) SetAlbums() {
 	req.Header.Set("Authorization", "Bearer "+ImgurToken)
 	resp, _ := HttpClient.Do(req)
 	albums := GifItemList{}
-	_ = json.NewDecoder(resp.Body).Decode(&albums)
-	_ = resp.Body.Close()
+	json.NewDecoder(resp.Body).Decode(&albums)
+	resp.Body.Close()
 
 	for _, i := range albums.Data {
 		req, _ := http.NewRequest("GET", fmt.Sprintf("%s/album/%s/images",
@@ -458,8 +458,8 @@ func (db *GifCacheDatabase) SetAlbums() {
 
 		images := GifItemList{}
 		images.ID = i.ID
-		_ = json.NewDecoder(resp.Body).Decode(&images)
-		_ = resp.Body.Close()
+		json.NewDecoder(resp.Body).Decode(&images)
+		resp.Body.Close()
 		db.GifCache.Store(i.Title, images)
 	}
 }

@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
+	"github.com/darenliang/MikuBotGo/framework"
 	"math/rand"
 	"strings"
 )
@@ -15,12 +17,13 @@ var eightBallChoices = [...]string{"It is certain.", "It is decidedly so.", "Wit
 
 // EightBall command.
 func EightBall(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
 	if len(query) == 0 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Please ask a question.")
+		ctx.Reply(fmt.Sprintf("Usage: `%s8ball <question>`", prefix))
 		return
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, eightBallChoices[rand.Intn(len(eightBallChoices))])
+	ctx.Reply(eightBallChoices[rand.Intn(len(eightBallChoices))])
 }

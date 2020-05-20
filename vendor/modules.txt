@@ -1,12 +1,10 @@
 # github.com/DiscordBotList/go-dbl v0.0.0-20200314154711-a742304d6e1f
 ## explicit
 github.com/DiscordBotList/go-dbl
-# github.com/Necroforger/dgrouter v0.0.0-20190528143456-040421b5a83e
+# github.com/Necroforger/dgrouter v0.0.0-20200517224846-e66453b957c1
 ## explicit
 github.com/Necroforger/dgrouter
 github.com/Necroforger/dgrouter/exrouter
-# github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d
-## explicit
 # github.com/aerogo/http v1.1.0
 github.com/aerogo/http/ciphers
 github.com/aerogo/http/client
@@ -18,7 +16,7 @@ github.com/animenotifier/anilist
 # github.com/animenotifier/kitsu v0.2.4
 ## explicit
 github.com/animenotifier/kitsu
-# github.com/aws/aws-sdk-go v1.30.7
+# github.com/aws/aws-sdk-go v1.31.1
 ## explicit
 github.com/aws/aws-sdk-go/aws
 github.com/aws/aws-sdk-go/aws/awserr
@@ -60,18 +58,19 @@ github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute
 github.com/aws/aws-sdk-go/service/dynamodb/expression
 github.com/aws/aws-sdk-go/service/sts
 github.com/aws/aws-sdk-go/service/sts/stsiface
-# github.com/bwmarrin/discordgo v0.20.0
+# github.com/bwmarrin/discordgo v0.20.3-0.20200520030659-a7305dd7b76f
 ## explicit
 github.com/bwmarrin/discordgo
 # github.com/disintegration/imaging v1.6.2
 ## explicit
 github.com/disintegration/imaging
+# github.com/dustin/go-humanize v1.0.0
+## explicit
+github.com/dustin/go-humanize
 # github.com/gabriel-vasile/mimetype v1.0.4
 github.com/gabriel-vasile/mimetype
 github.com/gabriel-vasile/mimetype/internal/json
 github.com/gabriel-vasile/mimetype/internal/matchers
-# github.com/go-ole/go-ole v1.2.4
-## explicit
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
 # github.com/h2non/filetype v1.0.12
@@ -82,20 +81,29 @@ github.com/h2non/filetype/matchers/isobmff
 github.com/h2non/filetype/types
 # github.com/jmespath/go-jmespath v0.3.0
 github.com/jmespath/go-jmespath
+# github.com/jonas747/dca v0.0.0-20200403191804-067b814772f1
+## explicit
+github.com/jonas747/dca
+# github.com/jonas747/ogg v0.0.0-20161220051205-b4f6f4cf3757
+## explicit
+github.com/jonas747/ogg
 # github.com/jozsefsallai/gophersauce v1.0.1
 ## explicit
 github.com/jozsefsallai/gophersauce
-# github.com/layeh/gopus v0.0.0-20161224163843-0ebf989153aa
-## explicit
-github.com/layeh/gopus
 # github.com/mvdan/xurls v1.1.0
 ## explicit
 github.com/mvdan/xurls
 # github.com/paul-mannino/go-fuzzywuzzy v0.0.0-20200127021948-54652b135d0e
 ## explicit
 github.com/paul-mannino/go-fuzzywuzzy
-# github.com/shirou/gopsutil v2.20.3+incompatible
+# github.com/rs/zerolog v1.16.0
+github.com/rs/zerolog
+github.com/rs/zerolog/internal/cbor
+github.com/rs/zerolog/internal/json
+github.com/rs/zerolog/log
+# github.com/rylio/ytdl v0.6.2
 ## explicit
+github.com/rylio/ytdl
 # golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
 golang.org/x/crypto/internal/subtle
 golang.org/x/crypto/nacl/secretbox
@@ -106,7 +114,7 @@ golang.org/x/image/bmp
 golang.org/x/image/ccitt
 golang.org/x/image/tiff
 golang.org/x/image/tiff/lzw
-# golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a
+# golang.org/x/sys v0.0.0-20191104094858-e8c54fb511f6
 golang.org/x/sys/cpu
 # golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 golang.org/x/time/rate

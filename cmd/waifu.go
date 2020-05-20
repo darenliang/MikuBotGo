@@ -27,7 +27,7 @@ func Waifu(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Cannot generate an image.")
+		ctx.Reply(":cry: Cannot generate an image.")
 		log.Printf("waifu: generate image error with id %d", imageID)
 		return
 	}
@@ -50,5 +50,5 @@ func Waifu(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+	ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 }

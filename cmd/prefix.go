@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/framework"
@@ -8,9 +9,11 @@ import (
 
 // Prefix command
 func Prefix(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
+
 	// Direct messages
 	if ctx.Msg.GuildID == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You can't set a prefix in a DM.")
+		ctx.Reply(":information_source: You can't set a prefix in a DM.")
 		return
 	}
 
@@ -36,17 +39,17 @@ func Prefix(ctx *exrouter.Context) {
 	}
 
 	if !admin {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You do not have administrator permissions to change prefix.")
+		ctx.Reply(":information_source: You do not have administrator permissions to change prefix.")
 		return
 	}
 
 	newPrefix := ctx.Args.After(1)
 
 	if newPrefix == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You did not provide a new prefix.")
+		ctx.Reply(fmt.Sprintf("Usage: `%sprefix <prefix>`", prefix))
 		return
 	}
 
 	framework.PDB.UpdateGuild(ctx.Msg.GuildID, newPrefix)
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Set the new prefix to "+newPrefix)
+	ctx.Reply(":information_source: Set the new prefix to " + newPrefix)
 }

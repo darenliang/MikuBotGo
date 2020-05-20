@@ -77,5 +77,5 @@ func Leaderboard(ctx *exrouter.Context) {
 		Title:       title,
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

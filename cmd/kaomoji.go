@@ -27,5 +27,5 @@ var kaomojis = [...]string{"ʘ‿ʘ", "ಠ_ಠ", "(╯°□°）╯︵ ┻━┻
 
 // Kaomoji command
 func Kaomoji(ctx *exrouter.Context) {
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, kaomojis[rand.Intn(len(kaomojis))])
+	ctx.Reply(kaomojis[rand.Intn(len(kaomojis))])
 }

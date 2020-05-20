@@ -24,7 +24,7 @@ func init() {
 func UpdatePresence() {
 	for {
 		if dblToken != "" {
-			_ = dblClient.PostBotStats(Session.State.User.ID, &dbl.BotStatsPayload{
+			dblClient.PostBotStats(Session.State.User.ID, &dbl.BotStatsPayload{
 				Shards: []int{len(Session.State.Guilds)},
 			})
 		}

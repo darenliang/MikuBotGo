@@ -14,10 +14,11 @@ import (
 
 // Anime command
 func Anime(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	animeName := strings.TrimSpace(ctx.Args.After(1))
 
 	if animeName == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Query not specified")
+		ctx.Reply(fmt.Sprintf("Usage: `%sanime <anime name>`", prefix))
 		return
 	}
 
@@ -27,7 +28,7 @@ func Anime(ctx *exrouter.Context) {
 	anime := response.Data.Media
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Anime not found.")
+		ctx.Reply(":cry: Sorry, anime not found.")
 		log.Printf("anime: not found: %s", animeName)
 		return
 	}
@@ -145,5 +146,5 @@ func Anime(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

@@ -14,10 +14,11 @@ import (
 
 // Manga command
 func Manga(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	mangaName := strings.TrimSpace(ctx.Args.After(1))
 
 	if mangaName == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Query not specified")
+		ctx.Reply(fmt.Sprintf("Usage: `%smanga <manga name>`", prefix))
 		return
 	}
 
@@ -27,7 +28,7 @@ func Manga(ctx *exrouter.Context) {
 	manga := response.Data.Media
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Manga not found.")
+		ctx.Reply(":cry: Sorry, manga not found.")
 		log.Printf("manga: not found: %s", mangaName)
 		return
 	}
@@ -143,5 +144,5 @@ func Manga(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

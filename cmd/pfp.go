@@ -13,6 +13,7 @@ import (
 func Pfp(ctx *exrouter.Context) {
 
 	target := framework.Getuser(ctx)
+
 	if target != nil {
 
 		resp, err := framework.HttpClient.Get(target.AvatarURL("1024"))
@@ -22,7 +23,7 @@ func Pfp(ctx *exrouter.Context) {
 		}
 
 		if err != nil {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to get profile pic.")
+			ctx.Reply(":cry: Failed to get profile pic.")
 			log.Print("pfp: failed to get image")
 			return
 		}
@@ -44,9 +45,9 @@ func Pfp(ctx *exrouter.Context) {
 				},
 			},
 		}
-		_, _ = ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
+		ctx.Ses.ChannelMessageSendComplex(ctx.Msg.ChannelID, ms)
 	} else {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The user is not found.")
+		ctx.Reply(":information_source: The user is not found.")
 	}
 
 }

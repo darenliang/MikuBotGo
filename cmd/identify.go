@@ -66,6 +66,7 @@ func getPostJson(data string, target interface{}) error {
 
 // Identify command
 func Identify(ctx *exrouter.Context) {
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
 	URL := ""
@@ -73,14 +74,14 @@ func Identify(ctx *exrouter.Context) {
 	if len(query) != 0 {
 		_, err := url.ParseRequestURI(query)
 		if err != nil {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "The URL you have provided is not valid.")
+			ctx.Reply(":thinking: The URL you have provided is not valid.")
 			return
 		}
 		URL = query
 	}
 
 	if len(ctx.Msg.Attachments) == 0 && URL == "" {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You did not attach any links or images.")
+		ctx.Reply(fmt.Sprintf("Usage: `%sidentify <anime screenshot (attachment or url)>`", prefix))
 		return
 	}
 
@@ -88,13 +89,14 @@ func Identify(ctx *exrouter.Context) {
 		URL = ctx.Msg.Attachments[0].URL
 	}
 
-	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+	ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+
+	defer ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 
 	image, err := framework.LoadImage(URL)
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There's an issue with your image.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		ctx.Reply(":cry: There's an issue with your image.")
 		return
 	}
 
@@ -107,25 +109,28 @@ func Identify(ctx *exrouter.Context) {
 	trace := TraceData{}
 	err = getPostJson(photoBase64, &trace)
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "An error has occurred.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		ctx.Reply(":cry: An error has occurred.")
 		return
 	}
 
 	if len(trace.Docs) == 0 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "We can't find any sauce from the provided image.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		ctx.Reply(":cry: We can't find any sauce from the provided image.")
 		return
 	}
 
 	if trace.Docs[0].Similarity < 0.87 {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "We can't find the sauce for you.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		ctx.Reply(":cry: We can't find the sauce for you.")
 		return
 	}
 
 	response := framework.TraceSearchResult{}
-	_ = anilist.Query(framework.AnilistAnimeIDQuery(trace.Docs[0].AnilistID), &response)
+	err = anilist.Query(framework.AnilistAnimeIDQuery(trace.Docs[0].AnilistID), &response)
+
+	if err != nil {
+		ctx.Reply(":cry: We can't get anime info of the sauce.")
+		return
+	}
+
 	anime := response.Data.Media
 
 	var color uint64
@@ -181,7 +186,5 @@ func Identify(ctx *exrouter.Context) {
 		},
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
-
-	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 }

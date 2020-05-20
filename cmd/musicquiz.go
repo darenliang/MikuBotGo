@@ -48,7 +48,7 @@ func init() {
 func GetOpenings() Openings {
 	file, _ := ioutil.ReadFile("data/dataset_filtered.json")
 	tmp := Openings{}
-	_ = json.Unmarshal(file, &tmp)
+	json.Unmarshal(file, &tmp)
 	return tmp
 }
 
@@ -60,19 +60,26 @@ func MusicQuiz(ctx *exrouter.Context) {
 	if len(guess) != 0 {
 		entryInterface, ok := OpeningsMap.Load(ctx.Msg.ChannelID)
 		if !ok {
-			_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "There is no currently active quiz in this channel.")
+			ctx.Reply(":information_source: There is no currently active quiz in this channel.")
 			return
 		} else {
 			entry := entryInterface.(OpeningEntry)
 			if guess == "giveup" {
 				entry.Embed.Title = "Answer: " + entry.Embed.Title
 				entry.Embed.Color = 0xf44336
-				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, entry.Embed)
+				ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, entry.Embed)
 				OpeningsMap.Delete(ctx.Msg.ChannelID)
 				return
 			} else if guess == "hint" {
 				response := framework.AniListAnimeSearchResponse{}
-				_ = anilist.Query(framework.AnilistAnimeSearchQuery(entry.Name), &response)
+
+				err := anilist.Query(framework.AnilistAnimeSearchQuery(entry.Name), &response)
+
+				if err != nil {
+					ctx.Reply(":cry: Sorry, anime not found.")
+					log.Printf("musicquiz: anime not found: %s", entry.Name)
+					return
+				}
 
 				anime := response.Data.Media
 
@@ -121,10 +128,17 @@ func MusicQuiz(ctx *exrouter.Context) {
 					},
 					Title: "Hints for Music Quiz",
 				}
-				_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
+				ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 				return
 			} else {
-				response, _ := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(guess) + `&page[limit]=5`)
+				response, err := kitsu.GetAnimePage(`anime?filter[text]=` + url.QueryEscape(guess) + `&page[limit]=5`)
+
+				if err != nil {
+					ctx.Reply(":cry: Sorry, we can't parse your guess.")
+					log.Printf("musicquiz: guess not found: %s", guess)
+					return
+				}
+
 				answers := make([]string, 0)
 				for _, val := range response.Data {
 					answers = append(answers, val.Attributes.Titles.En, val.Attributes.Titles.EnJp)
@@ -132,7 +146,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 				if framework.GetStringValidation(answers, entry.Name) {
 					entry.Embed.Title = "Correct: " + entry.Embed.Title
 					entry.Embed.Color = 0x4caf50
-					_, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, entry.Embed)
+					ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, entry.Embed)
 					score, attempts := framework.MQDB.GetScore(ctx.Msg.Author.ID)
 					if score == 0 && attempts == 0 {
 						framework.MQDB.CreateScore(ctx.Msg.Author.ID, 1, 0)
@@ -142,7 +156,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 					OpeningsMap.Delete(ctx.Msg.ChannelID)
 					return
 				} else {
-					_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You are incorrect. Please try again.")
+					ctx.Reply(":x: You are incorrect. Please try again.")
 					return
 				}
 			}
@@ -151,7 +165,7 @@ func MusicQuiz(ctx *exrouter.Context) {
 
 	_, ok := OpeningsMap.Load(ctx.Msg.ChannelID)
 	if ok {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "You haven't gave an answer to the previous quiz.")
+		ctx.Reply(":information_source: You haven't gave an answer to the current quiz.")
 		return
 	}
 
@@ -162,12 +176,21 @@ func MusicQuiz(ctx *exrouter.Context) {
 		framework.MQDB.UpdateScore(ctx.Msg.Author.ID, score, attempts+1)
 	}
 
-	_ = ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+	ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer)
+
+	defer ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
 
 	idx := rand.Int() % len(OpeningsData)
 
 	response := framework.AniListAnimeSearchResponse{}
-	_ = anilist.Query(framework.AnilistAnimeSearchQuery(OpeningsData[idx].Name), &response)
+
+	err := anilist.Query(framework.AnilistAnimeSearchQuery(OpeningsData[idx].Name), &response)
+
+	if err != nil {
+		ctx.Reply(":cry: Sorry, anime info not found.")
+		log.Printf("musicquiz: anime not found: %s", OpeningsData[idx].Name)
+		return
+	}
 
 	song := OpeningsData[idx].Songs[rand.Int()%len(OpeningsData[idx].Songs)]
 
@@ -203,15 +226,13 @@ func MusicQuiz(ctx *exrouter.Context) {
 	}
 
 	if err != nil {
-		_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, "Failed to get media file.")
-		_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+		ctx.Reply("Failed to get media file.")
 		log.Printf("musicquiz: file failed to convert: %s", song.URL)
 		OpeningsMap.Delete(ctx.Msg.ChannelID)
 		return
 	}
 
-	_, _ = ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
+	ctx.Ses.ChannelMessageSend(ctx.Msg.ChannelID, fmt.Sprintf(
 		"`%smusicquiz <guess>` to guess anime, `%smusicquiz hint` to get hints or `%smusicquiz giveup` to give up.", prefix, prefix, prefix))
-	_, _ = ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", resp.Body)
-	_ = ctx.Ses.MessageReactionRemove(ctx.Msg.ChannelID, ctx.Msg.ID, config.Timer, ctx.Ses.State.User.ID)
+	ctx.Ses.ChannelFileSend(ctx.Msg.ChannelID, fileNameOut+".mp3", resp.Body)
 }

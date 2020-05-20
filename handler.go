@@ -8,7 +8,6 @@ import (
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
-	"github.com/darenliang/MikuBotGo/music"
 	"sync"
 )
 
@@ -84,17 +83,9 @@ func init() {
 	Router.OnMatch("baka", dgrouter.NewRegexMatcher("^(?i)(baka|idiot)$"), cmd.Baka)
 
 	// Music
-	Router.OnMatch("add", dgrouter.NewRegexMatcher("^(?i)add$"), cmd.AddMusic)
-	Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
-	Router.OnMatch("current", dgrouter.NewRegexMatcher("^(?i)current$"), cmd.CurrentCommand)
-	Router.OnMatch("join", dgrouter.NewRegexMatcher("^(?i)join$"), cmd.JoinCommand)
-	Router.OnMatch("leave", dgrouter.NewRegexMatcher("^(?i)(leave|disconnect)$"), cmd.LeaveCommand)
-	Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)pause$"), cmd.PauseCommand)
-	Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)play$"), cmd.PlayCommand)
-	Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)queue$"), cmd.QueueCommand)
-	Router.OnMatch("shuffle", dgrouter.NewRegexMatcher("^(?i)shuffle$"), cmd.ShuffleCommand)
-	Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)skip$"), cmd.SkipCommand)
-	Router.OnMatch("stop", dgrouter.NewRegexMatcher("^(?i)stop$"), cmd.StopCommand)
+	Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)(play|add|enqueue)$"), cmd.PlayCommand)
+	Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)(np|nowplaying|queue)$"), cmd.QueueCommand)
+	Router.OnMatch("stop", dgrouter.NewRegexMatcher("^(?i)(stop|leave|disconnect)$"), cmd.StopCommand)
 
 	// Help
 	Router.Default = Router.OnMatch("help", dgrouter.NewRegexMatcher("^(?i)(help|h)$"), func(ctx *exrouter.Context) {
@@ -106,7 +97,7 @@ func init() {
 		} else {
 			msg = fmt.Sprintf("The DM prefix is %s\n", config.Prefix) + msg
 		}
-		_, _ = ctx.Reply(msg)
+		ctx.Reply(":information_source: " + msg)
 	}).Cat("Help")
 
 	// Query database on ready
@@ -115,9 +106,6 @@ func init() {
 		framework.PDB.SetGuilds()
 		framework.MQDB.SetScores()
 		framework.GBD.SetAlbums()
-
-		// Music sessions and youtube
-		music.MusicSessions = music.NewSessionManager()
 
 		// Load cache and check for new guilds
 		cache := framework.PDB.GetGuilds()
@@ -152,7 +140,7 @@ func init() {
 		if m.GuildID != "" {
 			prefix = framework.PDB.GetPrefix(m.GuildID)
 		}
-		_ = Router.FindAndExecute(Session, prefix, Session.State.User.ID, m.Message)
+		Router.FindAndExecute(Session, prefix, Session.State.User.ID, m.Message)
 	})
 
 	// Handle reaction add for gif command
@@ -185,13 +173,13 @@ func init() {
 		// Iterate emojis
 		for _, emoji := range message.Reactions {
 			if emoji.Emoji.Name == floppyEmoji && !emoji.Me {
-				_ = Session.MessageReactionAdd(message.ChannelID, message.ID, floppyEmoji)
+				Session.MessageReactionAdd(message.ChannelID, message.ID, floppyEmoji)
 				count, total, dupCount, nsfwCount := cmd.UploadGifs(message.Content, message)
 				if total == 0 {
 					return
 				}
 				msg := cmd.GenerateGifUploadMessage(user, count, total, dupCount, nsfwCount)
-				_, _ = Session.ChannelMessageSend(message.ChannelID, msg)
+				Session.ChannelMessageSend(message.ChannelID, msg)
 				return
 			}
 		}
