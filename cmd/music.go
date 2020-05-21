@@ -200,6 +200,17 @@ func PlayCommand(ctx *exrouter.Context) {
 		return
 	}
 
+	if music.MusicCooldown[ctx.Msg.GuildID].IsZero() {
+		music.MusicCooldown[ctx.Msg.GuildID] = time.Now()
+	} else {
+		elapsed := time.Since(music.MusicCooldown[ctx.Msg.GuildID])
+		if elapsed.Seconds() <= music.MUSICCOOLDOWN {
+			ctx.Reply(fmt.Sprintf(":timer: You need to wait %d seconds before your cooldown expires.", music.MUSICCOOLDOWN-int(elapsed.Seconds())))
+			return
+		}
+		music.MusicCooldown[ctx.Msg.GuildID] = time.Now()
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -236,7 +247,7 @@ func PlayCommand(ctx *exrouter.Context) {
 		delete(music.MusicConnections, guild.ID)
 	}
 
-	playReadyStatus, conn, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
+	playReadyStatus, _, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
 	if err != nil {
 		ctx.Reply(":information_source: Please join a joice channel.")
 		return
@@ -273,6 +284,12 @@ func PlayCommand(ctx *exrouter.Context) {
 			if playReadyStatus {
 				go music.PlaySong(ctx, channel.GuildID, musicChannelID, song)
 			} else {
+				_, conn, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
+				if err != nil {
+					ctx.Reply(":warning: Voice connection error.")
+					log.Printf("music: voice connection state fail")
+					return
+				}
 				go music.AddToQueue(ctx, conn, song)
 			}
 		}
@@ -304,9 +321,15 @@ func PlayCommand(ctx *exrouter.Context) {
 					continue
 				}
 				if playReadyStatus {
-					go music.PlaySong(ctx, channel.GuildID, musicChannelID, song)
 					playReadyStatus = false
+					go music.PlaySong(ctx, channel.GuildID, musicChannelID, song)
 				} else {
+					_, conn, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
+					if err != nil {
+						ctx.Reply(":warning: Voice connection error.")
+						log.Printf("music: voice connection state fail")
+						return
+					}
 					go music.AddToQueue(ctx, conn, song)
 				}
 			}
@@ -442,6 +465,17 @@ func YoutubeCommand(ctx *exrouter.Context) {
 		return
 	}
 
+	if music.MusicCooldown[ctx.Msg.GuildID].IsZero() {
+		music.MusicCooldown[ctx.Msg.GuildID] = time.Now()
+	} else {
+		elapsed := time.Since(music.MusicCooldown[ctx.Msg.GuildID])
+		if elapsed.Seconds() <= music.MUSICCOOLDOWN {
+			ctx.Reply(fmt.Sprintf(":timer: You need to wait %d seconds before your cooldown expires.", music.MUSICCOOLDOWN-int(elapsed.Seconds())))
+			return
+		}
+		music.MusicCooldown[ctx.Msg.GuildID] = time.Now()
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -478,7 +512,7 @@ func YoutubeCommand(ctx *exrouter.Context) {
 		delete(music.MusicConnections, guild.ID)
 	}
 
-	playReadyStatus, conn, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
+	playReadyStatus, _, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
 	if err != nil {
 		ctx.Reply(":information_source: Please join a joice channel.")
 		return
@@ -572,6 +606,12 @@ func YoutubeCommand(ctx *exrouter.Context) {
 		if playReadyStatus {
 			go music.PlaySong(ctx, channel.GuildID, musicChannelID, song)
 		} else {
+			_, conn, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
+			if err != nil {
+				ctx.Reply(":warning: Voice connection error.")
+				log.Printf("music: voice connection state fail")
+				return
+			}
 			go music.AddToQueue(ctx, conn, song)
 		}
 	case <-time.After(config.Timeout * time.Second):

@@ -8,13 +8,17 @@ import (
 	"github.com/jonas747/dca"
 	"log"
 	"runtime"
+	"time"
 )
 
 // MusicConnections maps a Guild ID to an associated voice connection.
 var (
 	MusicConnections = map[string]*Connection{}
+	MusicCooldown    = make(map[string]time.Time)
 	UserJoinError    = errors.New("you are not in a voice channel")
 )
+
+const MUSICCOOLDOWN = 10
 
 var EncOpts = &dca.EncodeOptions{
 	Volume:           256,
@@ -39,6 +43,7 @@ func AddToQueue(ctx *exrouter.Context, conn *Connection, song *SongResponse) {
 func PlaySong(ctx *exrouter.Context, guildID, musicChannelID string, song *SongResponse) {
 	voice, err := ctx.Ses.ChannelVoiceJoin(guildID, musicChannelID, false, false)
 	if err != nil {
+		delete(MusicConnections, guildID)
 		log.Print("music: voice join fail")
 		ctx.Reply(":warning: Failed to join voice channel.")
 		return
