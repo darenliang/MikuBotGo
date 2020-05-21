@@ -20,7 +20,15 @@ func Prefix(ctx *exrouter.Context) {
 	admin := false
 
 	// Fetch guild
-	guild, _ := ctx.Ses.Guild(ctx.Msg.GuildID)
+	guild, err := ctx.Ses.State.Guild(ctx.Msg.GuildID)
+	if err != nil {
+		guild, err = ctx.Ses.Guild(ctx.Msg.GuildID)
+		if err != nil {
+			ctx.Reply(":cry: An error has occurred.")
+			return
+		}
+		ctx.Ses.State.GuildAdd(guild)
+	}
 
 	// Check owner
 	if ctx.Msg.Author.ID == guild.OwnerID {

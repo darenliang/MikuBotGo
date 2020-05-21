@@ -24,10 +24,13 @@ func Getuser(ctx *exrouter.Context) *discordgo.User {
 			return ctx.Ses.State.User
 		}
 
-		dm, err := ctx.Ses.Channel(ctx.Msg.ChannelID)
-
+		dm, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 		if err != nil {
-			return nil
+			dm, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
+			if err != nil {
+				return nil
+			}
+			ctx.Ses.State.ChannelAdd(dm)
 		}
 
 		for _, u := range dm.Recipients {
@@ -39,14 +42,17 @@ func Getuser(ctx *exrouter.Context) *discordgo.User {
 		return nil
 	}
 
-	// Guild channels
-	g, err := ctx.Ses.Guild(msg.GuildID)
-
+	// Guilds
+	guild, err := ctx.Ses.State.Guild(msg.GuildID)
 	if err != nil {
-		return nil
+		guild, err = ctx.Ses.Guild(msg.GuildID)
+		if err != nil {
+			return nil
+		}
+		ctx.Ses.State.GuildAdd(guild)
 	}
 
-	for _, member := range g.Members {
+	for _, member := range guild.Members {
 		if member.Nick == user || matchUser(member.User, user) {
 			return member.User
 		}
