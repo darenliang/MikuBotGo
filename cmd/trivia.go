@@ -44,14 +44,14 @@ func Trivia(ctx *exrouter.Context) {
 		idx      int
 	)
 
-	triviaReponse := &TriviaResponse{}
-	err := framework.UrlToStruct("https://opentdb.com/api.php?amount=1&category=31&type=multiple", triviaReponse)
+	triviaResponse := &TriviaResponse{}
+	err := framework.UrlToStruct("https://opentdb.com/api.php?amount=1&category=31&type=multiple", triviaResponse)
 	if err != nil {
 		ctx.Reply(":cry: An error has occurred")
 		return
 	}
 
-	question := triviaReponse.Results[0]
+	question := triviaResponse.Results[0]
 
 	answers := make([]string, 0)
 	answers = append(answers, question.CorrectAnswer)
