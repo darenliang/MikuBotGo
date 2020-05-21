@@ -1,11 +1,14 @@
 package music
 
 import (
+	"errors"
 	"github.com/bwmarrin/discordgo"
 	"github.com/jonas747/dca"
 	"io"
 	"sync"
 )
+
+var KillFMPEG = errors.New("end music playback")
 
 // Connection is the type for a music connection to Discord.
 type Connection struct {
@@ -69,6 +72,7 @@ func (c *Connection) AddYouTubeVideo(song *SongResponse) {
 // Close closes the VoiceConnection, stops sending speaking packet, and closes
 // the EncodeSession.
 func (c *Connection) Close() error {
+	c.Done <- KillFMPEG
 	err := c.VoiceConnection.Speaking(false)
 	if err != nil {
 		return err

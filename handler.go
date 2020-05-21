@@ -8,6 +8,7 @@ import (
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"github.com/darenliang/MikuBotGo/music"
 	"sync"
 )
 
@@ -188,6 +189,17 @@ func init() {
 				Session.ChannelMessageSend(message.ChannelID, msg)
 				return
 			}
+		}
+	})
+
+	// Force a FFMPEG process kill on voice disconnect
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
+		if session.State.User.ID == event.UserID && event.ChannelID == "" {
+			conn, ok := music.MusicConnections[event.GuildID]
+			if !ok {
+				return
+			}
+			conn.Done <- music.KillFMPEG
 		}
 	})
 }
