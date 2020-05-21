@@ -238,7 +238,7 @@ func PlayCommand(ctx *exrouter.Context) {
 
 	playReadyStatus, conn, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
 	if err != nil {
-		ctx.Reply(":information_source: Please join a joice channel.")
+		ctx.Reply(":information_source: Please join a voice channel.")
 		return
 	}
 
@@ -480,7 +480,7 @@ func YoutubeCommand(ctx *exrouter.Context) {
 
 	playReadyStatus, conn, err := music.GetPlayReadyData(musicChannelID, channel.GuildID)
 	if err != nil {
-		ctx.Reply(":information_source: Please join a joice channel.")
+		ctx.Reply(":information_source: Please join a voice channel.")
 		return
 	}
 
