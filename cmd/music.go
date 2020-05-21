@@ -182,6 +182,12 @@ func NowPlayingCommand(ctx *exrouter.Context) {
 		Title: "Now Playing",
 	}
 
+	if conn.Queue[0].Thumbnail != "" {
+		nowPlaying.Thumbnail = &discordgo.MessageEmbedThumbnail{
+			URL: conn.Queue[0].Thumbnail,
+		}
+	}
+
 	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, nowPlaying)
 }
 
@@ -336,6 +342,12 @@ func QueueCommand(ctx *exrouter.Context) {
 		Color:  config.EmbedColor,
 		Fields: []*discordgo.MessageEmbedField{},
 		Title:  "Music Queue",
+	}
+
+	if conn.Queue[0].Thumbnail != "" {
+		queueList.Thumbnail = &discordgo.MessageEmbedThumbnail{
+			URL: conn.Queue[0].Thumbnail,
+		}
 	}
 
 	n := 0

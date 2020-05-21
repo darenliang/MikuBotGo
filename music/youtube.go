@@ -20,6 +20,7 @@ type (
 		URL        string      `json:"url"`
 		UploadDate null.String `json:"upload_date"`
 		Duration   null.Float  `json:"duration"`
+		Thumbnail  string      `json:"thumbnail"`
 		Title      string      `json:"title"`
 	}
 
