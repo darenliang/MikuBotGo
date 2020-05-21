@@ -47,6 +47,7 @@ func (c *Connection) StreamMusic() error {
 		c.Mutex.Unlock()
 		derr := <-c.Done
 		if derr != nil && derr != io.EOF {
+			encodeSession.Cleanup()
 			return derr
 		}
 		encodeSession.Cleanup()

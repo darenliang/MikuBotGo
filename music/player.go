@@ -21,17 +21,14 @@ var EncOpts = &dca.EncodeOptions{
 	Channels:         2,
 	FrameRate:        48000,
 	FrameDuration:    20,
-	Bitrate:          128,
+	Bitrate:          96,
 	PacketLoss:       1,
 	RawOutput:        true,
-	Application:      dca.AudioApplicationAudio,
+	Application:      dca.AudioApplicationLowDelay,
 	CoverFormat:      "jpeg",
-	CompressionLevel: 0,
+	CompressionLevel: 10,
 	BufferedFrames:   100,
 	VBR:              true,
-	Threads:          0,
-	AudioFilter:      "",
-	Comment:          "",
 }
 
 func AddToQueue(ctx *exrouter.Context, conn *Connection, song *SongResponse) {
