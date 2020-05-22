@@ -208,7 +208,7 @@ func Gif(ctx *exrouter.Context) {
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	// Direct messages
 	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The Gif command cannot be used in DMs.")
+		ctx.Reply(":warning: The gif command cannot be used in DMs.")
 		return
 	}
 

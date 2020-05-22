@@ -15,6 +15,11 @@ import (
 )
 
 func PauseCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The pause command cannot be used in DMs.")
+		return
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -48,6 +53,11 @@ func PauseCommand(ctx *exrouter.Context) {
 }
 
 func ResumeCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The resume command cannot be used in DMs.")
+		return
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -81,6 +91,11 @@ func ResumeCommand(ctx *exrouter.Context) {
 }
 
 func SkipCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The skip command cannot be used in DMs.")
+		return
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -109,6 +124,11 @@ func SkipCommand(ctx *exrouter.Context) {
 }
 
 func StopCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The stop command cannot be used in DMs.")
+		return
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -132,6 +152,11 @@ func StopCommand(ctx *exrouter.Context) {
 }
 
 func NowPlayingCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The np command cannot be used in DMs.")
+		return
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -192,6 +217,11 @@ func NowPlayingCommand(ctx *exrouter.Context) {
 }
 
 func PlayCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The play command cannot be used in DMs.")
+		return
+	}
+
 	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
 	query := strings.TrimSpace(ctx.Args.After(1))
 
@@ -338,6 +368,11 @@ func PlayCommand(ctx *exrouter.Context) {
 }
 
 func QueueCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The queue command cannot be used in DMs.")
+		return
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -415,6 +450,11 @@ func QueueCommand(ctx *exrouter.Context) {
 }
 
 func ClearCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The clear command cannot be used in DMs.")
+		return
+	}
+
 	channel, err := ctx.Ses.State.Channel(ctx.Msg.ChannelID)
 	if err != nil {
 		channel, err = ctx.Ses.Channel(ctx.Msg.ChannelID)
@@ -450,6 +490,11 @@ func ClearCommand(ctx *exrouter.Context) {
 }
 
 func YoutubeCommand(ctx *exrouter.Context) {
+	if ctx.Msg.GuildID == "" {
+		ctx.Reply(":warning: The yt command cannot be used in DMs.")
+		return
+	}
+
 	var (
 		lock     sync.RWMutex
 		embedMsg *discordgo.Message
