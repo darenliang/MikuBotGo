@@ -61,7 +61,7 @@ func CatGirl(ctx *exrouter.Context) {
 		return
 	}
 
-	resp, err := framework.HttpClient.Get(danbooru[0].LargeFileURL)
+	resp, err := framework.HttpClient.Get(fileUrl)
 
 	if resp != nil {
 		defer resp.Body.Close()
@@ -69,11 +69,11 @@ func CatGirl(ctx *exrouter.Context) {
 
 	if err != nil {
 		ctx.Reply(":cry: Sorry, failed to get catgirl.")
-		log.Printf("catgirl: failed to get image: %s", danbooru[0].LargeFileURL)
+		log.Printf("catgirl: failed to get image: %s", fileUrl)
 		return
 	}
 
-	fileName := fmt.Sprintf("catgirl%s", path.Ext(danbooru[0].LargeFileURL))
+	fileName := fmt.Sprintf("catgirl%s", path.Ext(fileUrl))
 
 	ms := &discordgo.MessageSend{
 		Embed: &discordgo.MessageEmbed{
