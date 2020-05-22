@@ -84,15 +84,15 @@ func init() {
 	Router.OnMatch("baka", dgrouter.NewRegexMatcher("^(?i)(baka|idiot)$"), cmd.Baka)
 
 	// Music
-	Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)(play|add|enqueue)$"), cmd.PlayCommand)
-	Router.OnMatch("youtube", dgrouter.NewRegexMatcher("^(?i)(youtube|yt|search)$"), cmd.YoutubeCommand)
-	Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)(skip|next)$"), cmd.SkipCommand)
-	Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)(pause|freeze)$"), cmd.PauseCommand)
-	Router.OnMatch("resume", dgrouter.NewRegexMatcher("^(?i)(resume|unfreeze)$"), cmd.ResumeCommand)
-	Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)(list|queue)$"), cmd.QueueCommand)
-	Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
-	Router.OnMatch("nowplaying", dgrouter.NewRegexMatcher("^(?i)(np|nowplaying)$"), cmd.NowPlayingCommand)
-	Router.OnMatch("stop", dgrouter.NewRegexMatcher("^(?i)(stop|leave|disconnect)$"), cmd.StopCommand)
+	// Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)(play|add|enqueue)$"), cmd.PlayCommand)
+	// Router.OnMatch("youtube", dgrouter.NewRegexMatcher("^(?i)(youtube|yt|search)$"), cmd.YoutubeCommand)
+	// Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)(skip|next)$"), cmd.SkipCommand)
+	// Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)(pause|freeze)$"), cmd.PauseCommand)
+	// Router.OnMatch("resume", dgrouter.NewRegexMatcher("^(?i)(resume|unfreeze)$"), cmd.ResumeCommand)
+	// Router.OnMatch("queue", dgrouter.NewRegexMatcher("^(?i)(list|queue)$"), cmd.QueueCommand)
+	// Router.OnMatch("clear", dgrouter.NewRegexMatcher("^(?i)clear$"), cmd.ClearCommand)
+	// Router.OnMatch("nowplaying", dgrouter.NewRegexMatcher("^(?i)(np|nowplaying)$"), cmd.NowPlayingCommand)
+	// Router.OnMatch("stop", dgrouter.NewRegexMatcher("^(?i)(stop|leave|disconnect)$"), cmd.StopCommand)
 
 	// Help
 	Router.Default = Router.OnMatch("help", dgrouter.NewRegexMatcher("^(?i)(help|h)$"), func(ctx *exrouter.Context) {
