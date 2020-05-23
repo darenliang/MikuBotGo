@@ -9,7 +9,7 @@ var SelectionEmojis = []string{
 
 // Includes config variables for bot
 const (
-	BotInfo    = "MikuBot v2.0.0-beta"
+	BotInfo    = "MikuBot v2.1.0-beta"
 	EmbedColor = 0x2e98a6
 	Prefix     = "!"
 	Timeout    = 60
