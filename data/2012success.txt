@@ -583,11 +583,6 @@
    │  │  │  └─ 0: https://animethemes.moe/video/KimiToBokuS2-OP1.webm
    │  │  └─ Kimi to Boku no Banka
    │  │     └─ 0: https://animethemes.moe/video/KimiToBokuS2-ED1.webm
-   │  ├─ Kore wa Zombie desu ka? OF THE DEAD
-   │  │  ├─ *** Passionate
-   │  │  │  └─ 0: https://animethemes.moe/video/KoreWaZombieDesuKaS2-OP1.webm
-   │  │  └─ Koi no Beginner Nan Desu (T_T)
-   │  │     └─ 0: https://animethemes.moe/video/KoreWaZombieDesuKaS2-ED1.webm
    │  ├─ Kuroko no Basket
    │  │  ├─ Can Do
    │  │  │  └─ 0: https://animethemes.moe/video/KurokoNoBasket-OP1-NCDVD480.webm

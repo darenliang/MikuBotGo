@@ -290,15 +290,6 @@
    │  │  │  └─ 0: https://animethemes.moe/video/Claymore-OP1.webm
    │  │  └─ Danzai no Hana~Guilty Sky
    │  │     └─ 0: https://animethemes.moe/video/Claymore-ED1.webm
-   │  ├─ Darker than Black: Kuro no Keiyakusha
-   │  │  ├─ Howling
-   │  │  │  └─ 0: https://animethemes.moe/video/DarkerThanBlack-OP1.webm
-   │  │  ├─ Kakusei Heroism ~The Hero without a Name~
-   │  │  │  └─ 0: https://animethemes.moe/video/DarkerThanBlack-OP2.webm
-   │  │  ├─ Tsuki Akari
-   │  │  │  └─ 0: https://animethemes.moe/video/DarkerThanBlack-ED1.webm
-   │  │  └─ Dreams
-   │  │     └─ 0: https://animethemes.moe/video/DarkerThanBlack-ED2.webm
    │  ├─ Dennou Coil
    │  │  ├─ Prism
    │  │  │  └─ 0: https://animethemes.moe/video/DennouCoil-OP1.webm
@@ -478,11 +469,9 @@
    │  │     └─ 0: https://animethemes.moe/video/Sola-ED1.webm
    │  ├─ Tales of Symphonia The Animation: Sylvarant-hen
    │  │  ├─ ALMATERIA
-   │  │  │  └─ 0: https://animethemes.moe/video/TalesOfSymphoniaSylvarentHen-ED3.webm
-   │  │  ├─ Negai
-   │  │  │  └─ 0: https://animethemes.moe/video/TalesOfSymphoniaSylvarentHen-ED1v2.webm
-   │  │  └─ Uchi he Kaerou
-   │  │     └─ 0: https://animethemes.moe/video/TalesOfSymphoniaSylvarentHen-ED2.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/TalesOfSymphoniaSylvarantHen-ED3.webm
+   │  │  └─ Negai
+   │  │     └─ 0: https://animethemes.moe/video/TalesOfSymphoniaSylvarantHen-ED1v2.webm
    │  ├─ Tengen Toppa Gurren Lagann
    │  │  ├─ Sorairo Days
    │  │  │  └─ 0: https://animethemes.moe/video/TengenToppaGurrenLagann-OP1v3.webm

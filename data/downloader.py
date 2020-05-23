@@ -1,6 +1,6 @@
 import os
 from os import listdir
-from os.path import isfile, join, basename
+from os.path import isfile, join
 
 import youtube_dl
 
@@ -27,14 +27,14 @@ ydl_opts = {
 }
 
 for existing_file in existing_files:
-    if f"https://animethemes.moe/video/{existing_file[:-3]}webm" not in entries:
+    if existing_file not in entries:
         input(f"Enter to remove {existing_file}")
         print(f"Removing {existing_file}")
         os.remove(f"D:/TMP/{existing_file}")
 
 for entry in entries:
-    if f"{basename(entry)[:-4]}mp3" not in existing_files:
+    if entry not in existing_files:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([entry])
+            ydl.download([f"https://animethemes.moe/video/{entry[:-3]}webm"])
 
 print("Done.")

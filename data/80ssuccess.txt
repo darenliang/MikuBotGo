@@ -269,9 +269,6 @@
       │  │  └─ 0: https://animethemes.moe/video/KyoshinGorg-OP1.webm
       │  └─ Believe in Me, Believe in You: Kimi o Shinjiteru
       │     └─ 0: https://animethemes.moe/video/KyoshinGorg-ED1.webm
-      ├─ Kyoushoku Soukou Guyver (1989)
-      │  └─ Bio Boosted Armor Guyver
-      │     └─ 0: https://animethemes.moe/video/KyoushokuSoukouGuyver1989-OP1.webm
       ├─ Lupin III: Part III
       │  ├─ Sexy Adventure
       │  │  └─ 0: https://animethemes.moe/video/LupinIIIPartIII-OP1v2.webm

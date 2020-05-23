@@ -784,15 +784,6 @@
       │  │  └─ 0: https://animethemes.moe/video/TaihoShichauZo-OP1.webm
       │  └─ Arittake no Joonetsu de
       │     └─ 0: https://animethemes.moe/video/TaihoShichauZo-ED1.webm
-      ├─ Taiho Shichau zo (1996)
-      │  ├─ Boku de Aru Tame ni
-      │  │  └─ 0: https://animethemes.moe/video/TaihoShichauZoTV-OP1.webm
-      │  ├─ LOVE SOMEBODY
-      │  │  └─ 0: https://animethemes.moe/video/TaihoShichauZoTV-OP2.webm
-      │  ├─ Thank you, love
-      │  │  └─ 0: https://animethemes.moe/video/TaihoShichauZoTV-ED1.webm
-      │  └─ Sora wo Miagete
-      │     └─ 0: https://animethemes.moe/video/TaihoShichauZoTV-ED2.webm
       ├─ Taiyou no Yuusha Fighbird
       │  └─ Taiyou no Tsubasa
       │     └─ 0: https://animethemes.moe/video/TaiyouNoYuushaFighbird-OP1.webm
@@ -860,11 +851,6 @@
       │  │  └─ 0: https://animethemes.moe/video/YGO-OP1.webm
       │  └─ Ashita Moshi Kimi ga Kowaretemo
       │     └─ 0: https://animethemes.moe/video/YGO-ED1.webm
-      ├─ Yu☆Gi☆Oh! (1999)
-      │  ├─ Kawaita Sakebi
-      │  │  └─ 0: https://animethemes.moe/video/YGO1999-OP1.webm
-      │  └─ Ashita Moshi Kimi ga Kowaretemo
-      │     └─ 0: https://animethemes.moe/video/YGO1999-ED1.webm
       ├─ Yume no Crayon Oukoku
       │  ├─ N-paka March
       │  │  └─ 0: https://animethemes.moe/video/YumeNoCrayonOukoku-OP1.webm

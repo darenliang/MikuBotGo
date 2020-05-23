@@ -100,8 +100,6 @@
    │  ├─ D.C.: Da Capo
    │  │  ├─ Sakura Saku Mirai Koi Yume
    │  │  │  └─ 0: https://animethemes.moe/video/DaCapo-OP1.webm
-   │  │  ├─ Mirai he no Melody
-   │  │  │  └─ 0: https://animethemes.moe/video/DaCapo-ED1.webm
    │  │  ├─ Utamaru Ekaki Uta
    │  │  │  └─ 0: https://animethemes.moe/video/DaCapo-ED2.webm
    │  │  └─ Sonzai

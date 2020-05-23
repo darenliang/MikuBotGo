@@ -106,9 +106,6 @@
       ├─ Tales of Zestiria
       │  └─ White Light
       │     └─ 0: https://animethemes.moe/video/TalesOfZestiriaGame-OP1.webm
-      ├─ Tokyo School Life
-      │  └─ MOE to Love Yooou!
-      │     └─ 0: https://animethemes.moe/video/TokyoSchoolLife-OP1.webm
       ├─ Utawarerumono: Futari no Hakuoro
       │  └─ Hoshiakari (Hikari)
       │     └─ 0: https://animethemes.moe/video/UtawarerumonoFutariNoHakuoro-OP1.webm

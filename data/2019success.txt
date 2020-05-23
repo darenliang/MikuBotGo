@@ -76,7 +76,7 @@
    │  │  ├─ graphite/diamond
    │  │  │  └─ 0: https://animethemes.moe/video/AzurLane-OP1-NCBD1080.webm
    │  │  └─ Hikari no Michishirube
-   │  │     └─ 0: https://animethemes.moe/video/AzurLane-ED1v3.webm
+   │  │     └─ 0: https://animethemes.moe/video/AzurLane-ED1v3-NCBD1080.webm
    │  ├─ Babylon
    │  │  ├─ Live and let die
    │  │  │  └─ 0: https://animethemes.moe/video/Babylon-ED1-NCBD1080.webm
@@ -148,6 +148,9 @@
    │  │  │  └─ 0: https://animethemes.moe/video/FateGrandOrderBabylonia-ED2.webm
    │  │  └─ Tell me
    │  │     └─ 0: https://animethemes.moe/video/FateGrandOrderBabylonia-ED3.webm
+   │  ├─ Fragtime
+   │  │  └─ fragile
+   │  │     └─ 0: https://animethemes.moe/video/Fragtime-ED1.webm
    │  ├─ Ginga Eiyuu Densetsu: Die Neue These - Seiran
    │  │  ├─ Binary Star
    │  │  │  └─ 0: https://animethemes.moe/video/GingaEiyuuDensetsuDieNeueTheseKaikoku-OP1.webm
@@ -170,9 +173,9 @@
    │  │     └─ 0: https://animethemes.moe/video/HataageKemonoMichi-ED1.webm
    │  ├─ High Score Girl II
    │  │  ├─ flash
-   │  │  │  └─ 0: https://animethemes.moe/video/HighScoreGirlS2-OP1.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/HighScoreGirlS2-OP1-NCBD1080.webm
    │  │  └─ Unknown World Map
-   │  │     └─ 0: https://animethemes.moe/video/HighScoreGirlS2-ED1.webm
+   │  │     └─ 0: https://animethemes.moe/video/HighScoreGirlS2-ED1-NCBD1080.webm
    │  ├─ Honzuki no Gekokujou: Shisho ni Naru Tame ni wa Shudan wo Erandeiraremasen
    │  │  ├─ Masshiro
    │  │  │  └─ 0: https://animethemes.moe/video/HonzukiNoGekokujou-OP1-NCBD1080.webm
@@ -328,7 +331,7 @@
    │  │  ├─ Resolution
    │  │  │  └─ 0: https://animethemes.moe/video/SwordArtOnlineAlicizationS2-OP1v2-NCBD1080.webm
    │  │  └─ unlasting
-   │  │     └─ 0: https://animethemes.moe/video/SwordArtOnlineAlicizationS2-ED1.webm
+   │  │     └─ 0: https://animethemes.moe/video/SwordArtOnlineAlicizationS2-ED1-NCBD1080.webm
    │  ├─ Sword Art Online: Alicization - War of Underworld Reflection
    │  │  └─ Blazing the future
    │  │     └─ 0: https://animethemes.moe/video/SwordArtOnlineAlicizationReflection-ED1.webm
@@ -342,11 +345,11 @@
    │  │  ├─ for...
    │  │  │  └─ 0: https://animethemes.moe/video/ValXLove-OP1v3.webm
    │  │  ├─ UP-DATE x PLEASE!!! ver 1.7.8
-   │  │  │  └─ 0: https://animethemes.moe/video/ValXLove-ED1v2.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/ValXLove-ED1v2-NCBD1080.webm
    │  │  ├─ UP-DATE x PLEASE!!! ver 3.4.5
-   │  │  │  └─ 0: https://animethemes.moe/video/ValXLove-ED2.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/ValXLove-ED2-NCBD1080.webm
    │  │  └─ UP-DATE x PLEASE!!! ver 2.6.9
-   │  │     └─ 0: https://animethemes.moe/video/ValXLove-ED3.webm
+   │  │     └─ 0: https://animethemes.moe/video/ValXLove-ED3-NCBD1080.webm
    │  ├─ Watashi, Nouryoku wa Heikinchi de tte Itta yo ne!
    │  │  ├─ Smile Skill = Suki Skill
    │  │  │  └─ 0: https://animethemes.moe/video/Noukin-OP1-NCBD1080.webm
@@ -387,9 +390,9 @@
    │  │     └─ 0: https://animethemes.moe/video/Araoto-ED1v2.webm
    │  ├─ Arifureta Shokugyou de Sekai Saikyou
    │  │  ├─ FLARE
-   │  │  │  └─ 0: https://animethemes.moe/video/Arifureta-OP1v2.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/Arifureta-OP1v2-NCBD1080.webm
    │  │  └─ Hajime no Uta
-   │  │     └─ 0: https://animethemes.moe/video/Arifureta-ED1.webm
+   │  │     └─ 0: https://animethemes.moe/video/Arifureta-ED1-NCBD1080.webm
    │  ├─ Bem
    │  │  ├─ Uchuu no Kioku
    │  │  │  └─ 0: https://animethemes.moe/video/Bem-OP1.webm
@@ -959,9 +962,9 @@
    │  │     └─ 0: https://animethemes.moe/video/MayonakaNoOccultKoumuin-ED1.webm
    │  ├─ Midara na Ao-chan wa Benkyou ga Dekinai
    │  │  ├─ WONDERFUL WONDER
-   │  │  │  └─ 0: https://animethemes.moe/video/MidaraNaAoChanWaBenkyouGaDekinai-OP1.webm
+   │  │  │  └─ 0: https://animethemes.moe/video/MidaraNaAoChanWaBenkyouGaDekinai-OP1-NCBD1080.webm
    │  │  └─ Koi wa Miracle
-   │  │     └─ 0: https://animethemes.moe/video/MidaraNaAoChanWaBenkyouGaDekinai-ED1.webm
+   │  │     └─ 0: https://animethemes.moe/video/MidaraNaAoChanWaBenkyouGaDekinai-ED1-NCBD1080.webm
    │  ├─ Miru Tights
    │  │  ├─ True Days" by Ren Aikaw
    │  │  │  └─ 0: https://animethemes.moe/video/MiruTights-ED1.webm

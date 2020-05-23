@@ -1447,11 +1447,6 @@
       │  │  └─ 0: https://animethemes.moe/video/Shokomeza-ED1.webm
       │  └─ Tetoteha
       │     └─ 0: https://animethemes.moe/video/Shokomeza-ED2.webm
-      ├─ Shouwa Genroku Rakugo Shinjuu
-      │  ├─ Usurahi shinjuu
-      │  │  └─ 0: https://animethemes.moe/video/RakugoShinju-OP1.webm
-      │  └─ Kawa, Taredoki
-      │     └─ 0: https://animethemes.moe/video/RakugoShinju-ED1.webm
       ├─ Sushi Police
       │  └─ I Don't Understand You
       │     └─ 0: https://animethemes.moe/video/SushiPolice-ED1.webm

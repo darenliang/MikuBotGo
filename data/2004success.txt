@@ -384,7 +384,7 @@
       │  ├─ ACTION!~THEME FOR BURN-UP SCRAMBLE
       │  │  └─ 0: https://animethemes.moe/video/BurnUpScramble-OP1.webm
       │  └─ 0 or ∞ -Love or Unlimited-
-      │     └─ 0: https://animethemes.moe/video/BurnUpScramble-ED1.webm.webm
+      │     └─ 0: https://animethemes.moe/video/BurnUpScramble-ED1.webm
       ├─ Choujuushin Gravion Zwei
       │  ├─ Kurenai no Kiba
       │  │  └─ 0: https://animethemes.moe/video/ChoujuushinGravionZwei-OP1.webm

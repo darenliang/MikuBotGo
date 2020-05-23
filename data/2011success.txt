@@ -836,11 +836,6 @@
       │  │  └─ 0: https://animethemes.moe/video/KampferSpecials-OP1.webm
       │  └─ Mousou shoujo A
       │     └─ 0: https://animethemes.moe/video/KampferSpecials-ED1.webm
-      ├─ Kore wa Zombie Desu ka?
-      │  ├─ Ma·Ka·Se·Te Tonight
-      │  │  └─ 0: https://animethemes.moe/video/KoreWaZombieDesuKa-OP1.webm
-      │  └─ Kizuite Zombie-sama, Watashi wa Classmate desu
-      │     └─ 0: https://animethemes.moe/video/KoreWaZombieDesuKa-ED1.webm
       ├─ Level E
       │  ├─ Cold Finger Girl
       │  │  └─ 0: https://animethemes.moe/video/LevelE-OP1.webm

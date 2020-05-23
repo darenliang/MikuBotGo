@@ -2,6 +2,7 @@ import json
 import os
 import pickle
 import re
+import time
 
 from fuzzywuzzy import process
 from jikanpy import Jikan
@@ -21,6 +22,7 @@ def get_top_500():
     jikan = Jikan()
 
     for i in range(1, 11):
+        time.sleep(2)
         print(f"Processing page: {i}")
         top_anime = jikan.top(type='anime', page=i, subtype='bypopularity')
         for j in range(0, 50):
@@ -28,6 +30,7 @@ def get_top_500():
                 data.add(top_anime["top"][j]["title"])
 
     for i in range(11, 16):
+        time.sleep(2)
         print(f"Processing page: {i}")
         top_anime = jikan.top(type='anime', page=i, subtype='bypopularity')
         for j in range(0, 50):
@@ -35,6 +38,7 @@ def get_top_500():
                 data.add(top_anime["top"][j]["title"])
 
     for i in range(16, 21):
+        time.sleep(2)
         print(f"Processing page: {i}")
         top_anime = jikan.top(type='anime', page=i, subtype='bypopularity')
         for j in range(0, 50):
@@ -69,10 +73,10 @@ if __name__ == "__main__":
 
     # filter_set = get_top_500()
     # print(len(filter_set))
-    # with open('filter_set2.pickle', 'wb') as handle:
+    # with open('filter_set3.pickle', 'wb') as handle:
     #     pickle.dump(filter_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    #
-    with open('filter_set2.pickle', 'rb') as handle:
+
+    with open('filter_set3.pickle', 'rb') as handle:
         filter_set = pickle.load(handle)
 
     new_data = []
@@ -91,5 +95,5 @@ if __name__ == "__main__":
 
     print(len(new_data))
 
-    with open(f"dataset_filtered2.json", "w") as f:
+    with open(f"dataset_filtered.json", "w") as f:
         json.dump(new_data, f)

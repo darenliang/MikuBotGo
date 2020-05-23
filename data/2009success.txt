@@ -286,8 +286,6 @@
    │  │  └─ Onegai Sweetheart
    │  │     └─ 0: https://animethemes.moe/video/FightIppatsu-ED1.webm
    │  ├─ Kanamemo
-   │  │  ├─ Kimi he to Tsunagu KOKORO
-   │  │  │  └─ 0: https://animethemes.moe/video/Kanamemo-OP1.webm
    │  │  └─ Yahho!!
    │  │     └─ 0: https://animethemes.moe/video/Kanamemo-ED1.webm
    │  ├─ Needless
@@ -505,8 +503,6 @@
    │  │  └─ Break & Peace
    │  │     └─ 0: https://animethemes.moe/video/SengokuBasara-ED1.webm
    │  ├─ Senjou no Valkyria
-   │  │  ├─ Asu he no KIZUNA
-   │  │  │  └─ 0: https://animethemes.moe/video/SenjouNoValkyria-OP1-NCBD.webm
    │  │  ├─ KANASHIMI RENSA
    │  │  │  └─ 0: https://animethemes.moe/video/SenjouNoValkyria-OP2-Lyrics.webm
    │  │  ├─ Ano Kaze ni Notte
