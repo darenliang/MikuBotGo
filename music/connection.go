@@ -1,90 +1,55 @@
 package music
 
 import (
+	"container/list"
 	"errors"
+	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/jonas747/dca"
-	"io"
+	"log"
 	"sync"
+	"time"
 )
 
-var KillFMPEG = errors.New("end music playback")
-
-// Connection is the type for a music connection to Discord.
 type Connection struct {
-	GuildID         string
-	ChannelID       string
-	EncodeOpts      *dca.EncodeOptions
-	VoiceConnection *discordgo.VoiceConnection
-	Stream          *dca.StreamingSession
-	Done            chan error
-	Queue           []*SongResponse
-	Mutex           *sync.Mutex
-}
-
-// NewConnection will return a new Connection struct.
-func NewConnection(voice *discordgo.VoiceConnection, opts *dca.EncodeOptions) *Connection {
-	return &Connection{
-		GuildID:         voice.GuildID,
-		ChannelID:       voice.ChannelID,
-		EncodeOpts:      opts,
-		VoiceConnection: voice,
-		Mutex:           &sync.Mutex{},
-	}
-}
-
-// StreamMusic will create a new encode session from the current DownloadURL
-// and stream that to the VoiceConnection.
-// Will block until queue is empty.
-func (c *Connection) StreamMusic() error {
-	for len(c.Queue) != 0 {
-		c.Mutex.Lock()
-		encodeSession, err := dca.EncodeFile(c.Queue[0].URL, c.EncodeOpts)
-		c.Mutex.Unlock()
-		if err != nil {
-			return err
-		}
-		c.Mutex.Lock()
-		c.Done = make(chan error)
-		c.Stream = dca.NewStream(encodeSession, c.VoiceConnection, c.Done)
-		c.Mutex.Unlock()
-		derr := <-c.Done
-		if derr != nil && derr != io.EOF {
-			encodeSession.Cleanup()
-			return derr
-		}
-		encodeSession.Cleanup()
-		c.Mutex.Lock()
-		c.Queue = c.Queue[1:]
-		c.Mutex.Unlock()
-	}
-
-	return nil
+	*sync.RWMutex
+	VoiceChannelID   string
+	MsgChannelID     string
+	Playing          bool
+	Done             chan error
+	Queue            *list.List
+	VoiceConnection  *discordgo.VoiceConnection
+	StreamingSession *dca.StreamingSession
+	LastInvoke       time.Time
 }
 
 // AddYouTubeVideo will add the download URL for a YouTube video to the queue.
 func (c *Connection) AddYouTubeVideo(song *SongResponse) {
-	c.Mutex.Lock()
-	defer c.Mutex.Unlock()
-	c.Queue = append(c.Queue, song)
+	c.Lock()
+	defer c.Unlock()
+	c.Queue.PushBack(song)
 }
 
-// Close closes the VoiceConnection, stops sending speaking packet, and closes
-// the EncodeSession.
-func (c *Connection) Close() error {
-	c.Done <- KillFMPEG
-	err := c.VoiceConnection.Speaking(false)
-	if err != nil {
-		return err
+func CreateVoiceConnection(ctx *exrouter.Context, guild *discordgo.Guild, conn *Connection) (*discordgo.VoiceConnection, error) {
+	for _, vs := range guild.VoiceStates {
+		if vs.UserID == ctx.Msg.Author.ID && (vs.ChannelID == conn.VoiceChannelID || !conn.Playing) {
+			vc, err := ctx.Ses.ChannelVoiceJoin(guild.ID, vs.ChannelID, false, false)
+			if err != nil {
+				log.Print("connection: failed to join voice channel")
+				ctx.Reply(":warning: Failed to join voice channel.")
+				return nil, err
+			}
+			return vc, nil
+		}
 	}
+	ctx.Reply(":information_source: Please join a voice channel.")
+	return nil, errors.New("not in voice channel")
+}
 
-	c.VoiceConnection.Close()
-	err = c.VoiceConnection.Disconnect()
-	if err != nil {
-		return err
-	}
-
-	delete(MusicConnections, c.GuildID)
-
-	return nil
+func (c *Connection) YoutubeCleanup() {
+	c.Lock()
+	defer c.Unlock()
+	c.VoiceConnection.Disconnect()
+	c.Queue = list.New()
+	c.Done = make(chan error)
 }
