@@ -24,13 +24,6 @@ type TriviaResponse struct {
 	} `json:"results"`
 }
 
-var emojis = []string{
-	"\x31\xef\xb8\x8f\xe2\x83\xa3",
-	"\x32\xef\xb8\x8f\xe2\x83\xa3",
-	"\x33\xef\xb8\x8f\xe2\x83\xa3",
-	"\x34\xef\xb8\x8f\xe2\x83\xa3",
-}
-
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
@@ -78,14 +71,14 @@ func Trivia(ctx *exrouter.Context) {
 
 	embedMsg, _ = ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, embed)
 	for i := 0; i < 4; i++ {
-		ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, embedMsg.ID, emojis[i])
+		ctx.Ses.MessageReactionAdd(ctx.Msg.ChannelID, embedMsg.ID, config.SelectionEmojis[i])
 	}
 
 	defer ctx.Ses.AddHandler(func(_ *discordgo.Session, reaction *discordgo.MessageReactionAdd) {
 		lock.RLock()
 		defer lock.RUnlock()
 
-		idx = framework.Index(emojis, reaction.Emoji.Name)
+		idx = framework.Index(config.SelectionEmojis, reaction.Emoji.Name)
 
 		if reaction.MessageID == embedMsg.ID && reaction.UserID != ctx.Ses.State.User.ID && idx != -1 {
 			callback <- struct{}{}
