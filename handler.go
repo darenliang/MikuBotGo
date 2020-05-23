@@ -62,8 +62,8 @@ func init() {
 	Router.OnMatch("leaderboard", dgrouter.NewRegexMatcher("^(?i)(leaderboard|lb)$"), cmd.Leaderboard)
 	Router.OnMatch("trivia", dgrouter.NewRegexMatcher("^(?i)(trivia|t)$"), cmd.Trivia)
 	Router.OnMatch("waifu", dgrouter.NewRegexMatcher("^(?i)waifu$"), cmd.Waifu)
-	Router.OnMatch("sauce", dgrouter.NewRegexMatcher("^(?i)sauce$"), cmd.Sauce)
-	Router.OnMatch("identify", dgrouter.NewRegexMatcher("^(?i)identify$"), cmd.Identify)
+	Router.OnMatch("sauce", dgrouter.NewRegexMatcher("^(?i)(sauce|identify)$"), cmd.Sauce)
+	// Router.OnMatch("identify", dgrouter.NewRegexMatcher("^(?i)identify$"), cmd.Identify)
 
 	// Fun
 	Router.OnMatch("gif", dgrouter.NewRegexMatcher("^(?i)gif$"), cmd.Gif)
