@@ -85,6 +85,7 @@ func init() {
 	Router.OnMatch("baka", dgrouter.NewRegexMatcher("^(?i)(baka|idiot)$"), cmd.Baka)
 
 	// Music
+	// TODO fix music commands as they are in a really bad state currently
 	// Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)(play|add|enqueue)$"), cmd.PlayCommand)
 	// Router.OnMatch("youtube", dgrouter.NewRegexMatcher("^(?i)(youtube|yt|search)$"), cmd.YoutubeCommand)
 	// Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)(skip|next)$"), cmd.SkipCommand)
