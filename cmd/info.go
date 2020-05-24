@@ -20,7 +20,13 @@ func init() {
 
 // Info command
 func Info(ctx *exrouter.Context) {
-	client, _ := ctx.Ses.Application("@me")
+	client, err := ctx.Ses.Application("@me")
+
+	if err != nil {
+		ctx.Reply(":cry: An rare error has occurred.")
+		return
+	}
+
 	currTime := time.Since(StartTime)
 
 	userCount := 0

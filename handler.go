@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"github.com/Necroforger/dgrouter"
 	"github.com/Necroforger/dgrouter/exrouter"
@@ -9,7 +8,6 @@ import (
 	"github.com/darenliang/MikuBotGo/cmd"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
-	"github.com/darenliang/MikuBotGo/music"
 	"sync"
 )
 
@@ -85,7 +83,7 @@ func init() {
 	Router.OnMatch("baka", dgrouter.NewRegexMatcher("^(?i)(baka|idiot)$"), cmd.Baka)
 
 	// Music
-	// TODO fix music commands as they are in a really bad state currently
+	// TODO Use dedicated music host
 	// Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)(play|add|enqueue)$"), cmd.PlayCommand)
 	// Router.OnMatch("youtube", dgrouter.NewRegexMatcher("^(?i)(youtube|yt|search)$"), cmd.YoutubeCommand)
 	// Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)(skip|next)$"), cmd.SkipCommand)
@@ -195,13 +193,13 @@ func init() {
 	})
 
 	// Force a FFMPEG process kill on voice disconnect
-	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
-		if session.State.User.ID == event.UserID && event.ChannelID == "" {
-			conn, ok := music.ServerConnections.ConnectionMap[event.GuildID]
-			if !ok {
-				return
-			}
-			conn.Done <- errors.New("stop")
-		}
-	})
+	// Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
+	// 	if session.State.User.ID == event.UserID && event.ChannelID == "" {
+	// 		conn, ok := music.ServerConnections.ConnectionMap[event.GuildID]
+	// 		if !ok {
+	// 			return
+	// 		}
+	// 		conn.Done <- errors.New("stop")
+	// 	}
+	// })
 }
