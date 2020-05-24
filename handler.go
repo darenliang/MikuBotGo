@@ -1,7 +1,7 @@
 package main
 
 import (
-	"errors"
+	"container/list"
 	"fmt"
 	"github.com/Necroforger/dgrouter"
 	"github.com/Necroforger/dgrouter/exrouter"
@@ -10,6 +10,8 @@ import (
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
+	"github.com/foxbot/gavalink"
+	"log"
 	"sync"
 )
 
@@ -86,7 +88,7 @@ func init() {
 
 	// Music
 	// TODO fix music commands as they are in a really bad state currently
-	// Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)(play|add|enqueue)$"), cmd.PlayCommand)
+	Router.OnMatch("play", dgrouter.NewRegexMatcher("^(?i)(play|add|enqueue)$"), cmd.PlayCommand)
 	// Router.OnMatch("youtube", dgrouter.NewRegexMatcher("^(?i)(youtube|yt|search)$"), cmd.YoutubeCommand)
 	// Router.OnMatch("skip", dgrouter.NewRegexMatcher("^(?i)(skip|next)$"), cmd.SkipCommand)
 	// Router.OnMatch("pause", dgrouter.NewRegexMatcher("^(?i)(pause|freeze)$"), cmd.PauseCommand)
@@ -110,7 +112,7 @@ func init() {
 	}).Cat("Help")
 
 	// Query database on ready
-	Session.AddHandler(func(_ *discordgo.Session, ready *discordgo.Ready) {
+	Session.AddHandler(func(ses *discordgo.Session, ready *discordgo.Ready) {
 		// Query databases to temp
 		framework.PDB.SetGuilds()
 		framework.MQDB.SetScores()
@@ -127,6 +129,9 @@ func init() {
 
 		// Set ready
 		status.setReady()
+
+		// Set music
+		music.AudioInit(ses)
 	})
 
 	// Add guild on guild add
@@ -194,14 +199,45 @@ func init() {
 		}
 	})
 
-	// Force a FFMPEG process kill on voice disconnect
-	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
-		if session.State.User.ID == event.UserID && event.ChannelID == "" {
-			conn, ok := music.ServerConnections.ConnectionMap[event.GuildID]
-			if !ok {
-				return
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceServerUpdate) {
+		var err error
+
+		vsu := gavalink.VoiceServerUpdate{
+			Endpoint: event.Endpoint,
+			GuildID:  event.GuildID,
+			Token:    event.Token,
+		}
+
+		if player, err := music.AudioLavalink.GetPlayer(event.GuildID); err == nil {
+			music.AudioPlayers[event.GuildID] = &music.GuildPlayer{
+				Queue: list.New(),
 			}
-			conn.Done <- errors.New("stop")
+			if err = player.Forward(session.State.SessionID, vsu); err != nil {
+				log.Printf("handler: voice server update: %s", err)
+			}
+			return
+		}
+
+		node, err := music.AudioLavalink.BestNode()
+		if err != nil {
+			log.Printf("handler: failed to find node: %s", err)
+			return
+		}
+
+		if _, err := node.CreatePlayer(event.GuildID, session.State.SessionID, vsu, new(music.EventHandler)); err != nil {
+			log.Printf("handler: failed to create player: %s", err)
+			return
+		} else {
+			music.AudioPlayers[event.GuildID] = &music.GuildPlayer{
+				Queue: list.New(),
+			}
+		}
+	})
+
+	Session.AddHandler(func(session *discordgo.Session, event *discordgo.VoiceStateUpdate) {
+		// Client bot disconnect
+		if event.UserID == session.State.User.ID && event.ChannelID == "" {
+			music.Disconnect(event.GuildID)
 		}
 	})
 }

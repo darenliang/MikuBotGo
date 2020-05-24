@@ -1,264 +1,158 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"github.com/Necroforger/dgrouter/exrouter"
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
+	"github.com/darenliang/MikuBotGo/framework"
 	"github.com/darenliang/MikuBotGo/music"
-	"github.com/dustin/go-humanize"
+	"github.com/foxbot/gavalink"
+	"log"
+	"net/url"
+	"strings"
 	"time"
 )
 
-func PauseCommand(ctx *exrouter.Context) {
-	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The resume command cannot be used in DMs.")
-		return
-	}
-
-	conn, ok := music.ServerConnections.ConnectionMap[ctx.Msg.GuildID]
-	if !ok {
-		ctx.Reply(":information_source: There is currently no active connection.")
-		return
-	}
-
-	conn.Lock()
-	conn.StreamingSession.SetPaused(true)
-	conn.Unlock()
-
-	ctx.Reply(":pause_button: Paused music.")
-}
-
-func ResumeCommand(ctx *exrouter.Context) {
-	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The resume command cannot be used in DMs.")
-		return
-	}
-
-	conn, ok := music.ServerConnections.ConnectionMap[ctx.Msg.GuildID]
-	if !ok {
-		ctx.Reply(":information_source: There is currently no active connection.")
-		return
-	}
-
-	conn.Lock()
-	conn.StreamingSession.SetPaused(false)
-	conn.Unlock()
-
-	ctx.Reply(":arrow_forward: Resumed music.")
-}
-
-func SkipCommand(ctx *exrouter.Context) {
-	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The resume command cannot be used in DMs.")
-		return
-	}
-
-	conn, ok := music.ServerConnections.ConnectionMap[ctx.Msg.GuildID]
-	if !ok {
-		ctx.Reply(":information_source: There is currently no active connection.")
-		return
-	}
-
-	conn.Lock()
-	conn.Done <- errors.New("skip")
-	conn.Unlock()
-}
-
-func StopCommand(ctx *exrouter.Context) {
-	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The resume command cannot be used in DMs.")
-		return
-	}
-
-	conn, ok := music.ServerConnections.ConnectionMap[ctx.Msg.GuildID]
-	if !ok {
-		ctx.Reply(":stop_button: There is currently no active connection.")
-		return
-	}
-
-	conn.Lock()
-	conn.Done <- errors.New("stop")
-	conn.Unlock()
-}
-
-func NowPlayingCommand(ctx *exrouter.Context) {
-	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The np command cannot be used in DMs.")
-		return
-	}
-
-	conn, ok := music.ServerConnections.ConnectionMap[ctx.Msg.GuildID]
-	if !ok {
-		ctx.Reply(":stop_button: There is currently no active connection.")
-		return
-	}
-
-	conn.Lock()
-	queueLen := conn.Queue.Len()
-	if queueLen == 0 {
-		ctx.Reply(":information_source: The current queue is empty.")
-		conn.Unlock()
-		return
-	}
-
-	firstTrack := conn.Queue.Front().Value.(*music.SongResponse)
-
-	duration := "unknown"
-	if !firstTrack.Duration.IsZero() {
-		secs := int(firstTrack.Duration.Float64)
-		duration = fmt.Sprintf("%d:%02d", secs/60, secs%60)
-	}
-
-	uploadDate := "Upload date unknown"
-	if !firstTrack.UploadDate.IsZero() {
-		t, err := time.Parse("20060102", firstTrack.UploadDate.String)
-		if err == nil {
-			uploadDate = "Uploaded " + humanize.Time(t)
-		}
-	}
-
-	nowPlaying := &discordgo.MessageEmbed{
-		Color: config.EmbedColor,
-		Fields: []*discordgo.MessageEmbedField{
-			{
-				Name:   fmt.Sprintf("Duration %s - %s", duration, uploadDate),
-				Value:  ":musical_note: " + firstTrack.Title,
-				Inline: false,
-			},
-		},
-		Title: "Now Playing",
-	}
-
-	if firstTrack.Thumbnail != "" {
-		nowPlaying.Thumbnail = &discordgo.MessageEmbedThumbnail{
-			URL: firstTrack.Thumbnail,
-		}
-	}
-
-	conn.Unlock()
-
-	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, nowPlaying)
-}
-
 func PlayCommand(ctx *exrouter.Context) {
-	music.AddToQueue(ctx)
-}
+	prefix := framework.PDB.GetPrefix(ctx.Msg.GuildID)
+	query := strings.TrimSpace(ctx.Args.After(1))
 
-func QueueCommand(ctx *exrouter.Context) {
+	if query == "" {
+		ctx.Reply(fmt.Sprintf(":information_source: Usage: `%splay <song url or playlist url>`", prefix))
+		return
+	}
+
 	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The queue command cannot be used in DMs.")
+		ctx.Reply(":warning: The gif command cannot be used in DMs.")
 		return
 	}
 
-	conn, ok := music.ServerConnections.ConnectionMap[ctx.Msg.GuildID]
-	if !ok {
-		ctx.Reply(":stop_button: There is currently no active connection.")
-		return
-	}
-
-	conn.Lock()
-	queueLen := conn.Queue.Len()
-	if queueLen == 0 {
-		ctx.Reply(":information_source: The current queue is empty.")
-		conn.Unlock()
-		return
-	}
-
-	queueList := &discordgo.MessageEmbed{
-		Color:  config.EmbedColor,
-		Fields: []*discordgo.MessageEmbedField{},
-		Title:  "Music Queue",
-	}
-
-	firstTrack := conn.Queue.Front().Value.(*music.SongResponse)
-
-	if firstTrack.Thumbnail != "" {
-		queueList.Thumbnail = &discordgo.MessageEmbedThumbnail{
-			URL: firstTrack.Thumbnail,
+	guild, err := ctx.Ses.State.Guild(ctx.Msg.GuildID)
+	if err != nil {
+		guild, err = ctx.Ses.Guild(ctx.Msg.GuildID)
+		if err != nil {
+			ctx.Reply(":cry: An extremely rare error has occurred.")
+			return
 		}
+		ctx.Ses.State.GuildAdd(guild)
 	}
 
-	n := 0
-	if queueLen < 10 {
-		n = queueLen
-	} else {
-		n = 10
-	}
-
-	i := 0
-	for el := conn.Queue.Front(); el != nil; el = el.Next() {
-		if i >= n {
+	var state *discordgo.VoiceState
+	for _, v := range guild.VoiceStates {
+		if v.UserID == ctx.Msg.Author.ID {
+			state = v
 			break
 		}
+	}
 
-		currTrack := el.Value.(*music.SongResponse)
+	if state == nil {
+		ctx.Reply("You are not in a voice channel.")
+		return
+	}
 
-		title := currTrack.Title
-		if i == 0 {
-			title = ":arrow_forward: " + title
-		} else {
-			title = ":arrow_up: " + title
+	if err := ctx.Ses.ChannelVoiceJoinManual(ctx.Msg.GuildID, state.ChannelID, false, false); err != nil {
+		log.Printf("music: failed to join channel: %s", err)
+		_, _ = ctx.Reply(":cry: Failed to join the voice channel.")
+		return
+	}
+
+	var player *gavalink.Player
+
+	// Wait for 10 seconds
+	for i := 0; ; i++ {
+		if i > 4 {
+			ctx.Reply(":cry: Connection failed.")
+			return
 		}
-
-		duration := "unknown"
-		if !currTrack.Duration.IsZero() {
-			secs := int(currTrack.Duration.Float64)
-			duration = fmt.Sprintf("%d:%02d", secs/60, secs%60)
+		if player, err = music.AudioLavalink.GetPlayer(ctx.Msg.GuildID); err == nil {
+			break
 		}
+		time.Sleep(time.Second * 1)
+	}
 
-		uploadDate := "Upload date unknown"
-		if !currTrack.UploadDate.IsZero() {
-			t, err := time.Parse("20060102", currTrack.UploadDate.String)
-			if err == nil {
-				uploadDate = "Uploaded " + humanize.Time(t)
+	node, err := music.AudioLavalink.BestNode()
+	if err != nil {
+		ctx.Reply(":cry: Failed to find optimal music node.")
+		return
+	}
+
+	tracks, err := node.LoadTracks(url.QueryEscape(query))
+	if err != nil || len(tracks.Tracks) == 0 {
+		ctx.Reply(":cry: Cannot process your query.")
+		return
+	}
+
+	switch tracks.Type {
+	case gavalink.TrackLoaded:
+		{
+			if player.Position() == 0 {
+				if err = player.Play(tracks.Tracks[0].Data); err != nil {
+					_, _ = ctx.Reply(fmt.Sprintf(":cry: Failed to play: %s", tracks.Tracks[0].Info.Title))
+					return
+				}
+				music.AudioPlayers[ctx.Msg.GuildID].ChannelID = ctx.Msg.ChannelID
+				ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
+					Color:       config.EmbedColor,
+					Title:       "Now Playing",
+					Description: tracks.Tracks[0].Info.Title,
+					URL:         tracks.Tracks[0].Info.URI,
+				})
+			} else {
+				ctx.Reply(fmt.Sprintf(":white_check_mark: Added track: %s", tracks.Tracks[0].Info.Title))
 			}
+			music.AudioPlayers[ctx.Msg.GuildID].Queue.PushBack(tracks.Tracks[0])
+			fmt.Println(music.AudioPlayers[ctx.Msg.GuildID].Queue.Len())
 		}
-
-		queueList.Fields = append(queueList.Fields, &discordgo.MessageEmbedField{
-			Name:   fmt.Sprintf("Duration %s - %s", duration, uploadDate),
-			Value:  title,
-			Inline: false,
-		})
-
-		i++
+	case gavalink.PlaylistLoaded:
+		{
+			ctx.Reply(fmt.Sprintf(":white_check_mark: Added playlist: %s", tracks.PlaylistInfo.Name))
+			stopped := player.Position() == 0
+			for _, track := range tracks.Tracks {
+				if stopped {
+					if err = player.Play(track.Data); err != nil {
+						_, _ = ctx.Reply(fmt.Sprintf(":cry: Failed to play: %s", track.Info.Title))
+						continue
+					}
+					stopped = false
+					music.AudioPlayers[ctx.Msg.GuildID].ChannelID = ctx.Msg.ChannelID
+					ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, &discordgo.MessageEmbed{
+						Color:       config.EmbedColor,
+						Title:       "Now Playing",
+						Description: track.Info.Title,
+						URL:         track.Info.URI,
+					})
+				}
+			}
+			music.AudioPlayers[ctx.Msg.GuildID].Queue.PushBack(tracks.Tracks[0])
+		}
+	case gavalink.LoadFailed:
+		{
+			ctx.Reply(":cry: Cannot process your query.")
+			return
+		}
+	case gavalink.NoMatches:
+		{
+			ctx.Reply(":cry: No results found.")
+			return
+		}
+	default:
+		{
+			// TODO fix this
+			ctx.Reply(":information_source: You've a weird query over there. Could you provide an url instead?")
+			return
+		}
 	}
-
-	conn.Unlock()
-
-	ctx.Ses.ChannelMessageSendEmbed(ctx.Msg.ChannelID, queueList)
 }
 
-func ClearCommand(ctx *exrouter.Context) {
-	if ctx.Msg.GuildID == "" {
-		ctx.Reply(":warning: The clear command cannot be used in DMs.")
-		return
-	}
+func PauseCommand(ctx *exrouter.Context) {}
 
-	conn, ok := music.ServerConnections.ConnectionMap[ctx.Msg.GuildID]
-	if !ok {
-		ctx.Reply(":stop_button: There is currently no active connection.")
-		return
-	}
+func SkipCommand(ctx *exrouter.Context) {}
 
-	conn.Lock()
+func StopCommand(ctx *exrouter.Context) {}
 
-	queueLen := conn.Queue.Len()
-	if queueLen <= 1 {
-		ctx.Reply(":information_source: No tracks to clear.")
-		conn.Unlock()
-		return
-	}
+func NowPlayingCommand(ctx *exrouter.Context) {}
 
-	for conn.Queue.Len() != 1 {
-		conn.Queue.Remove(conn.Queue.Back())
-	}
+func QueueCommand(ctx *exrouter.Context) {}
 
-	conn.Unlock()
-	ctx.Reply(":put_litter_in_its_place: Queue cleared.")
-}
-
-func YoutubeCommand(ctx *exrouter.Context) {
-	music.AddToQueueYT(ctx)
-}
+func ClearCommand(ctx *exrouter.Context) {}

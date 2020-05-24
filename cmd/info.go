@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/darenliang/MikuBotGo/config"
 	"github.com/darenliang/MikuBotGo/framework"
+	"github.com/darenliang/MikuBotGo/music"
 	"runtime"
 	"strconv"
 	"time"
@@ -20,6 +21,7 @@ func init() {
 
 // Info command
 func Info(ctx *exrouter.Context) {
+	music.AudioInit(ctx.Ses)
 	client, _ := ctx.Ses.Application("@me")
 	currTime := time.Since(StartTime)
 
