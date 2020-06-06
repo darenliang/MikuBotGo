@@ -1,4 +1,4 @@
-# MikuBot
+# MikuBotGo
 
 Replaced by [MikuBot](https://github.com/darenliang/MikuBot).
 
